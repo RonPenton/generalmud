@@ -1,15 +1,10 @@
-import { } from '../config';
-
-import * as express from 'express';
-import * as passport from 'passport';
-import * as moment from 'moment';
+import express from 'express';
+import passport from 'passport';
 
 import { redirectToGameIfAuthenticated } from './index';
-import * as db from '../models/db';
 import * as auth from '../auth';
-import { World } from '../models/world';
-import User, { getCanonicalName, isInvalidName } from '../models/user';
-import config from '../config';
+import { World } from '../world/world';
+import { getCanonicalName, isInvalidName, PlayerData } from '../models/actor';
 
 export function init(router: express.Router, world: World) {
 
@@ -27,42 +22,39 @@ export function init(router: express.Router, world: World) {
                 return res.redirect("/signup");
             }
 
-            const user = world.getUser(username);
-            if (user) {
+            const existingPlayer = await world.getPlayer(username);
+            if (existingPlayer) {
                 req.flash("error", "Username already taken");
                 return res.redirect("/signup");
             }
 
             const hash = await auth.hash(password);
 
-            const newUser: User = {
-                id: world.getNextActorId(),
-                roomid: config.StartingRoom,
-                uniquename: getCanonicalName(username),
-                name: username,
+            const now = new Date().toISOString();
+            let playerData: PlayerData = {
+                uniqueName: getCanonicalName(username),
                 passwordHash: hash,
-                created: moment(),
-                lastLogin: moment()
+                created: now,
+                lastLogin: now
             };
 
             try {
-                await db.Actors.create(newUser);
-                world.userCreated(newUser);
+                const player = await world.createPlayer(playerData, username);
+
+                req.login(player, (err: any) => {
+                    if (err) {
+                        req.flash("error", err);
+                        return;
+                    }
+    
+                    res.redirect("/game");
+                });
             }
-            catch(error) {
+            catch (error: any) {
+                console.log(error);
                 req.flash("error", error);
                 res.redirect("/signup")
             }
-
-
-            req.login(newUser, (err: any) => {
-                if(err) {
-                    req.flash("error", err);
-                    return;
-                }
-
-                res.redirect("/game");
-            });
         }
         catch (error) {
             next(error);

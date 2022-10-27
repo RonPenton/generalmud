@@ -1,13 +1,11 @@
-import { GameContext } from '../App';
 import React from 'react';
-import { create, ShowTimestamp, TimeStamp } from './index';
-import * as Messages from '../../server/messages';
+import { ChildrenProps } from '../foundation/top-bar';
+import { createClientCommand } from './base';
 
-export const command = create('system',
-    (message: Messages.TimeStamped<Messages.System>, context: GameContext) => {
-        context.addOutput(<System time={message.timeStampStr}>{message.message}</System>)
-    });
+createClientCommand('system', (packet, context) => {
+    context.addOutput(<System>{packet.message.text}</System>)
+});
 
-export const System: React.SFC<ShowTimestamp> = (props) => {
-    return <div className="message system"><TimeStamp time={props.time} />{props.children}</div>
+export const System: React.FC<ChildrenProps> = (props) => {
+    return <div className="message system">{props.children}</div>
 }

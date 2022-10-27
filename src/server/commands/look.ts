@@ -1,11 +1,10 @@
-import { Look, TimeStamped } from '../messages';
-import { constructCommand } from './index';
+import { installCommand } from "./base";
 
-module.exports.commands = constructCommand<TimeStamped<Look>>({
+installCommand({
+    type: 'look',
     keywords: "look",
     helptext: "Looks at your surroundings. Look at an exit, item, or person for more details.",
-    messageName: "look",
-    executeMessage: ({ message, user, world }) => {
-        world.look(user, message);
+    executeMessage: ({ message, player, world }) => {
+        world.look(player, message.message);
     }
 });

@@ -3,14 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>NotaMUD</title>
+    <title>GeneralMUD</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="./foundation.min.css" rel="stylesheet">
     <link href="./bundle.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
-    <script src='./require.js'></script>
+    <!-- <script src='./require.js'></script> -->
 </head>
 <body>
     
@@ -18,7 +18,7 @@
 
 <script>
     document.name = "<%= currentUser.name %>";
-    document.uniquename = "<%= currentUser.uniquename %>";
+    document.uniqueName = "<%= currentUser.playerData.uniqueName %>";
     document.actorid = "<%= currentUser.id %>";
 </script>
 <script src='./client.js'></script>

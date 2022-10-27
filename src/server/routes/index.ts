@@ -1,9 +1,13 @@
+import { getEnv } from '../environment';
 import * as express from 'express';
-import { config } from '../config';
-
 import * as login from './login';
 import * as signup from './signup';
-import { World } from '../models/world';
+import { World } from '../world/world';
+const pack = require('../../../package.json');
+
+
+
+const env = getEnv();
 
 export const ensureAuthenticated: express.RequestHandler = (req, res, next) => {
     if (req.isAuthenticated()) {
@@ -34,14 +38,14 @@ export function init(world: World) {
     });
 
     router.get('/', function (_, res) {
-        res.render('index', { title: `${config.Name} (${config.Version.toString()})` });
+        res.render('index', { title: `${env.GAME_NAME} (${pack.version})` });
     });
 
     router.get("/game", ensureAuthenticated, function (_, res) {
         res.render("game");
     });
 
-    login.init(router, world);
+    login.init(router);
     signup.init(router, world);
 
     return router;

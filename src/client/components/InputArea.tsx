@@ -1,5 +1,4 @@
 import React from "react";
-import { Key } from "ts-keycode-enum";
 import { bind } from "decko";
 
 export interface InputAreaProps {
@@ -54,14 +53,14 @@ export class InputArea extends React.Component<InputAreaProps, InputAreaState> {
 
     @bind
     private keyUp(evt: React.KeyboardEvent<HTMLInputElement>) {
-        if (evt.keyCode == Key.Enter) {
+        if (evt.key == 'Enter') {
             this.submitNewCommand(evt.currentTarget.value);
         }
-        else if (evt.keyCode == Key.UpArrow && evt.ctrlKey) {
+        else if (evt.key == 'ArrowUp' && evt.ctrlKey) {
             this.navigateHistory(1);
             evt.stopPropagation();
         }
-        else if (evt.keyCode == Key.DownArrow && evt.ctrlKey) {
+        else if (evt.key == 'ArrowDown' && evt.ctrlKey) {
             this.navigateHistory(-1);
             evt.stopPropagation();
         }

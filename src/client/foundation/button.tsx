@@ -10,10 +10,15 @@ export interface ButtonProps {
     disabled?: boolean;
     clear?: boolean;
     onClick?: () => void;
+    children?: React.ReactNode
 }
 
 export interface LinkButtonProps extends ButtonProps {
     href?: string;
+}
+
+export interface CloseButtonProps {
+    children?: React.ReactNode
 }
 
 const getButtonClasses = (props: ButtonProps): string[] => {
@@ -27,7 +32,7 @@ const getButtonClasses = (props: ButtonProps): string[] => {
     return classes;
 }
 
-export const Button: React.SFC<ButtonProps> = (props) => {
+export const Button: React.FC<ButtonProps> = (props) => {
     const classes = getButtonClasses(props);
     return (<button type="button"
         className={classes.join(" ")}
@@ -37,7 +42,7 @@ export const Button: React.SFC<ButtonProps> = (props) => {
     </button>);
 }
 
-export const LinkButton: React.SFC<LinkButtonProps> = (props) => {
+export const LinkButton: React.FC<LinkButtonProps> = (props) => {
     const classes = getButtonClasses(props);
     return (<a href={props.href}
         className={classes.join(" ")}
@@ -47,7 +52,7 @@ export const LinkButton: React.SFC<LinkButtonProps> = (props) => {
     </a>);
 }
 
-export const CloseButton: React.SFC<{}> = (props) => {
+export const CloseButton: React.FC<CloseButtonProps> = (props) => {
     return (<button className="close-button" aria-label="Close alert" type="button">
         <span aria-hidden="true">{props.children || "&times;"}</span>
     </button>);

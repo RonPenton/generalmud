@@ -1,29 +1,34 @@
+import { getPlayerReference } from '../models/actor';
 import { split } from '../utils/parse';
-import { getUserReference } from '../models/user';
-import { constructCommand } from './index';
+import { installCommand } from './base';
 
-module.exports.commands = [
+installCommand({
+    type: 'talk-global',
+    keywords: ["chat", "ch"],
+    helptext: "Initiates a global chat command that will be seen by everyone on the server.",
+    executeText: ({ parameters, player, world }) => {
+        world.sendToAll('talk-global', { from: getPlayerReference(player), message: parameters.trim() });
+    }
+});
 
-    constructCommand({
-        keywords: ["chat", "ch"],
-        helptext: "Initiates a global chat command that will be seen by everyone on the server.",
-        execute: ({ parameters, user, world }) => {
-            world.sendToAll({ type: 'talk-global', from: getUserReference(user), message: parameters.trim() });
-        }
-    }),
-    constructCommand({
-        keywords: "say",
-        helptext: "Speaks text to the people in your current location.",
-        execute: ({ parameters, user, world }) => {
-            world.say(user, parameters);
-        }
-    }),
-    constructCommand({
-        keywords: ["whisper", "wh"],
-        helptext: "Sends a private communication to a person on the server.",
-        execute: ({ parameters, user, world }) => {
-            const { head, tail } = split(parameters);
-            world.whisper(user, head, tail);
-        }
-    })
-];
+installCommand({
+    type: 'say',
+    keywords: "say",
+    helptext: "Speaks text to the people in your current location.",
+    executeText: ({ parameters, player, world }) => {
+        world.say(player, parameters);
+    },
+    executeMessage: ({ message, player, world }) => {
+        world.say(player, message.message.text);
+    }
+});
+
+installCommand({
+    type: 'generic',
+    keywords: ["whisper", "wh"],
+    helptext: "Sends a private communication to a person on the server.",
+    executeText: ({ parameters, player, world }) => {
+        const { head, tail } = split(parameters);
+        world.whisper(player, head, tail);
+    }
+});

@@ -1,32 +1,20 @@
-import { Direction } from './direction';
-import { Scriptable } from "./scriptable";
-import { Actor, ActorReference } from './user';
+import { PartialRecord } from "tsc-utils";
+import { Direction } from "./direction";
+import { ExitData } from "./exit";
+import { Actor } from "./actor";
+import { Item } from "./item";
+import { Wallet } from "./wallet";
 
-export interface Exit {
-    exitroom: number;
-}
+export type RoomExits = PartialRecord<Direction, ExitData>;
 
-export type RoomBaseData = {
+export interface Room {
     id: number;
     name: string;
-    exits: {[index in Direction]?: Exit };
-    description?: string;
-}
-
-export const isRoom = (item: Room | Actor): item is Room => {
-    if ((<Room>item).exits)
-        return true;
-    return false;
-}
-
-export type RoomClientData = RoomBaseData & {
-    actors: ActorReference[]
-}
-
-export type DBRoom = RoomBaseData & {
-    description: string;
-} & Scriptable;
-
-export type Room = DBRoom & {
-    actors: Set<Actor>;
+    desc: string;
+    light: number;
+    exits: RoomExits;
+    actors: Map<number, Actor>;
+    items: Map<number, Item>;
+    money: Wallet;
+    hiddenMoney: Wallet;
 }

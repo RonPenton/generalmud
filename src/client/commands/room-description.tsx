@@ -1,25 +1,26 @@
-import { Direction, DirectionNames } from '../../server/models/direction';
-import { ActorReference } from '../../server/models/user';
-import { L } from '../../server/utils/linq';
 import { OneTimeRender } from '../components/OneTimeRender';
-import { GameContext, User } from '../App';
 import React from 'react';
-import { create } from './index';
-import * as Messages from '../../server/messages';
+import { createClientCommand, isNotMe } from './base';
+import { MessagePacket } from '../../server/messages';
+import { ActorReference } from '../../server/models/actor';
 
 
-export const command = create('room-description',
-    (message: Messages.TimeStamped<Messages.RoomDescription>, context: GameContext) => {
+createClientCommand('room-description',
+    (message, context) => {
         context.addOutput(<Description {...message} />);
-        context.addRoomInformation(message);
+        context.addRoomInformation(message.message);
     });
 
-export class Description extends OneTimeRender<Messages.RoomDescription> {
+const ActorLink = (actor: ActorReference) => {
+    return <li className="actor">{actor.name}</li>;
+}
+
+export class Description extends OneTimeRender<MessagePacket<'room-description'>> {
     render() {
         return (
             <div className="room">
                 <div>&nbsp;</div>
-                <div className="name">{this.props.name}</div>
+                <div className="name">{this.props.message.name}</div>
                 {this.description()}
                 {this.actors()}
                 {this.exits()}
@@ -28,30 +29,27 @@ export class Description extends OneTimeRender<Messages.RoomDescription> {
     }
 
     actors() {
-        const displayActors = L(this.props.actors).where(x => x.id != User.id);
-        if (!displayActors.areAny())
+        const visible = this.props.message.actors.filter(isNotMe);
+        if (!visible.length)
             return null;
         return (
             <div className="actors">
                 <span className="actors-text">Here: </span>
-                {displayActors.select(x => this.actor(x)).join(() => ", ")}
+                <ul>
+                    {visible.map(ActorLink)}
+                </ul>
             </div>
         );
     }
 
-    actor(actor: ActorReference) {
-        return <span className="actor">{actor.name}</span>;
-    }
-
     description() {
-        if (this.props.description)
-            return <div className="description">{this.props.description}</div>
+        if (this.props.message.description)
+            return <div className="description">{this.props.message.description}</div>
         return null;
     }
 
     exits() {
-        const directionKeys = Object.getOwnPropertyNames(this.props.exits) as Direction[];
-        const directions = directionKeys.map(x => DirectionNames.get(x));
+        const directions = Object.keys(this.props.message.exits);
         return <div className="exits"><span className="exit-text">Exits: </span>{directions.join(", ")}</div>
     }
 }

@@ -1,25 +1,22 @@
-import { DirectionNames, DirectionsOrdered } from '../models/direction';
-import { Move, TimeStamped } from '../messages';
-import { constructCommand } from './index';
+import { Directions, getShortDirection } from '../models/direction';
+import { installCommand } from './base';
 
-module.exports.commands = [
+installCommand({
+    type: 'move',
+    keywords: "move",
+    helptext: "Moves in a direction.",
+    executeMessage: ({ message, player, world }) => {
+        world.move(player, message.message.direction, 'queue');
+    }
+});
 
-    constructCommand<TimeStamped<Move>>({
-        keywords: "",
-        helptext: "",
-        messageName: "move",
-        executeMessage: ({ message, user, world }) => {
-            world.move(user, message.direction);
+Directions.forEach(direction => {
+    installCommand({
+        type: 'move',
+        keywords: [direction, getShortDirection(direction)],
+        helptext: `Moves ${direction}.`,
+        executeText: ({ player, world }) => {
+            world.move(player, direction, 'queue');
         }
-    }),
-    ...DirectionsOrdered.select(direction => {
-        const fullName = DirectionNames.get(direction)!;
-        return constructCommand<TimeStamped<Move>>({
-            keywords: [direction, fullName],
-            helptext: `Moves you in the ${fullName} direction.`,
-            execute: ({ user, world }) => {
-                world.move(user, direction);
-            }
-        })
-    }).toArray()
-];
+    })
+});

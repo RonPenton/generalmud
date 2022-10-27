@@ -3,31 +3,25 @@ import { ErrorComponent } from './commands/error';
 import { split } from '../server/utils/parse';
 import React from "react";
 import * as ReactDOM from 'react-dom';
-import io from 'socket.io-client';
-import * as moment from 'moment';
+import io, { Socket } from 'socket.io-client';
 import { bind } from "decko";
 import * as deepFreeze from 'deep-freeze';
 
 import { GameHeader } from "./GameHeader";
 import { OutputArea } from "./components/OutputArea";
 import { InputArea } from "./components/InputArea";
-import * as Messages from '../server/messages';
-import { In } from "../server/utils/linq";
-import { clientGameDb } from './components/MiniMap';
 
 import './css/styles.scss';
-
-import { install as installCommands } from './commands/install-commands';
-installCommands();
+import { MessageName, MessagePacket, MessageTypes } from '../server/messages';
 
 declare var document: {
-    uniquename: string;
+    uniqueName: string;
     name: string;
     actorid: number;
 } & Document;
 
-export const User = deepFreeze({
-    uniquename: document.uniquename,
+export const Player = deepFreeze({
+    uniqueName: document.uniqueName,
     name: document.name,
     id: document.actorid
 });
@@ -41,12 +35,12 @@ export interface ClientState {
 
 export interface GameContext {
     addOutput: (output: JSX.Element) => void;
-    addRoomInformation: (room: Messages.RoomDescription) => void;
+    addRoomInformation: (room: MessageTypes['room-description']) => void;
 }
 
 export class App extends React.Component<{}, ClientState> implements GameContext {
     inputArea: InputArea | null = null;
-    readonly socket: SocketIOClient.Socket;
+    readonly socket: Socket;
 
     constructor(props: {}) {
         super(props);
@@ -56,11 +50,11 @@ export class App extends React.Component<{}, ClientState> implements GameContext
     }
 
     private getSystemMessage(message: string) {
-        return <Generic time={moment().toISOString()}>{message}</Generic>;
+        return <Generic>{message}</Generic>;
     }
 
     private getErrorMessage(message: string) {
-        return <ErrorComponent time={moment().toISOString()}>{message}</ErrorComponent>;
+        return <ErrorComponent>{message}</ErrorComponent>;
     }
 
     private getConnectingMessage() {
@@ -76,15 +70,15 @@ export class App extends React.Component<{}, ClientState> implements GameContext
     }
 
     private getUserInputMessage(text: string) {
-        return <div className="user-input">{`${text}`}</div>;;
+        return <div className="user-input">{`> ${text}`}</div>;;
     }
 
     public addOutput(output: JSX.Element) {
         this.setState({ outputs: this.state.outputs.concat(output) });
     }
 
-    private setupSocket(socket: SocketIOClient.Socket) {
-        socket.on('message', (message: Messages.TimedMessage) => {
+    private setupSocket(socket: Socket) {
+        socket.on('message', (message: MessagePacket<any>) => {
             this.processMessageFromServer(message);
         });
 
@@ -107,7 +101,7 @@ export class App extends React.Component<{}, ClientState> implements GameContext
         });
     }
 
-    private processMessageFromServer(message: Messages.TimedMessage) {
+    private processMessageFromServer<T extends MessageName>(message: MessagePacket<T>) {
         switch (message.type) {
             case 'connected':
                 this.setState({ connectionState: "connected" });
@@ -121,7 +115,7 @@ export class App extends React.Component<{}, ClientState> implements GameContext
     public render() {
         return (
             <div className="game">
-                <GameHeader username={User.name} />
+                <GameHeader username={Player.name} />
                 <OutputArea outputs={this.state.outputs} onFocusClick={this.focusClick} />
                 {this.getInputArea()}
             </div>
@@ -164,32 +158,32 @@ export class App extends React.Component<{}, ClientState> implements GameContext
 
         if (!text) {
             // send a "brief look" command if user presses "enter", to get bearing on their surroundings.
-            this.sendMessage({ type: 'look', brief: true });
+            this.sendMessage('look', { brief: true });
             return;
         }
 
-        const { head, tail } = split(text);
+        const { head } = split(text);
         this.addOutput(this.getUserInputMessage(text));
 
-        if (head == 'ping') {
-            this.sendMessage({ type: 'ping' });
+        if (['l', 'look'].includes(head)) {
+            this.sendMessage('look', {});
             return;
         }
 
-        if (In(head, 'l', 'look')) {
-            this.sendMessage({ type: 'look', subject: tail })
-            return;
-        }
-
-        this.sendMessage({ type: 'text-command', message: text });
+        this.sendMessage('text-input', { text: text });
     }
 
-    private sendMessage(message: Messages.Message) {
-        this.socket.emit('message', Messages.TimeStamp(message));
+    private sendMessage<T extends MessageName>(type: T, message: MessageTypes[T]) {
+        const packet: MessagePacket<T> = {
+            type,
+            time: new Date().valueOf(),
+            message
+        };
+        this.socket.emit('message', packet);
     }
 
-    public async addRoomInformation(room: Messages.RoomDescription) {
-        await clientGameDb.addRoomReference(room);
+    public async addRoomInformation(_room: MessageTypes['room-description']) {
+        //no-op.
     }
 }
 

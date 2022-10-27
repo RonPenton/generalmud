@@ -1,31 +1,32 @@
 import { getDirectionOpposite, getEnteringPhrase, getLeavingPhrase } from '../../server/models/direction';
 import { OneTimeRender } from '../components/OneTimeRender';
-import { GameContext, User } from '../App';
 import React from 'react';
-import { create } from './index';
 import * as Messages from '../../server/messages';
+import { createClientCommand, isMe } from './base';
 
-export const command = create('actor-moved',
-    (message: Messages.ActorMoved, context: GameContext) => {
-        context.addOutput(<Movement {...message} />);
-    });
+createClientCommand('actor-moved', (packet, context) => {
+    context.addOutput(<Movement {...packet} />);
+});
 
-export class Movement extends OneTimeRender<Messages.ActorMoved> {
+export class Movement extends OneTimeRender<Messages.MessagePacket<'actor-moved'>> {
     render() {
-        if (this.props.from.id == User.id)
+
+        const { from, direction, entered } = this.props.message;
+
+        if (isMe(from))
             return null;
 
-        const phrase = this.props.direction
-            ? this.props.entered
-                ? ` enters ${getEnteringPhrase(getDirectionOpposite(this.props.direction))}`
-                : ` leaves ${getLeavingPhrase(this.props.direction)}`
-            : this.props.entered
+        const phrase = direction
+            ? entered
+                ? ` enters ${getEnteringPhrase(getDirectionOpposite(direction))}`
+                : ` leaves ${getLeavingPhrase(direction)}`
+            : entered
                 ? ' appears out of nowhere'
                 : ' disappears into thin air'
 
         return (
             <div className="actor-moved">
-                <span className="name">{this.props.from.name}</span>
+                <span className="name">{from.name}</span>
                 {phrase}
             </div>
         );

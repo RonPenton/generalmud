@@ -1,20 +1,19 @@
-import { GameContext, User } from '../App';
 import React from 'react';
-import { create, TimeStamp } from './index';
-import * as Messages from '../../server/messages';
+import { createClientCommand, isMe } from './base';
+import { MessagePacket } from '../../server/messages';
 
-export const command = create('talk-global',
-    (message: Messages.TimeStamped<Messages.TalkGlobal>, context: GameContext) => {
-        context.addOutput(<Global {...message} />);
-    });
+createClientCommand('talk-global', (message, context) => {
+    context.addOutput(<Global {...message} />);
+});
 
-export const Global: React.SFC<Messages.TimeStamped<Messages.TalkGlobal>> = props => {
-    const name = props.from.uniquename == User.uniquename ? "You chat: " : `${props.from.name} chats: `;
+export const Global: React.FC<MessagePacket<'talk-global'>> = props => {
+    const name = isMe(props.message.from) ? "You chat: " : `${props.message.from.name} chats: `;
     return (
         <div className="talk-global">
-            <TimeStamp time={props.timeStampStr} />
-            <span className="identifier">{name}</span>
-            {props.message}
+            <>
+                <span className="identifier">{name}</span>
+                {props.message.message}
+            </>
         </div>
     );
 }

@@ -1,78 +1,55 @@
-import { tuple } from '../utils/index';
-import { Exit, RoomBaseData } from './room';
-import { L } from "../utils/linq";
+import { keysOf } from 'tsc-utils';
 
-export type Direction = "n" | "ne" | "e" | "se" | "s" | "sw" | "w" | "nw" | "u" | "d";
-export type LongDirection = "north" | "northeast" | "east" | "southeast" | "south" | "southwest" | "west" | "northwest" | "up" | "down";
-export const DirectionsOrdered = L(["n", "ne", "e", "se", "s", "sw", "w", "nw", "u", "d"] as Direction[]);
+export const DirectionDefinitions = {
+    "north": { short: "n" },
+    "south": { short: "s" },
+    "east": { short: "e" },
+    "west": { short: "w" },
+    "northeast": { short: "ne" },
+    "southwest": { short: "sw" },
+    "northwest": { short: "nw" },
+    "southeast": { short: "se" },
+    "up": { short: "u", leaving: "upwards", entering: "from above" },
+    "down": { short: "d", leaving: "downwards", entering: "from below" },
+} as const;
 
-export const DirectionNames = new Map<Direction, LongDirection>([
-    ["n", "north"],
-    ["ne", "northeast"],
-    ["e", "east"],
-    ["se", "southeast"],
-    ["s", "south"],
-    ["sw", "southwest"],
-    ["w", "west"],
-    ["nw", "northwest"],
-    ["u", "up"],
-    ["d", "down"]
-]);
+const dd = DirectionDefinitions;
 
-export const DirectionOpposites = new Map<Direction, Direction>([
-    ["n", "s"],
-    ["ne", "sw"],
-    ["e", "w"],
-    ["se", "nw"],
-    ["s", "n"],
-    ["sw", "ne"],
-    ["w", "e"],
-    ["nw", "se"],
-    ["u", "d"],
-    ["d", "u"]
-]);
+export type Direction = keyof typeof dd;
+export type DirectionShort = typeof dd[Direction]['short'];
+
+export const Directions = keysOf(dd);
+export const DirectionsShort = keysOf(dd).map(x => dd[x].short);
+
+const DirectionOpposites = new Map<Direction, Direction>(Directions.map((x, i) => {
+    if (i % 2 == 0) {
+        return [x, Directions[i + 1]];
+    }
+    else {
+        return [x, Directions[i - 1]];
+    }
+}));
+
+export function getShortDirection(d: Direction): DirectionShort {
+    return dd[d].short;
+}
 
 export const getLeavingPhrase = (direction: Direction) => {
-    switch(direction) {
-        case "u": return "upwards";
-        case "d": return "downwards";
+    const def = dd[direction];
+    if ('leaving' in def) {
+        return def.leaving;
     }
-    return `to the ${DirectionNames.get(direction)}`;
+    return `to the ${direction}`;
 }
 
 export const getEnteringPhrase = (direction: Direction) => {
-    switch(direction) {
-        case "u": return "from above";
-        case "d": return "from below";
+    const def = dd[direction];
+    if ('entering' in def) {
+        return def.entering;
     }
-    return `from the ${DirectionNames.get(direction)}`;
+    return `from the ${direction}`;
 }
 
 export const getDirectionOpposite = (direction: Direction) => {
     return DirectionOpposites.get(direction)!;
-}
-
-export const getDirection = (str: string) => {
-    return DirectionsOrdered.firstOrDefault(x => x == str || DirectionNames.get(x) == str);
-}
-
-const _directionKeys = L(DirectionNames.keys());
-const _reversed = _directionKeys.select(x => tuple(DirectionNames.get(x)!, x));
-export const DirectionValues = new Map<LongDirection, Direction>(_reversed);
-const _longDirectionKeys = L(DirectionValues.keys());
-
-export function isDirection(item: any): item is Direction {
-    if (_directionKeys.areAny(x => x === item))
-        return true;
-    return false;
-}
-
-export function isLongDirection(item: any): item is LongDirection {
-    if (_longDirectionKeys.areAny(x => x === item))
-        return true;
-    return false;
-}
-
-export const getDirectionsInOrder = (room: RoomBaseData): Iterable<[Direction, Exit]> => {
-    return DirectionsOrdered.select(d => tuple(d, room.exits[d])).where(e => e[1] != undefined) as Iterable<[Direction, Exit]>;
 }

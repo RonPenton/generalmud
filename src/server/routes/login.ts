@@ -1,10 +1,9 @@
-import * as express from 'express';
-import * as passport from "passport";
+import express from 'express';
+import passport from "passport";
 
 import { redirectToGameIfAuthenticated } from './index';
-import { World } from '../models/world';
 
-export function init(router: express.Router, _: World) {
+export function init(router: express.Router) {
 
     router.get("/login", redirectToGameIfAuthenticated, function (_, res) {
         res.render("login");
@@ -18,7 +17,7 @@ export function init(router: express.Router, _: World) {
     }));
 
     router.post("/logout", function (req, res) {
-        req.logout();
+        req.logout(() => { });
         res.redirect("/");
     });
 }

@@ -1,21 +1,22 @@
-import { GameContext, User } from '../App';
 import React from 'react';
-import { create, TimeStamp } from './index';
-import * as Messages from '../../server/messages';
+import { createClientCommand, isMe } from './base';
+import { MessagePacket } from '../../server/messages';
 
-export const command = create('talk-room',
-    (message: Messages.TimeStamped<Messages.TalkRoom>, context: GameContext) => {
-        context.addOutput(<Room {...message} />);
-    });
+createClientCommand('talk-room', (message, context) => {
+    context.addOutput(<TalkRoom {...message} />);
+});
 
-export const Room: React.SFC<Messages.TimeStamped<Messages.TalkRoom>> = props => {
-    const message = props.from.id == User.id
-        ? `You say "${props.message}"`
-        : `${props.from.name} says "${props.message}"`;
+export const TalkRoom: React.FC<MessagePacket<'talk-room'>> = props => {
+
+    const { message: { from, message } } = props;
+    const { name } = from;
+
+    const text = isMe(from)
+        ? `You say: \"${message}\"`
+        : `${name} says: \"${message}\"`;
     return (
         <div className="talk-room">
-            <TimeStamp time={props.timeStampStr} />
-            {message}
+            {text}
         </div>
     );
 }

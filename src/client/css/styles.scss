@@ -1,7 +1,7 @@
 .game {
     display: grid;
     grid-template-rows: 50px auto 40px;
-    grid-template-areas: "top" "output" "input";
+    grid-template-areas: "top""output""input";
     background: black;
     height: 100vh;
 }
@@ -86,6 +86,11 @@
         color: #63aad9;
         font-weight: bold;
     }
+
+    .description {
+        max-width: 700px;
+        text-align: justify;
+    }
 }
 
 .actors {
@@ -99,7 +104,8 @@
 }
 
 hr.divider {
-    overflow: visible; /* For IE */
+    overflow: visible;
+    /* For IE */
     padding: 0;
     border: none;
     border-top: medium double #DDD;
@@ -108,7 +114,7 @@ hr.divider {
     max-width: initial;
     margin-top: 0.6rem;
     margin-bottom: 0.6rem;
-    
+
     &:after {
         content: "§";
         display: inline-block;
@@ -150,7 +156,34 @@ hr.divider {
     }
 }
 
+div.actors ul {
+    list-style-type: none;
+    display: inline-block;
+    margin: 0;
+
+    li {
+        display: inline-block;
+    }
+
+    li:after {
+        content: ', ';
+    }
+
+    li:last-child:after {
+        content: "";
+    }
+}
+
 // .game-icon {
 //     border-radius: 16px;
 //     border: solid 8px white;
 // }
+
+.talk-global {
+    color: #44bb32;
+
+    .identifier {
+        font-weight: bold;
+        color: #56E73F;
+    }
+}

@@ -11,6 +11,7 @@ import './disconnected';
 import './system';
 import './talk-global';
 import './talk-room';
+import './talk-private';
 import './room-description';
 import './actor-moved';
 

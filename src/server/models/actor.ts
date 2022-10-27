@@ -53,3 +53,14 @@ export const isInvalidName = (name: string): boolean => {
 export const getCanonicalName = (name: string): string => {
     return name.toLowerCase();
 }
+
+const name = (actor: Actor) => {
+    return isPlayer(actor) ? actor.playerData.uniqueName : getCanonicalName(actor.name);
+}
+
+export function findActorMatch<T extends Actor>(partialName: string, actors: T[]): T | undefined {
+    const partial = getCanonicalName(partialName);
+
+    return actors.find(x => name(x) == partial)          // match exact names first.
+        ?? actors.find(x => name(x).startsWith(partial)) // then partials if none found.
+}

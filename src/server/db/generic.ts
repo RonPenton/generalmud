@@ -84,20 +84,19 @@ export async function dbCreateObject<T extends GenericTableType>(
     table: T,
     object: OptionalId<Storage<GenericTableMap[T]>>
 ): Promise<Storage<GenericTableMap[T]>> {
-    const { id } = object;
-    if (!id) {
-        const { data } = await db.one<DbWrapper<T>>(`
+    if (!object.id) {
+        const { id, data } = await db.one<DbWrapper<T>>(`
         INSERT INTO ${table} (data) VALUES(\${object})
         RETURNING *;
-    `, { id: object.id, object });
-        return data;
+    `, { object });
+        return { ...data, id };
     }
     else {
-        const { data, id } = await db.one<DbWrapper<T>>(`
+        const wrapper = await db.one<DbWrapper<T>>(`
         INSERT INTO ${table} (id, data) VALUES(\${id}, \${object})
         RETURNING *;
     `, { id: object.id, object });
-        return { ...data, id };
+        return { ...wrapper.data, id: wrapper.id };
     }
 }
 

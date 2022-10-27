@@ -5,7 +5,7 @@ import { isAfter } from 'date-fns';
 import { executeCommand } from "../commands/base";
 import { Room } from "../models/room";
 import { dbCreateObject, fromStorage, Storage } from "../db/generic";
-import { Actor, getActorReference, getCanonicalName, getPlayerReference, isPlayer, PlayerActor, PlayerData } from "../models/actor";
+import { Actor, findActorMatch, getActorReference, getCanonicalName, getPlayerReference, isPlayer, PlayerActor, PlayerData } from "../models/actor";
 import { Item } from "../models/item";
 import { SansId } from "../models/sansId";
 import { getEnv } from "../environment";
@@ -178,14 +178,17 @@ export class World {
         this.sendToRoom(actor, 'talk-room', { from: getActorReference(actor), message })
     }
 
-    public whisper(_player: PlayerActor, _targetName: string, _message: string) {
-        // const target = findPlayerMatch(targetName, L(this.activePlayers.values()).toArray());
-        // if (!target)
-        //     return this.sendToPlayer(Player, { type: 'error', message: 'There is no Player with that name!' });
-        // if (target.id == Player.id)
-        //     return this.sendToPlayer(Player, { type: 'system', message: 'You mutter to yourself...' });
-        // this.sendToPlayer(Player, { type: 'system', message: `You whisper to ${target.name}...` });
-        // this.sendToPlayer(target, { type: 'talk-private', from: getPlayerReference(Player), message: message });
+    public whisper(player: PlayerActor, targetName: string, message: string) {
+
+        const target = findActorMatch(targetName, Array.from(this.activePlayers.values()));
+        if (!target) {
+            return this.sendToPlayer(player, 'error', { text: 'There is no player with that name!' });
+        }
+        if (target.id == player.id) {
+            return this.sendToPlayer(player, 'system', { text: 'You mutter to yourself...' });
+        }
+        this.sendToPlayer(player, 'system', { text: `You whisper to ${target.name}...` });
+        this.sendToPlayer(target, 'talk-private', { from: getPlayerReference(player), message });
     }
 
     public look(player: PlayerActor, message: MessageTypes['look']) {
@@ -218,7 +221,7 @@ export class World {
                 from: oldRoom
             });
 
-            if(!result && isPlayer(actor)) {
+            if (!result && isPlayer(actor)) {
                 this.sendToPlayer(actor, 'error', { text: 'Hold on there pardner, you\'re already trying to move.' });
             }
         }

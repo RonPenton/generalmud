@@ -286,10 +286,15 @@ export function getMMudRoomExit<T extends DirectionNo>(direction: T, room: MmudR
     return output;
 }
 
+export interface Description {
+    id: number;
+    text: string;
+}
+
 export interface MmudRoom {
     id: number;
     Name: string;
-    Desc: string;
+    Desc: number;
     Type: RoomType;
     Light: number;
     Exits: PartialRecord<Direction, ExitData>;

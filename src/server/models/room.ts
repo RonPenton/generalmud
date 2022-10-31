@@ -1,20 +1,21 @@
 import { PartialRecord } from "tsc-utils";
+import { ProxyObject } from "../db/generic";
 import { Direction } from "./direction";
 import { ExitData } from "./exit";
-import { Actor } from "./actor";
-import { Item } from "./item";
 import { Wallet } from "./wallet";
 
 export type RoomExits = PartialRecord<Direction, ExitData>;
 
-export interface Room {
+export interface RoomStorage {
     id: number;
     name: string;
-    desc: string;
+    description: number;
     light: number;
     exits: RoomExits;
-    actors: Map<number, Actor>;
-    items: Map<number, Item>;
+    actors: number[];
+    items: number[];
     money: Wallet;
     hiddenMoney: Wallet;
 }
+
+export type Room = ProxyObject<'rooms'>;

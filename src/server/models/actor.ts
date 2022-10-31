@@ -1,4 +1,4 @@
-import { Item } from "./item";
+import { ProxyObject } from "../db/generic";
 import { Wallet } from "./wallet";
 
 
@@ -11,15 +11,17 @@ export interface PlayerData {
     suspensionReason?: string;
 }
 
-export interface Actor {
+export interface ActorStorage {
     id: number;
     name: string;
-    items: Map<number, Item>;
+    items: number[];
     room: number;
     wallet: Wallet;
 
     playerData?: PlayerData;
 }
+
+export type Actor = ProxyObject<'actors'>;
 
 export type ActorReference = {
     name: string;

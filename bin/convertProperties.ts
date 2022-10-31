@@ -1,6 +1,8 @@
 import fs from 'fs';
 import { PartialRecord } from 'tsc-utils';
+import { hashText } from '../src/server/utils/hashText';
 import {
+    Description,
     Direction,
     DirectionNames,
     DirectionNos,
@@ -56,12 +58,20 @@ function getRoomId(mapNumber: number, roomNumber: number) {
     return parseInt(str);
 }
 
-async function convertRooms(input: string, output: string) {
+async function convertRooms(input: string, output: string, descriptionOutput: string) {
     const out = fs.createWriteStream(output, { encoding: 'utf-8' });
+    const outDesc = fs.createWriteStream(descriptionOutput, { encoding: 'utf-8' });
+    const descriptions = new Map<number, string>();
 
     const writeLine = async (line: string) => {
         return new Promise(resolve => {
             out.write(line + '\n', resolve);
+        });
+    }
+
+    const writeDescriptionLine = async (line: string) => {
+        return new Promise(resolve => {
+            outDesc.write(line + '\n', resolve);
         });
     }
 
@@ -115,11 +125,22 @@ async function convertRooms(input: string, output: string) {
             return acc;
         }, accumulator);
 
+        const desc = joinLines(Desc0, Desc1, Desc2, Desc3, Desc4, Desc5, Desc6);
+        const descHash = hashText(desc);
+        if (!descriptions.has(descHash)) {
+            descriptions.set(descHash, desc);
+            const description: Description = {
+                id: descHash,
+                text: desc
+            };
+            await writeDescriptionLine(JSON.stringify(description));
+        }
+
         let newRoom: MmudRoom = {
             id: getRoomId(MapNumber, RoomNumber),
             Name,
             Type: RoomTypes[Type].startsWith('UNSUPPORTED') ? 'normal' : RoomTypes[Type],
-            Desc: joinLines(Desc0, Desc1, Desc2, Desc3, Desc4, Desc5, Desc6),
+            Desc: descHash,
             Light,
             Exits: exits
         };
@@ -185,10 +206,10 @@ async function sortRooms(input: string, output: string) {
 }
 
 
-//void convertProperties('./data/3-jsonraw/Rooms.json', './data/4-json/Rooms.json'); // DONE
-//void convertProperties('./data/3-jsonraw/Rooms.json', './data/4-json/Rooms.json'); // DONE
+//void convertProperties('./data/3-jsonraw/Rooms.json', './data/4-json/Rooms.json');
+//void convertProperties('./data/3-jsonraw/Rooms.json', './data/4-json/Rooms.json'); 
 
-void convertRooms('./data/4-json/Rooms.json', './data/5-json-mod/Rooms.json');
+void convertRooms('./data/4-json/Rooms.json', './data/5-json-mod/Rooms.json', './data/5-json-mod/Descriptions.json');
 
 
-// void sortRooms('./data/4-json/Rooms.json', './data/4-json/Rooms-sorted.json')
+//void sortRooms('./data/4-json/Rooms.json', './data/4-json/Rooms-sorted.json')

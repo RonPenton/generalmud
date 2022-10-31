@@ -4,67 +4,73 @@ import { MessageName, MessagePacket, MessageTypes } from "../messages";
 import { isAfter } from 'date-fns';
 import { executeCommand } from "../commands/base";
 import { Room } from "../models/room";
-import { dbCreateObject, fromStorage, Storage } from "../db/generic";
-import { Actor, findActorMatch, getActorReference, getCanonicalName, getPlayerReference, isPlayer, PlayerActor, PlayerData } from "../models/actor";
-import { Item } from "../models/item";
+import { dbCreateObject, MemoryObject, ProxyObject, Table, Tables } from "../db/generic";
+import { Actor, ActorStorage, findActorMatch, getActorReference, getCanonicalName, getPlayerReference, isPlayer, PlayerActor, PlayerData } from "../models/actor";
 import { SansId } from "../models/sansId";
 import { getEnv } from "../environment";
 import { filterIterable, mapIterable } from "tsc-utils";
 import { Direction } from "../models/direction";
-import { pagedLoad } from "../db/load";
+import { pagedLoad, replaceTableArraysWithSets } from "../db/load";
 import { MovementCommand, movementManager } from "./movement";
+import { getProxyObject } from "../utils/tableProxy";
 
 const env = getEnv();
 
-export function createGetFromMap<K, T>(type: string, map: Map<K, T>) {
-    return (id: K): T => {
-        const item = map.get(id);
-        if (!item) {
-            throw new Error(`Cannot find ${type}: ${id}`);
-        }
-        return item;
-    }
+export type MemoryArrays = {
+    [K in Table]: MemoryObject<K>[];
 }
 
-export type MapGet<K, T> = (id: K) => T;
+export type ProxyMap = {
+    [K in Table]: Map<number, ProxyObject<K>>
+}
 
 export class World {
 
-
     static async load(db: Db): Promise<World> {
-        const items = await pagedLoad(db, 'items', {});
-        const actors = await pagedLoad(db, 'actors', { items });
-        const rooms = await pagedLoad(db, 'rooms', { actors, items });
+        const items = await pagedLoad(db, 'items');
+        const actors = await pagedLoad(db, 'actors');
+        const rooms = await pagedLoad(db, 'rooms');
+        const roomDescriptions = await pagedLoad(db, 'roomDescriptions');
 
-        //const commands = await World.loadCommands();
-
-        return new World(db, items, actors, rooms);
+        return new World(db, { items, actors, rooms, roomDescriptions });
     }
 
     private constructor(
         private readonly db: Db,
-        public readonly items: Map<number, Item>,
-        public readonly actors: Map<number, Actor>,
-        public readonly rooms: Map<number, Room>,
-        // private readonly commands: Command[]) 
+        memoryArrays: MemoryArrays
     ) {
 
-        const players = filterIterable(actors.values(), isPlayer);
-        this.players = new Map(mapIterable(players, x => [x.playerData.uniqueName, x]));
+        this.proxyMap = Tables.reduce<ProxyMap>((acc, t) => {
+            acc[t] = new Map(memoryArrays[t].map(x => [x.id, getProxyObject(t, this, x)])) as any;
+            return acc;
+        }, {} as ProxyMap);
 
-        this.getRoom = createGetFromMap('room', this.rooms);
-        this.getItem = createGetFromMap('item', this.items);
-        this.getActor = createGetFromMap('actor', this.actors);
+        const players = filterIterable(this.proxyMap.actors.values(), isPlayer);
+        this.players = new Map(mapIterable(players, x => [x.playerData.uniqueName, x]));
     }
 
-    public getRoom: MapGet<number, Room>;
-    public getItem: MapGet<number, Item>;
-    public getActor: MapGet<number, Actor>;
+    private proxyMap: ProxyMap;
+
+    public get<T extends Table>(table: T, id: number): ProxyObject<T> {
+        const item = this.proxyMap[table].get(id);
+        if (!item) {
+            throw new Error(`Cannot find ${table}: ${id}`);
+        }
+        return item;
+    }
+
+    public getRoom = (id: number) => this.get('rooms', id);
+    public getItem = (id: number) => this.get('items', id);
+    public getActor = (id: number) => this.get('actors', id);
 
     private activePlayers = new Map<string, PlayerActor>();
     private players: Map<string, PlayerActor>;
     private playerSockets = new Map<string, Socket>();
 
+    private dirtyRecords = new Map<string, { table: Table, id: number }>();
+    public setDirty(table: Table, id: number) {
+        this.dirtyRecords.set(`${table}::id`, { table, id });
+    }
 
     public getActivePlayers(): Iterable<PlayerActor> { return this.players.values(); }
     public getPlayer(name: string) { return this.players.get(getCanonicalName(name)); }
@@ -170,7 +176,7 @@ export class World {
 
         const result = await executeCommand(this, player, message);
         if (!result) {
-            console.log(`Error: Cannot execute command: ${message}`);
+            console.log(`Error: Cannot execute command: ${JSON.stringify(message)}`);
         }
     }
 
@@ -234,7 +240,7 @@ export class World {
             {
                 id: r.id,
                 name: r.name,
-                description: brief ? undefined : r.desc,
+                description: brief ? undefined : this.get('roomDescriptions', r.description).text,
                 exits: r.exits,
                 actors: Array.from(mapIterable(r.actors.values(), getActorReference)),
                 inRoom: r.id == player.room
@@ -244,23 +250,22 @@ export class World {
     private leftRoom(actor: Actor, direction?: Direction) {
         const room = this.getRoom(actor.room);
         this.sendToRoom(room, 'actor-moved', { from: getActorReference(actor), entered: false, direction: direction });
-        room.actors.delete(actor.id);
+        room.actors.delete(actor);
     }
 
     private enteredRoom(actor: Actor, direction?: Direction) {
         const room = this.getRoom(actor.room);
 
         this.sendToRoom(room, 'actor-moved', { from: getActorReference(actor), entered: true, direction });
-        room.actors.set(actor.id, actor);
+        room.actors.add(actor);
 
         if (isPlayer(actor)) {
             this.sendRoomDescription(actor);
         }
     }
 
-
     async createPlayer(playerData: PlayerData, name: string): Promise<PlayerActor> {
-        const storage: SansId<Storage<Actor>> = {
+        const storage: SansId<ActorStorage> = {
             name,
             playerData,
             items: [],
@@ -275,19 +280,20 @@ export class World {
         return actor;
     }
 
-    async createActor(actor: SansId<Storage<Actor>>, online = true): Promise<Actor> {
+    async createActor(actor: SansId<ActorStorage>, online = true): Promise<Actor> {
 
         const storage = await dbCreateObject(this.db, 'actors', actor);
-        const converted = fromStorage('actors', this, storage);
+        const memory = replaceTableArraysWithSets('actors', storage);
+        const proxy = getProxyObject('actors', this, memory);
 
-        this.actors.set(converted.id, converted);
+        this.proxyMap.actors.set(proxy.id, proxy);
 
         if (online) {
             const room = this.getRoom(actor.room);
-            room.actors.set(converted.id, converted);
+            room.actors.add(proxy);
             //TODO: Message about actor entering room here.
         }
 
-        return converted;
+        return proxy;
     }
 }

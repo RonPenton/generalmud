@@ -1,34 +1,19 @@
 import Decimal from "decimal.js";
+import { ProxyObject } from "../db/generic";
 
-export type Item = {
+export type ItemStorage = {
     id: number;
     name: string;
     desc: string;
     cost: Decimal;
     room?: number;
     actor?: number;
-} & InRoomOrOnActor;
-
-export type InRoom = {
-    room: number;
-    actor?: never;
+    properties: ItemProperties;
 }
 
-export type OnActor = {
-    actor: number;
+export interface ItemProperties {
+
 }
 
-export type InRoomOrOnActor = InRoom | OnActor;
+export type Item = ProxyObject<'items'>;
 
-
-const i: Item = {
-    id: 1,
-    name: "sword",
-    desc: "This be a sword",
-    cost: new Decimal(1000),
-    actor: 100
-};
-
-const j: Item = i as any as Item;
-
-j.room = 100;

@@ -1,17 +1,11 @@
 import { Db, getDbInstance } from "../src/server/db";
 import { dbCreateObject, dbCreateObjectTable } from "../src/server/db/generic";
-import { Room } from "../src/server/models/room";
-import { MmudRoom } from "./mmud-room";
+import { RoomStorage } from "../src/server/models/room";
+import { RoomDescription } from "../src/server/models/roomDescription";
+import { Description, MmudRoom } from "./mmud-room";
 import { readLines } from "./readline";
-import { Storage } from '../src/server/db/generic';
 
 async function loadRooms(db: Db, input: string) {
-
-    const writeRoom = async (room: MmudRoom) => {
-        return new Promise(resolve => {
-            //out.write(line + '\n', resolve);
-        });
-    }
 
     await readLines(input, async line => {
         const {
@@ -22,10 +16,10 @@ async function loadRooms(db: Db, input: string) {
             Light
         }: MmudRoom = JSON.parse(line);
 
-        const room: Storage<Room> = {
+        const room: RoomStorage = {
             id,
             name: Name,
-            desc: Desc,
+            description: Desc,
             exits: Exits,
             light: Light,
             actors: [],
@@ -38,11 +32,27 @@ async function loadRooms(db: Db, input: string) {
     });
 }
 
+async function loadRoomDescriptions(db: Db, input: string) {
+
+    await readLines(input, async line => {
+        const {
+            id,
+            text
+        }: Description = JSON.parse(line);
+
+        const desc: RoomDescription = { id, text };
+        await dbCreateObject(db, 'roomDescriptions', desc);
+    });
+}
+
+
 
 async function go() {
     const db = await getDbInstance();
     await dbCreateObjectTable(db, 'rooms');
+    await dbCreateObjectTable(db, 'roomDescriptions');
     await loadRooms(db, './data/5-json-mod/Rooms.json');
+    await loadRoomDescriptions(db, './data/5-json-mod/Descriptions.json');
 }
 
 void go();

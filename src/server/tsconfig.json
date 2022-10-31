@@ -44,7 +44,7 @@
         "typeRoots": [
             "../types"
         ], /* List of folders to include type definitions from. */
-        //"types": ["./src/types/passport.socketio.d.ts"],                           /* Type declaration files to be included in compilation. */
+        "types": ["node"],                           /* Type declaration files to be included in compilation. */
         "allowSyntheticDefaultImports": true, /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
         /* Source Map Options */
         // "sourceRoot": "./",                    /* Specify the location where debugger should locate TypeScript files instead of source locations. */

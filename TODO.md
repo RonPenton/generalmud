@@ -1,0 +1,10 @@
+- look <direction> command
+- who command
+- minimap
+- roles (sysop/mudop/builder)
+- database saving
+- world timer
+- item template table
+- item spawning
+- emotes
+- rate limiting inputs/connections

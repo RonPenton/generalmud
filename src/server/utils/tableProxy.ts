@@ -23,7 +23,6 @@ export function getProxyObject<T extends Table>(type: T, world: World, obj: Memo
             Reflect.set(target, key, value, receiver);
             if (value instanceof Decimal) {
                 world.setDirty(type, obj.id);
-                //console.log(`SET path: ${this.path}  key: ${String(key)}  value: ${value}`);
                 return value;
             }
             else if (Array.isArray(target) && key == 'length') {
@@ -39,22 +38,8 @@ export function getProxyObject<T extends Table>(type: T, world: World, obj: Memo
         },
         get(target, key, receiver) {
             const val = Reflect.get(target, key, receiver);
-            console.log({ val, target, key, path: this.path });
 
             const lastPath = this.path[this.path.length - 1];
-            // if (Array.isArray(target) && Tables.find(x => x == lastPath)) {
-            //     if (typeof key === 'string' && isNaN(parseInt(key))) {
-            //         return val;
-            //     }
-            //     else if (isTable(lastPath)) {
-            //         console.log(`LOOKUP ${lastPath}`);
-            //         return world.get(lastPath, val);
-            //     }
-            // }
-            // if (val instanceof Set) {
-            //     console.log('=========== SET');
-            //     return val;
-            // }
             if (val instanceof Decimal) {
                 return val;
             }
@@ -79,20 +64,23 @@ export function getProxyObject<T extends Table>(type: T, world: World, obj: Memo
                     }
                 }
                 else if (key == 'has') {
-                    return function (object: { id: number }): IterableIterator<any> {
+                    return function (object: { id: number }) {
                         return val.apply(target, [object.id]);
                     }
                 }
                 else if(key == 'add') {
+                    return function (object: { id: number }) {
+                        world.setDirty(type, obj.id);
+                        return val.apply(target, [object.id]);
+                    }
+                }
+                else if(key == 'delete') {
                     return function (object: { id: number }): IterableIterator<any> {
                         world.setDirty(type, obj.id);
                         return val.apply(target, [object.id]);
                     }
                 }
             }
-            // else if (Array.isArray(target)) {
-            //     return val;
-            // }
             else if (typeof val === 'object' && val !== null) {
                 return this.nest(val)
             } else {

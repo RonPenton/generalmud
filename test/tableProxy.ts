@@ -230,5 +230,44 @@ describe('test', () => {
         expect(shield.cost.eq(30)).toBe(true);
     });
 
+    test('proxy deletes mapped child types', () => {
+
+        const sword = getSword();
+        const shield = getShield();
+        const hero = getHero();
+
+        const world = getWorld({
+            'items': [sword, shield],
+            'actors': [hero],
+            'rooms': [],
+            'roomDescriptions': []
+        });
+
+        const actor = world.get('actors', hero.id);
+
+        actor.items.add(world.get('items', shield.id));
+        var hasShield = actor.items.has(world.get('items', shield.id));
+        expect(hasShield).toBe(true);
+        expect(changes.length).toBe(1);
+        expect(changes[0]).toStrictEqual({ table: 'actors', id: hero.id });
+
+        actor.items.delete(world.get('items', shield.id));
+        hasShield = actor.items.has(world.get('items', shield.id));
+        expect(hasShield).toBe(false);
+        expect(changes.length).toBe(2);
+        expect(changes[1]).toStrictEqual({ table: 'actors', id: hero.id });
+
+        actor.items.delete(world.get('items', sword.id));
+        var hasSword = actor.items.has(world.get('items', shield.id));
+        expect(hasSword).toBe(false);
+        expect(changes.length).toBe(3);
+        expect(changes[2]).toStrictEqual({ table: 'actors', id: hero.id });
+
+        const items = Array.from(actor.items.values());
+        expect(items.length).toBe(0);
+
+        const heroMemory: MemoryObject<'actors'> = hero as any;
+        expect(heroMemory.items.size).toBe(0);
+    });
 
 });

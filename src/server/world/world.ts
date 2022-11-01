@@ -10,7 +10,7 @@ import { SansId } from "../models/sansId";
 import { getEnv } from "../environment";
 import { filterIterable, mapIterable } from "tsc-utils";
 import { Direction } from "../models/direction";
-import { pagedLoad, replaceTableArraysWithSets } from "../db/load";
+import { pagedLoad, replaceTableArraysWithSets, saveDbObject } from "../db/load";
 import { MovementCommand, movementManager } from "./movement";
 import { getProxyObject } from "../utils/tableProxy";
 
@@ -27,10 +27,15 @@ export type ProxyMap = {
 export class World {
 
     static async load(db: Db): Promise<World> {
+        const start = new Date().valueOf();
+        console.log(`Starting data load...`);
         const items = await pagedLoad(db, 'items');
         const actors = await pagedLoad(db, 'actors');
         const rooms = await pagedLoad(db, 'rooms');
         const roomDescriptions = await pagedLoad(db, 'roomDescriptions');
+
+        const end = new Date().valueOf();
+        console.log(`Loaded database in ${end - start}ms.`);
 
         return new World(db, { items, actors, rooms, roomDescriptions });
     }
@@ -47,6 +52,10 @@ export class World {
 
         const players = filterIterable(this.proxyMap.actors.values(), isPlayer);
         this.players = new Map(mapIterable(players, x => [x.playerData.uniqueName, x]));
+
+        setInterval(() => {
+            void this.saveDirtyRecords();
+        }, 10000);
     }
 
     private proxyMap: ProxyMap;
@@ -69,7 +78,23 @@ export class World {
 
     private dirtyRecords = new Map<string, { table: Table, id: number }>();
     public setDirty(table: Table, id: number) {
-        this.dirtyRecords.set(`${table}::id`, { table, id });
+        this.dirtyRecords.set(`${table}::${id}`, { table, id });
+    }
+    private async saveDirtyRecords() {
+        if (this.dirtyRecords.size == 0) {
+            return;
+        }
+
+        const vals = this.dirtyRecords;
+        this.dirtyRecords = new Map();
+
+        const start = new Date().valueOf();
+        for (const val of vals.values()) {
+            const obj = this.get(val.table, val.id);
+            await saveDbObject(this.db, val.table, obj);
+        }
+        const end = new Date().valueOf();
+        console.log(`Saved ${vals.size} records in ${end - start}ms`);
     }
 
     public getActivePlayers(): Iterable<PlayerActor> { return this.players.values(); }

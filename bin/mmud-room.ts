@@ -228,11 +228,11 @@ export type Direction = typeof DirectionNames[number];
 
 export const ExitTypes = ['normal', 'UNSUPPORTED-spell', 'UNSUPPORTED-key', 'UNSUPPORTED-item', 'UNSUPPORTED-toll',
     'UNSUPPORTED-show-message', 'UNSUPPORTED-hidden', 'UNSUPPORTED-door',
-    'UNSUPPORTED-map-change', 'UNSUPPORTED-trap', 'UNSUPPORTED-text', 'UNSUPPORTED-gate',
+    'map-change', 'UNSUPPORTED-trap', 'UNSUPPORTED-text', 'UNSUPPORTED-gate',
     'UNSUPPORTED-remote-action', 'UNSUPPORTED-class',
     'UNSUPPORTED-race', 'UNSUPPORTED-level', 'UNSUPPORTED-timed', 'UNSUPPORTED-ticket',
-    'UNUSED-user-count', 'UNSUPPORTED-block-guard', 'UNSUPPORTED-alignment',
-    'UNUSED-delay', 'UNSUPPORTED-cast', 'UNSUPPORTED-ability', 'UNSUPPORTED-spell-trap'] as const;
+    'UNSUPPORTED-user-count', 'UNSUPPORTED-block-guard', 'UNSUPPORTED-alignment',
+    'UNSUPPORTED-delay', 'UNSUPPORTED-cast', 'UNSUPPORTED-ability', 'UNSUPPORTED-spell-trap'] as const;
 export type ExitType = typeof ExitTypes[number];
 
 export type NormalExit = { type: 'normal' };

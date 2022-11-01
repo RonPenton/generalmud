@@ -7,9 +7,9 @@ async function createdb() {
     const connectionString = env.POSTGRES_CONNECTION_STRING;
 
     const opts = {
-        query: (e: pgPromise.IEventContext) => {
-            console.log(e.query);
-        }
+        // query: (e: pgPromise.IEventContext) => {
+        //     //console.log(e.query);
+        // }
     };
 
     const pgp = pgPromise(opts);

@@ -116,7 +116,7 @@ async function convertRooms(input: string, output: string, descriptionOutput: st
                     case 'normal':
                         acc[dir] = { type: 'normal', exitRoom: getRoomId(MapNumber, exitData.Exit) };
                         break;
-                    case 'UNSUPPORTED-map-change':
+                    case 'map-change':
                         acc[dir] = { type: 'normal', exitRoom: getRoomId(exitData.Para1, exitData.Exit) }
                         break;
                 }

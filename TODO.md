@@ -1,10 +1,15 @@
 - look <direction> command
 - who command
 - minimap
+- nested commands
 - roles (sysop/mudop/builder)
+- limiting commands by role
+- help command
 - database saving
 - world timer
 - item template table
 - item spawning
 - emotes
 - rate limiting inputs/connections
+- suspension/banning
+- ban by IP

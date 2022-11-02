@@ -3,10 +3,10 @@ import { installCommand } from './base';
 
 installCommand({
     type: 'move',
-    keywords: "move",
+    keywords: ["move"],
     helptext: "Moves in a direction.",
-    executeMessage: ({ message, player, world }) => {
-        world.move(player, message.message.direction, 'queue');
+    executeMessage: ({ packet, player, world }) => {
+        world.move(player, packet.message.direction, 'queue');
     }
 });
 

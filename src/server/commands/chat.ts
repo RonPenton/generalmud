@@ -4,7 +4,7 @@ import { installCommand } from './base';
 
 installCommand({
     type: 'talk-global',
-    keywords: ["chat", "ch"],
+    keywords: ["chat", "ch", "gos", "gossip"],
     helptext: "Initiates a global chat command that will be seen by everyone on the server.",
     executeText: ({ parameters, player, world }) => {
         world.sendToAll('talk-global', { from: getPlayerReference(player), message: parameters.trim() });
@@ -13,13 +13,13 @@ installCommand({
 
 installCommand({
     type: 'say',
-    keywords: "say",
+    keywords: ["say"],
     helptext: "Speaks text to the people in your current location.",
     executeText: ({ parameters, player, world }) => {
         world.say(player, parameters);
     },
-    executeMessage: ({ message, player, world }) => {
-        world.say(player, message.message.text);
+    executeMessage: ({ packet, player, world }) => {
+        world.say(player, packet.message.text);
     }
 });
 

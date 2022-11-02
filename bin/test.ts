@@ -1,5 +1,29 @@
-import { hashText } from "../src/server/utils/hashText";
+async function go() {
+    const mod = await import('./module');
+    let val = mod.execute();
+    console.log(val);
 
-const x = "You are before the massive town gates of Silvermere. They stand over fifteen feet high, and are made of three foot thick, steel-banded hardwood. Guard towers flank the gates on either side, and you can see the town militia patrolling overtop on the walls. Estwall street runs to the north and south, following the city wall. To the west, Silver street runs to the heart of the city, ending at the town square.";
+    console.log('Enter Text: ');
+    await readInput();
 
-hashText(x);
+    delete require.cache[require.resolve(`./module.ts`)]
+
+    const mod2 = await import('./module');
+    val = mod2.execute();
+    console.log(val);
+}
+
+
+export function readInput() {
+    return new Promise((resolve) => {
+        let stdin = process.openStdin();
+
+        const dataFunc = function (d: any) {
+            resolve(d.toString().trim());
+        };
+
+        stdin.addListener("data", dataFunc);
+    });
+}
+
+void go();

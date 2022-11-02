@@ -258,6 +258,13 @@ export class World {
         }
     }
 
+    public teleport(actor: Actor, roomId: number) {
+        const newRoom = this.getRoom(roomId);
+        this.leftRoom(actor);
+        actor.room = newRoom.id;
+        this.enteredRoom(actor);
+    }
+
     private sendRoomDescription(player: PlayerActor, brief?: boolean, room?: Room) {
         const r = room ?? this.getRoom(player.room);
 

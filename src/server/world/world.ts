@@ -58,7 +58,7 @@ export class World {
         }, 10000);
     }
 
-    private proxyMap: ProxyMap;
+    proxyMap: ProxyMap;
 
     public get<T extends Table>(table: T, id: number): ProxyObject<T> {
         const item = this.proxyMap[table].get(id);
@@ -189,7 +189,7 @@ export class World {
         }
     }
 
-    private sendToRoom<T extends MessageName>(target: Room | Actor, type: T, message: MessageTypes[T]): void {
+    public sendToRoom<T extends MessageName>(target: Room | Actor, type: T, message: MessageTypes[T]): void {
         const room = 'room' in target ? this.getRoom(target.room) : target;
         const players = filterIterable(room.actors.values(), isPlayer);
         for (const player of players) {
@@ -328,4 +328,5 @@ export class World {
 
         return proxy;
     }
+
 }

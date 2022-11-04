@@ -1,0 +1,1 @@
+"Action","Single to User","Single to Room","User to User","User to Other User","User to Room","Monster to User","Monster to Room","Inventory to User","Inventory to Room","Floor Item to User","Floor Item to Room"

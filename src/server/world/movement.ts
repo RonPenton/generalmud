@@ -2,6 +2,7 @@ import PriorityQueue from "ts-priority-queue";
 import { MessageTypes } from '../messages';
 import { Actor } from "../models/actor";
 import { Room } from "../models/room";
+import { Time } from "./time";
 
 export type MovementCommand = MessageTypes['move'] & {
     due: number;
@@ -9,7 +10,7 @@ export type MovementCommand = MessageTypes['move'] & {
     actor: Actor
 }
 
-export function movementManager(onMove: (cmd: MovementCommand) => void) {
+export function movementManager(onMove: (cmd: MovementCommand) => void, timer: Time) {
 
     const queue = new PriorityQueue<MovementCommand>({
         comparator: (a, b) => a.due - b.due
@@ -30,7 +31,7 @@ export function movementManager(onMove: (cmd: MovementCommand) => void) {
         queue.queue(cmd);
 
         if (!tm || cmd.due < nextTime) {
-            const now = new Date().valueOf();
+            const now = timer.getTime();
             const time = cmd.due - now;
 
             if (tm) {
@@ -45,7 +46,7 @@ export function movementManager(onMove: (cmd: MovementCommand) => void) {
 
     const settleQueue = () => {
         tm = null;
-        const now = new Date().valueOf();
+        const now = timer.getTime();
 
         while(queue.length > 0 && queue.peek().due <= now) {
             const move = queue.dequeue();
@@ -63,3 +64,5 @@ export function movementManager(onMove: (cmd: MovementCommand) => void) {
         enqueue
     }
 }
+
+export type MovementManager = ReturnType<typeof movementManager>;

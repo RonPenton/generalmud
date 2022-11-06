@@ -1,8 +1,8 @@
 import { Db } from ".";
-import { dbCreateObjectTable } from "./generic";
+import { dbCreateObjectTable, Tables } from "./generic";
 
 export async function createSchema(db: Db) {
-    await dbCreateObjectTable(db, 'items');
-    await dbCreateObjectTable(db, 'rooms');
-    await dbCreateObjectTable(db, 'actors');
+    for (const table of Tables) {
+        await dbCreateObjectTable(db, table);
+    }
 }

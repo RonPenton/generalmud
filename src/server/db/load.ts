@@ -1,6 +1,6 @@
 import { Db } from ".";
 import { deserializeDecimals, serializeDecimals } from "../utils/serializeDecimals";
-import { dbGetObjects, Table, TableType, Tables, MemoryObject, isTable, dbUpdateObject } from "./generic";
+import { dbGetObjects, Table, TableType, MemoryObject, isTable, dbUpdateObject } from "./generic";
 
 export async function pagedLoad<T extends Table>(db: Db, table: T): Promise<MemoryObject<T>[]> {
     const arr: MemoryObject<T>[] = [];

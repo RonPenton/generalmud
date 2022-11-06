@@ -4,9 +4,11 @@ import { Db } from "./index";
 import { ItemStorage } from "../models/item";
 import { OptionalId } from "../models/sansId";
 import { RoomDescription } from "../models/roomDescription";
+import { WorldStorage } from "../models/world";
 
-export const Tables = ['rooms', 'actors', 'items', 'roomDescriptions'] as const;
+export const Tables = ['worlds', 'rooms', 'actors', 'items', 'roomDescriptions'] as const;
 export type TableMap = {
+    'worlds': WorldStorage,
     'rooms': RoomStorage,
     'actors': ActorStorage,
     'items': ItemStorage,

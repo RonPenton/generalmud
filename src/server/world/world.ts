@@ -11,8 +11,10 @@ import { getEnv } from "../environment";
 import { filterIterable, mapIterable } from "tsc-utils";
 import { Direction } from "../models/direction";
 import { pagedLoad, replaceTableArraysWithSets, saveDbObject } from "../db/load";
-import { MovementCommand, movementManager } from "./movement";
+import { MovementCommand, MovementManager, movementManager } from "./movement";
 import { getProxyObject } from "../utils/tableProxy";
+import { startTimer, Time } from "./time";
+import { WorldStorage } from "models/world";
 
 const env = getEnv();
 
@@ -27,17 +29,31 @@ export type ProxyMap = {
 export class World {
 
     static async load(db: Db): Promise<World> {
-        const start = new Date().valueOf();
+        const start = Date.now();
         console.log(`Starting data load...`);
+
+        const worlds = await pagedLoad(db, 'worlds');
+
+        if (worlds.length == 0) {
+            const world: WorldStorage = {
+                id: 1,
+                time: 0,
+                properties: {}
+            };
+
+            await dbCreateObject(db, 'worlds', world);
+            worlds.push(world);
+        }
+
         const items = await pagedLoad(db, 'items');
         const actors = await pagedLoad(db, 'actors');
         const rooms = await pagedLoad(db, 'rooms');
         const roomDescriptions = await pagedLoad(db, 'roomDescriptions');
 
-        const end = new Date().valueOf();
+        const end = Date.now();
         console.log(`Loaded database in ${end - start}ms.`);
 
-        return new World(db, { items, actors, rooms, roomDescriptions });
+        return new World(db, { worlds, items, actors, rooms, roomDescriptions });
     }
 
     private constructor(
@@ -56,7 +72,14 @@ export class World {
         setInterval(() => {
             void this.saveDirtyRecords();
         }, 10000);
+
+        this.worldStorage = this.get('worlds', 1);
+        this.timer = startTimer(this.worldStorage);
+        this.movement = movementManager(this.onMove.bind(this), this.timer);
     }
+
+    private worldStorage: WorldStorage;
+    public timer: Time;
 
     proxyMap: ProxyMap;
 
@@ -85,15 +108,19 @@ export class World {
             return;
         }
 
+        // update the world time and save it.
+        this.worldStorage.time = this.timer.getTime();
+        await saveDbObject(this.db, 'worlds', this.worldStorage);
+
         const vals = this.dirtyRecords;
         this.dirtyRecords = new Map();
 
-        const start = new Date().valueOf();
+        const start = Date.now();
         for (const val of vals.values()) {
             const obj = this.get(val.table, val.id);
             await saveDbObject(this.db, val.table, obj);
         }
-        const end = new Date().valueOf();
+        const end = Date.now();
         console.log(`Saved ${vals.size} records in ${end - start}ms`);
     }
 
@@ -117,7 +144,7 @@ export class World {
         this.move(actor, direction, 'now');
     }
 
-    private movement = movementManager(this.onMove.bind(this));
+    private movement: MovementManager;
 
     public playerDisconnecting(player: PlayerActor) {
         const active = this.activePlayers.get(player.playerData.uniqueName)
@@ -248,7 +275,7 @@ export class World {
             const result = this.movement.enqueue({
                 actor,
                 direction,
-                due: new Date().valueOf() + moveTime,
+                due: this.timer.getTime() + moveTime,
                 from: oldRoom
             });
 

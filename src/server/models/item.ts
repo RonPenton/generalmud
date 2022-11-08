@@ -1,5 +1,6 @@
 import Decimal from "decimal.js";
 import { ProxyObject } from "../db/generic";
+import { EventDefinition } from "../scripts/base";
 
 export type ItemStorage = {
     id: number;
@@ -9,6 +10,7 @@ export type ItemStorage = {
     room?: number;
     actor?: number;
     properties: ItemProperties;
+    events?: EventDefinition[];
 }
 
 export interface ItemProperties {

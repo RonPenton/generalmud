@@ -1,7 +1,8 @@
 import DeepProxy from 'proxy-deep';
 import Decimal from 'decimal.js';
-import { isTable, MemoryObject, ProxyObject, Table, Tables } from '../db/generic';
+import { isTable, MemoryObject, ProxyObject, Table, Tables, UnderlyingMemory } from '../db/generic';
 import { World } from '../world/world';
+
 
 export function getProxyObject<T extends Table>(type: T, world: World, obj: MemoryObject<T>): ProxyObject<T> {
     return new DeepProxy(obj, {
@@ -37,6 +38,11 @@ export function getProxyObject<T extends Table>(type: T, world: World, obj: Memo
             }
         },
         get(target, key, receiver) {
+
+            if(key == UnderlyingMemory) {
+                return obj;
+            }
+
             const val = Reflect.get(target, key, receiver);
 
             const lastPath = this.path[this.path.length - 1];

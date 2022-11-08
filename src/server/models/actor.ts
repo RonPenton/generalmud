@@ -1,4 +1,5 @@
 import { ProxyObject } from "../db/generic";
+import { EventDefinition } from "../scripts/base";
 import { Wallet } from "./wallet";
 
 
@@ -19,6 +20,8 @@ export interface ActorStorage {
     wallet: Wallet;
 
     playerData?: PlayerData;
+
+    events?: EventDefinition[];
 }
 
 export type Actor = ProxyObject<'actors'>;

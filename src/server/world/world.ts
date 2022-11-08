@@ -4,7 +4,7 @@ import { MessageName, MessagePacket, MessageTypes } from "../messages";
 import { isAfter } from 'date-fns';
 import { executeCommand } from "../commands/base";
 import { Room } from "../models/room";
-import { dbCreateObject, MemoryObject, ProxyObject, Table, Tables } from "../db/generic";
+import { dbCreateObject, MemoryObject, ProxyObject, Table, Tables, UnderlyingMemory } from "../db/generic";
 import { Actor, ActorStorage, findActorMatch, getActorReference, getCanonicalName, getPlayerReference, isPlayer, PlayerActor, PlayerData } from "../models/actor";
 import { SansId } from "../models/sansId";
 import { getEnv } from "../environment";
@@ -14,7 +14,9 @@ import { pagedLoad, replaceTableArraysWithSets, saveDbObject } from "../db/load"
 import { MovementCommand, MovementManager, movementManager } from "./movement";
 import { getProxyObject } from "../utils/tableProxy";
 import { startTimer, Time } from "./time";
-import { WorldStorage } from "models/world";
+import { WorldStorage } from "../models/world";
+import { time } from "../utils/timeFunction";
+import { loadScripts } from "../scripts";
 
 const env = getEnv();
 
@@ -29,31 +31,41 @@ export type ProxyMap = {
 export class World {
 
     static async load(db: Db): Promise<World> {
-        const start = Date.now();
-        console.log(`Starting data load...`);
+        const arrays: MemoryArrays = {} as any;
 
-        const worlds = await pagedLoad(db, 'worlds');
+        await time(async () => {
+            console.log(`Starting data load...`);
+    
+            for(const table of Tables) {
+                arrays[table] = await pagedLoad(db, table) as any;
 
-        if (worlds.length == 0) {
-            const world: WorldStorage = {
-                id: 1,
-                time: 0,
-                properties: {}
-            };
+                // TEMP
+                if(table == 'rooms') {
+                    const ts = arrays['rooms'].find(x => x.id == 10224);
+                    if(ts && !ts.events) {
+                        ts.events = [{ name: 'announce-entry', parameters: { uppercase: true } }];
+                    }
+                }
 
-            await dbCreateObject(db, 'worlds', world);
-            worlds.push(world);
-        }
+                await loadScripts(table, arrays[table]);
+            }
+    
+            // make sure we have the world defined.
+            if (arrays.worlds.length == 0) {
+                const world: WorldStorage = {
+                    id: 1,
+                    time: 0,
+                    properties: {}
+                };
+    
+                await dbCreateObject(db, 'worlds', world);
+                arrays.worlds.push(world);
+            }
+        }, ms => {
+            console.log(`Loaded database in ${ms}ms.`);
+        });
 
-        const items = await pagedLoad(db, 'items');
-        const actors = await pagedLoad(db, 'actors');
-        const rooms = await pagedLoad(db, 'rooms');
-        const roomDescriptions = await pagedLoad(db, 'roomDescriptions');
-
-        const end = Date.now();
-        console.log(`Loaded database in ${end - start}ms.`);
-
-        return new World(db, { worlds, items, actors, rooms, roomDescriptions });
+        return new World(db, arrays);
     }
 
     private constructor(
@@ -78,7 +90,7 @@ export class World {
         this.movement = movementManager(this.onMove.bind(this), this.timer);
     }
 
-    private worldStorage: WorldStorage;
+    private worldStorage: ProxyObject<'worlds'>;
     public timer: Time;
 
     proxyMap: ProxyMap;
@@ -110,7 +122,7 @@ export class World {
 
         // update the world time and save it.
         this.worldStorage.time = this.timer.getTime();
-        await saveDbObject(this.db, 'worlds', this.worldStorage);
+        await saveDbObject(this.db, 'worlds', this.worldStorage[UnderlyingMemory]);
 
         const vals = this.dirtyRecords;
         this.dirtyRecords = new Map();
@@ -118,7 +130,7 @@ export class World {
         const start = Date.now();
         for (const val of vals.values()) {
             const obj = this.get(val.table, val.id);
-            await saveDbObject(this.db, val.table, obj);
+            await saveDbObject(this.db, val.table, obj[UnderlyingMemory]);
         }
         const end = Date.now();
         console.log(`Saved ${vals.size} records in ${end - start}ms`);

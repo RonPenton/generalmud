@@ -1,5 +1,6 @@
 import { PartialRecord } from "tsc-utils";
 import { ProxyObject } from "../db/generic";
+import { EventDefinition } from "../scripts/base";
 import { Direction } from "./direction";
 import { ExitData } from "./exit";
 import { Wallet } from "./wallet";
@@ -16,6 +17,7 @@ export interface RoomStorage {
     items: number[];
     money: Wallet;
     hiddenMoney: Wallet;
+    events?: EventDefinition[];
 }
 
 export type Room = ProxyObject<'rooms'>;

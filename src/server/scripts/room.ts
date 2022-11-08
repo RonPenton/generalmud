@@ -14,13 +14,13 @@ export type TwoRoomEvent = BaseRoomEvent & {
     teleported?: boolean;
 }
 
-export type RoomEvents = Partial<{
-    canEnter: (args: TwoRoomEvent) => boolean;
-    hasEntered: (args: TwoRoomEvent) => void;
+export type RoomEvents = {
+    canEnter?: (args: TwoRoomEvent) => boolean;
+    hasEntered?: (args: TwoRoomEvent) => void;
 
-    canLeave: (args: TwoRoomEvent) => boolean;
-    hasLeft: (args: TwoRoomEvent) => void;
+    canLeave?: (args: TwoRoomEvent) => boolean;
+    hasLeft?: (args: TwoRoomEvent) => void;
 
-    canLook: (args: TwoRoomEvent) => boolean;
-    hasLooked: (args: TwoRoomEvent) => void;
-}>
+    canLook?: (args: TwoRoomEvent) => boolean;
+    hasLooked?: (args: TwoRoomEvent) => void;
+}

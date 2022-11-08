@@ -1,6 +1,6 @@
-import { WorldStorage } from "models/world";
+import { ProxyObject } from "../db/generic";
 
-export function startTimer(world: WorldStorage) {
+export function startTimer(world: ProxyObject<'worlds'>) {
 
     const offset = Date.now() - world.time;
 

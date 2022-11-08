@@ -1,16 +1,11 @@
-import { RoomEvents } from './room';
-import { keyMap } from 'tsc-utils';
+import { keyMap, notEmpty } from 'tsc-utils';
+import { EventsType, Table, Tables } from '../db/generic';
+import { EventDefinition } from './base';
+import * as Throttle from 'promise-parallel-throttle';
 
-export const ScriptableTypes = ['rooms'] as const;
-export type ScriptableType = typeof ScriptableTypes[number];
+type Events<T extends Table> = Required<EventsType<T>>;
 
-export type ScriptableInterfaces = {
-    'rooms': RoomEvents;
-}
-
-export type ScriptableInterface<T extends ScriptableType> = ScriptableInterfaces[T];
-
-export function makeScriptProxy<T extends ScriptableType>(script: ScriptableInterface<T>): Required<ScriptableInterface<T>> {
+export function makeScriptProxy<T extends Table>(script: EventsType<T>): Required<EventsType<T>> {
     return new Proxy(script, {
         get(target, key, receiver) {
             const val = Reflect.get(target, key, receiver);
@@ -26,58 +21,77 @@ export function makeScriptProxy<T extends ScriptableType>(script: ScriptableInte
                 return () => undefined;
             }
         }
-    }) as Required<ScriptableInterface<T>>;
+    }) as Required<EventsType<T>>;
 }
 
-const library = keyMap<ScriptableType, {
-    [K in ScriptableType]: Map<string, Required<ScriptableInterface<K>>>
-}>(ScriptableTypes, _ => new Map());
+const library = keyMap<Table, {
+    [K in Table]: Map<string, Events<K>>
+}>(Tables, _ => new Map());
 
-export function getScript<T extends ScriptableType>(type: T, name: string): Required<ScriptableInterface<T>> {
+export function getScript<T extends Table>(type: T, name: string): Events<T> {
+
     const script = library[type].get(name);
     if (!script) {
-        console.log(`Script not found: ${type}::${name}`);
+        console.log(`Script not loaded: ${type}::${name}`);
         return makeScriptProxy<T>({});
     }
+
     return script;
 }
 
-export async function loadScript<T extends ScriptableType>(type: T, name: string, reload = false) {
+export async function loadScript<T extends Table>(type: T, name: string, reload = false) {
 
     if (!reload && library[type].has(name)) {
         return;
     }
 
-    const module = await import(`./${type}/${name}.ts`);
+    const location = `./${type}/${name}.ts`;
+
+    if (reload === true) {
+        // forcing a reload, so delete the old script from the require cache.
+        delete require.cache[require.resolve(location)]
+    }
+
+    const module = await import(location);
     if (!module) {
         console.log(`Script not found: ${type}::${name}`);
         return;
     }
 
-    const script = module.script as ScriptableInterface<T>;
+    const script = module.script as EventsType<T>;
     if (!script) {
         console.log(`Script malformed: ${type}::${name}`);
         return;
     }
 
-    const proxy = makeScriptProxy(script);
+    const proxy = makeScriptProxy<T>(script);
     library[type].set(name, proxy);
 
     return proxy;
 }
 
-
-async function go() {
-    await loadScript('rooms', 'announceEntry');
-    const script = getScript('rooms', 'announceEntry');
-
-    const world = {
-        sendToRoom: (_actor: any, _name: any, msg: any) => {
-            console.log(msg.text)
-        }
-    }
-
-    script.hasEntered({ world, actor: { name: "Humperdinck" } } as any);
+type HasEvents = {
+    events?: EventDefinition[]
 }
 
-void go();
+export async function loadScripts<K extends Table>(type: K, array: HasEvents[]) {
+    const tasks = array.flatMap(x => x.events)
+        .filter(notEmpty)
+        .map(x => () => loadScript(type, x.name));
+    await Throttle.all(tasks, { maxInProgress: 5 });
+}
+
+// async function go() {
+//     await loadScript('rooms', 'announceEntry');
+//     const script = getScript('rooms', 'announceEntry');
+
+//     const world = {
+//         sendToRoom: (_actor: any, _name: any, msg: any) => {
+//             console.log(msg.text)
+//         }
+//     }
+
+//     script.hasEntered({ world, actor: { name: "Humperdinck" }, parameters: { uppercase: true } } as any);
+// }
+
+// void go();

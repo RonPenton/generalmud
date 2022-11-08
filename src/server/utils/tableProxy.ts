@@ -2,9 +2,13 @@ import DeepProxy from 'proxy-deep';
 import Decimal from 'decimal.js';
 import { isTable, MemoryObject, ProxyObject, Table, Tables, UnderlyingMemory } from '../db/generic';
 import { World } from '../world/world';
+import { makeScriptProxy } from '../scripts/makeScriptProxy';
 
 
 export function getProxyObject<T extends Table>(type: T, world: World, obj: MemoryObject<T>): ProxyObject<T> {
+
+    const eventsProxy = makeScriptProxy(type, obj);
+
     return new DeepProxy(obj, {
         set(target, key, value, receiver) {
 
@@ -41,6 +45,9 @@ export function getProxyObject<T extends Table>(type: T, world: World, obj: Memo
 
             if(key == UnderlyingMemory) {
                 return obj;
+            }
+            if(key == 'events') {
+                return eventsProxy;
             }
 
             const val = Reflect.get(target, key, receiver);

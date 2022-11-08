@@ -10,13 +10,10 @@ import { SansId } from "../models/sansId";
 import { getEnv } from "../environment";
 import { filterIterable, mapIterable } from "tsc-utils";
 import { Direction } from "../models/direction";
-import { pagedLoad, replaceTableArraysWithSets, saveDbObject } from "../db/load";
+import { replaceTableArraysWithSets, saveDbObject } from "../db/load";
 import { MovementCommand, MovementManager, movementManager } from "./movement";
 import { getProxyObject } from "../utils/tableProxy";
 import { startTimer, Time } from "./time";
-import { WorldStorage } from "../models/world";
-import { time } from "../utils/timeFunction";
-import { loadScripts } from "../scripts";
 
 const env = getEnv();
 
@@ -30,45 +27,7 @@ export type ProxyMap = {
 
 export class World {
 
-    static async load(db: Db): Promise<World> {
-        const arrays: MemoryArrays = {} as any;
-
-        await time(async () => {
-            console.log(`Starting data load...`);
-    
-            for(const table of Tables) {
-                arrays[table] = await pagedLoad(db, table) as any;
-
-                // TEMP
-                if(table == 'rooms') {
-                    const ts = arrays['rooms'].find(x => x.id == 10224);
-                    if(ts && !ts.events) {
-                        ts.events = [{ name: 'announce-entry', parameters: { uppercase: true } }];
-                    }
-                }
-
-                await loadScripts(table, arrays[table]);
-            }
-    
-            // make sure we have the world defined.
-            if (arrays.worlds.length == 0) {
-                const world: WorldStorage = {
-                    id: 1,
-                    time: 0,
-                    properties: {}
-                };
-    
-                await dbCreateObject(db, 'worlds', world);
-                arrays.worlds.push(world);
-            }
-        }, ms => {
-            console.log(`Loaded database in ${ms}ms.`);
-        });
-
-        return new World(db, arrays);
-    }
-
-    private constructor(
+    constructor(
         private readonly db: Db,
         memoryArrays: MemoryArrays
     ) {
@@ -195,7 +154,7 @@ export class World {
 
         this.sendToAll('connected', { player: getPlayerReference(player) });
         this.sendToPlayer(socket, 'system', { text: 'Welcome to GeneralMUD.' });
-        this.enteredRoom(player);
+        this.enteredRoom(player, this.getRoom(player.room));
 
         socket.on('message', (message: MessagePacket<any>) => this.handleMessage(player, message));
     }
@@ -278,9 +237,10 @@ export class World {
 
         if (type == 'now') {
             const newRoom = this.getRoom(exit.exitRoom);
-            this.leftRoom(actor, direction);
+            const oldRoom = this.getRoom(actor.room);
+            this.leftRoom(actor, newRoom, direction);
             actor.room = newRoom.id;
-            this.enteredRoom(actor, direction);
+            this.enteredRoom(actor, oldRoom, direction);
         }
         else {
             const moveTime = 100;
@@ -299,9 +259,10 @@ export class World {
 
     public teleport(actor: Actor, roomId: number) {
         const newRoom = this.getRoom(roomId);
-        this.leftRoom(actor);
+        const oldRoom = this.getRoom(actor.room);
+        this.leftRoom(actor, newRoom);
         actor.room = newRoom.id;
-        this.enteredRoom(actor);
+        this.enteredRoom(actor, oldRoom);
     }
 
     private sendRoomDescription(player: PlayerActor, brief?: boolean, room?: Room) {
@@ -318,13 +279,14 @@ export class World {
             });
     }
 
-    private leftRoom(actor: Actor, direction?: Direction) {
+    private leftRoom(actor: Actor, other: Room, direction?: Direction) {
         const room = this.getRoom(actor.room);
         this.sendToRoom(room, 'actor-moved', { from: getActorReference(actor), entered: false, direction: direction });
         room.actors.delete(actor);
+        room.events.hasLeft({ world: this, actor, room, other });
     }
 
-    private enteredRoom(actor: Actor, direction?: Direction) {
+    private enteredRoom(actor: Actor, other: Room, direction?: Direction) {
         const room = this.getRoom(actor.room);
 
         this.sendToRoom(room, 'actor-moved', { from: getActorReference(actor), entered: true, direction });
@@ -333,6 +295,8 @@ export class World {
         if (isPlayer(actor)) {
             this.sendRoomDescription(actor);
         }
+
+        room.events.hasEntered({ world: this, actor, room, other });
     }
 
     async createPlayer(playerData: PlayerData, name: string): Promise<PlayerActor> {

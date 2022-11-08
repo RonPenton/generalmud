@@ -2,8 +2,8 @@ import { makeScript } from '../base';
 
 export const script = makeScript<'rooms', { uppercase: boolean }>(
     {
-        hasEntered: ({ world, actor, parameters: { uppercase} }) => {
-            if(uppercase) {
+        hasEntered: ({ world, actor, parameters: { uppercase } }) => {
+            if (uppercase) {
                 world.sendToRoom(actor, 'system', { text: `An announcer shouts "${actor.name.toUpperCase()} HAS ENTERED THE TOWN SQUARE".` });
             }
             else {

@@ -16,12 +16,12 @@ import { getEnv } from './environment';
 import connectPgSimple from 'connect-pg-simple';
 import { getDbInstance } from './db';
 import { createSchema } from './db/schema';
-import { World } from './world/world';
 
 import './commands';
 import { PlayerActor } from './models/actor';
 import { join } from 'path';
 import { findUnreachableRooms } from './world/diagnostics';
+import { loadWorld } from './world/load';
 
 const env = getEnv();
 start();
@@ -37,7 +37,7 @@ async function setupExpress(port: string | number) {
 
     const db = await getDbInstance();
     await createSchema(db);
-    const world = await World.load(db);
+    const world = await loadWorld(db);
 
     await findUnreachableRooms(world);
 

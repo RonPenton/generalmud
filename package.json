@@ -5,7 +5,7 @@
     "main": "./build/server/index.js",
     "scripts": {
         "watch": "nodemon",
-        "start": "npm run build && npm run-script go",
+        "start": "ts-node-script -T -r dotenv-json2/config ./src/server/index.ts",
         "go": "node ./build/index.js",
         "build": "npm-run-all clean build-server build-client copy-data",
         "clean": "rimraf ./build",

@@ -1,5 +1,7 @@
 import { keysOf } from 'tsc-utils';
 import { Directions, getShortDirection } from '../models/direction';
+import { loadScript } from '../scripts/loadScript';
+import { split } from '../utils/parse';
 import { falsePromise, installCommand, truePromise } from './base';
 
 const teleports = {
@@ -39,6 +41,18 @@ installCommand({
                     world.sendToPlayer(player, 'error', { text: `Sorry, I do not recognize "${parameters}". Valid locations are: ${keysOf(teleports).map(x => x.toUpperCase()).join(', ')}.` });
                     return falsePromise;
                 }
+            }
+        },
+        {
+            type: 'generic',
+            keywords: ['reload'],
+            helptext: 'Reloads a script. <type> <script>',
+            executeText: async ({ parameters, player, world }) => {
+                const { head: type, tail: script } = split(parameters);
+
+                await loadScript(type as any, script, true);
+                world.sendToPlayer(player, 'system', { text: `Script ${type}::${script} has been reloaded.`});
+                return true;
             }
         }
     ]

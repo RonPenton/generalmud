@@ -1,21 +1,32 @@
-- [ ] look <direction> command
-- [ ] who command
-- [ ] minimap
+- [x] database saving
+- [x] world timer
 - [x] nested commands
+- [x] script infrastructure
+- [x] reload scripts command
+
+- [ ] who command
+- [ ] Scriptable commands for rooms
+- [ ] Scriptable commands for actors
+- [ ] Scriptable commands for items ?
+- [ ] actor events
+- [ ] item events
+- [ ] Clean up loading process
 - [ ] roles (sysop/mudop/builder)
 - [ ] limiting commands by role
+
+- [ ] look <direction> command
+- [ ] doors
+- [ ] gates
+- [ ] locks
+
+- [ ] minimap
 - [ ] help command
-- [x] database saving
-- [ ] world timer
 - [ ] item template table
 - [ ] item spawning
 - [ ] emotes
 - [ ] rate limiting inputs/connections
 - [ ] suspension/banning
 - [ ] ban by IP
-- [ ] doors
-- [ ] gates
-- [ ] scripts
 - [ ] monster templates
 - [ ] monster spawning
 - [ ] combat
@@ -23,7 +34,6 @@
 - [ ] races
 - [ ] classes
 - [ ] character progression
-- [ ] locks
 - [ ] spells
 - [ ] sneaking
 - [ ] room tracking

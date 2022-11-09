@@ -14,6 +14,7 @@ import './talk-room';
 import './talk-private';
 import './room-description';
 import './actor-moved';
+import './active-players';
 
 export function handle<T extends MessageName>(message: MessagePacket<T>, context: GameContext) {
     const command = getClientCommand(message.type);

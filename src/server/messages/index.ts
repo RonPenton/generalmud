@@ -21,6 +21,7 @@ export interface MessageTypes {
     'system': { text: string },
     'connected': HasPlayer,
     'disconnected': HasPlayer,
+    'active-players': { list: PlayerReference[] }
 }
 
 export type MessageName = keyof MessageTypes;

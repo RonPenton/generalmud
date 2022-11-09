@@ -4,6 +4,7 @@
 - [x] script infrastructure
 - [x] reload scripts command
 
+- [ ] Better type checking on script reloading
 - [ ] who command
 - [ ] Scriptable commands for rooms
 - [ ] Scriptable commands for actors

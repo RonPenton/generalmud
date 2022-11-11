@@ -5,7 +5,11 @@ import { Direction } from "../models/direction";
 
 export async function findUnreachableRooms(world: World) {
 
-    const startPoints = [10001, 10164, 12189, 12150, 22519, 61249, 10155, 160637];
+    const startPoints = [10001, 10164, 12189, 12150, 22519, 61249, 
+        10155, 
+        160637, 
+        30740 // vortex from darkwood to negative power plane
+    ];
 
     const unreached = new Set(world.proxyMap.rooms.keys());
     startPoints.forEach(x => unreached.delete(x));

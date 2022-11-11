@@ -1,18 +1,3 @@
-{"map":1,"room":1023,"name":"Temple Hall"}
-{"map":1,"room":1024,"name":"Kitchen"}
-{"map":1,"room":1025,"name":"Sewer Tunnel"}
-{"map":1,"room":1026,"name":"River Street"}
-{"map":1,"room":1027,"name":"Town Gates"}
-{"map":1,"room":1071,"name":"Park"}
-{"map":1,"room":1231,"name":"Intersection of Guild St. & River St."}
-{"map":1,"room":1232,"name":"Intersection of Brass St. & River St."}
-{"map":1,"room":1233,"name":"Cloakroom"}
-{"map":1,"room":1234,"name":"Storeroom"}
-{"map":1,"room":1235,"name":"Small Alleyway"}
-{"map":1,"room":1236,"name":"Inn Room"}
-{"map":1,"room":1307,"name":"Crypt, Stone Hallway"}
-{"map":1,"room":1310,"name":"Crypt, Stone Hallway"}
-{"map":1,"room":1311,"name":"Slum Street"}
 {"map":1,"room":1312,"name":"Crypt, Stone Hallway"}
 {"map":1,"room":1315,"name":"Town Gates"}
 {"map":1,"room":1316,"name":"Town Gates"}
@@ -159,7 +144,6 @@
 {"map":1,"room":2412,"name":"Silvery Pool"}
 {"map":1,"room":2416,"name":"Black Cave, Entrance"}
 {"map":1,"room":2417,"name":"Labyrinth Passage, Dead End"}
-{"map":1,"room":2426,"name":"Black Wasteland"}
 {"map":1,"room":2431,"name":""}
 {"map":1,"room":2432,"name":""}
 {"map":1,"room":2433,"name":""}
@@ -359,121 +343,7 @@
 {"map":2,"room":2962,"name":"Stone Tunnel, Dead End"}
 {"map":3,"room":214,"name":"Inside The Broken Willow"}
 {"map":3,"room":283,"name":"Bronzewood Forest"}
-{"map":3,"room":669,"name":"Black Wasteland"}
-{"map":3,"room":670,"name":"Black Wasteland"}
-{"map":3,"room":671,"name":"Black Wasteland"}
-{"map":3,"room":672,"name":"Black Wasteland"}
-{"map":3,"room":673,"name":"Black Wasteland"}
-{"map":3,"room":674,"name":"Black Wasteland"}
-{"map":3,"room":675,"name":"Black Wasteland"}
-{"map":3,"room":676,"name":"Black Wasteland"}
-{"map":3,"room":677,"name":"Black Wasteland"}
-{"map":3,"room":678,"name":"Black Wasteland"}
-{"map":3,"room":679,"name":"Black Wasteland"}
-{"map":3,"room":680,"name":"Black Wasteland"}
-{"map":3,"room":681,"name":"Black Wasteland"}
-{"map":3,"room":682,"name":"Black Wasteland"}
-{"map":3,"room":683,"name":"Black Wasteland"}
-{"map":3,"room":684,"name":"Black Wasteland"}
-{"map":3,"room":685,"name":"Black Wasteland"}
-{"map":3,"room":686,"name":"Black Wasteland"}
-{"map":3,"room":687,"name":"Black Wasteland"}
-{"map":3,"room":688,"name":"Black Wasteland"}
-{"map":3,"room":689,"name":"Black Wasteland"}
-{"map":3,"room":690,"name":"Black Wasteland"}
-{"map":3,"room":691,"name":"Black Wasteland"}
-{"map":3,"room":692,"name":"Black Wasteland"}
-{"map":3,"room":693,"name":"Black Wasteland"}
-{"map":3,"room":694,"name":"Black Wasteland"}
-{"map":3,"room":695,"name":"Black Wasteland"}
-{"map":3,"room":696,"name":"Black Wasteland"}
-{"map":3,"room":697,"name":"Black Wasteland"}
-{"map":3,"room":698,"name":"Black Wasteland"}
-{"map":3,"room":699,"name":"Black Wasteland"}
-{"map":3,"room":700,"name":"Black Wasteland"}
-{"map":3,"room":701,"name":"Black Wasteland"}
-{"map":3,"room":702,"name":"Black Wasteland"}
-{"map":3,"room":703,"name":"Black Wasteland"}
-{"map":3,"room":704,"name":"Black Wasteland"}
-{"map":3,"room":705,"name":"Black Wasteland"}
-{"map":3,"room":706,"name":"Black Wasteland"}
-{"map":3,"room":707,"name":"Black Wasteland"}
-{"map":3,"room":708,"name":"Black Wasteland"}
-{"map":3,"room":709,"name":"Black Wasteland"}
-{"map":3,"room":710,"name":"Black Wasteland"}
-{"map":3,"room":711,"name":"Black Wasteland"}
-{"map":3,"room":712,"name":"Black Wasteland"}
-{"map":3,"room":713,"name":"Black Wasteland"}
-{"map":3,"room":714,"name":"Black Wasteland"}
-{"map":3,"room":715,"name":"Black Wasteland"}
-{"map":3,"room":716,"name":"Black Wasteland"}
-{"map":3,"room":717,"name":"Black Wasteland"}
-{"map":3,"room":718,"name":"Black Wasteland"}
-{"map":3,"room":719,"name":"Black Wasteland"}
-{"map":3,"room":720,"name":"Black Wasteland"}
-{"map":3,"room":721,"name":"Black Wasteland"}
-{"map":3,"room":722,"name":"Black Wasteland"}
-{"map":3,"room":723,"name":"Black Wasteland"}
-{"map":3,"room":724,"name":"Black Wasteland"}
-{"map":3,"room":725,"name":"Black Wasteland"}
-{"map":3,"room":726,"name":"Black Wasteland"}
-{"map":3,"room":727,"name":"Black Wasteland"}
-{"map":3,"room":728,"name":"Black Wasteland"}
-{"map":3,"room":729,"name":"Black Wasteland"}
-{"map":3,"room":730,"name":"Black Wasteland"}
-{"map":3,"room":731,"name":"Black Wasteland"}
-{"map":3,"room":732,"name":"Black Wasteland"}
-{"map":3,"room":733,"name":"Black Wasteland"}
-{"map":3,"room":734,"name":"Black Wasteland"}
-{"map":3,"room":735,"name":"Black Wasteland"}
-{"map":3,"room":736,"name":"Black Wasteland"}
-{"map":3,"room":737,"name":"Black Wasteland"}
-{"map":3,"room":738,"name":"Black Wasteland"}
-{"map":3,"room":739,"name":"Black Wasteland"}
-{"map":3,"room":740,"name":"Black Wasteland"}
-{"map":3,"room":741,"name":"Black Wasteland"}
-{"map":3,"room":742,"name":"Black Wasteland"}
-{"map":3,"room":743,"name":"Black Wasteland"}
-{"map":3,"room":744,"name":"Black Wasteland"}
-{"map":3,"room":745,"name":"Black Wasteland"}
-{"map":3,"room":746,"name":"Black Wasteland"}
-{"map":3,"room":747,"name":"Black Wasteland"}
-{"map":3,"room":748,"name":"Black Wasteland"}
-{"map":3,"room":749,"name":"Black Wasteland"}
-{"map":3,"room":750,"name":"Black Wasteland"}
-{"map":3,"room":751,"name":"Black Wasteland"}
-{"map":3,"room":752,"name":"Black Wasteland"}
-{"map":3,"room":753,"name":"Black Wasteland"}
-{"map":3,"room":754,"name":"Black Wasteland"}
-{"map":3,"room":755,"name":"Black Wasteland"}
-{"map":3,"room":756,"name":"Black Wasteland"}
-{"map":3,"room":757,"name":"Black Wasteland"}
-{"map":3,"room":758,"name":"Black Wasteland"}
-{"map":3,"room":759,"name":"Black Wasteland"}
-{"map":3,"room":760,"name":"Black Wasteland"}
-{"map":3,"room":761,"name":"Black Wasteland"}
-{"map":3,"room":762,"name":"Black Wasteland"}
-{"map":3,"room":763,"name":"Black Wasteland"}
-{"map":3,"room":764,"name":"Black Wasteland"}
-{"map":3,"room":765,"name":"Black Wasteland"}
-{"map":3,"room":766,"name":"Black Wasteland"}
-{"map":3,"room":767,"name":"Black Wasteland"}
-{"map":3,"room":768,"name":"Black Wasteland"}
-{"map":3,"room":769,"name":"Black Wasteland"}
-{"map":3,"room":770,"name":"Black Wasteland"}
-{"map":3,"room":771,"name":"Black Wasteland"}
-{"map":3,"room":772,"name":"Black Wasteland"}
-{"map":3,"room":773,"name":"Black Wasteland"}
-{"map":3,"room":774,"name":"Black Wasteland"}
-{"map":3,"room":775,"name":"Black Wasteland"}
-{"map":3,"room":776,"name":"Black Wasteland"}
-{"map":3,"room":777,"name":"Black Wasteland"}
-{"map":3,"room":778,"name":"Black Wasteland"}
-{"map":3,"room":779,"name":"Black Wasteland"}
-{"map":3,"room":780,"name":"Black Wasteland"}
 {"map":3,"room":781,"name":"Black Wasteland"}
-{"map":3,"room":786,"name":"Black Wasteland"}
-{"map":3,"room":787,"name":"Black Wasteland"}
 {"map":4,"room":1,"name":"Silvermere Property Office"}
 {"map":4,"room":2,"name":"Guild Outfitters"}
 {"map":4,"room":3,"name":"Furniture Store"}

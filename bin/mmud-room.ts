@@ -244,11 +244,12 @@ export type NormalExit = { type: 'normal' };
 // export type HiddenExitType = typeof HiddenExitTypes[number];
 // export type HiddenExit = { type: 'hidden', exitType: HiddenExitType, visibilityMessage?: number, exitNameMessage?: number }
 
-// export type DoorExit = { type: 'door', chanceToPickBash: number, messageOnPassage: number, messageOnFail: number }
+//export type DoorExit = { type: 'door', chanceToPickBash: number, messageOnPassage: number, messageOnFail: number }
+export type DoorExit = { type: 'door' }
 // export type GateExit = { type: 'gate', chanceToPickBash: number, messageOnPassage: number, messageOnFail: number }
 // export type MapChangeExit = { type: 'map-change', newMap: number }
 
-export type ExitDetails = NormalExit;
+export type ExitDetails = NormalExit | DoorExit;
 
 export type ExitData = {
     exitRoom: number;
@@ -298,4 +299,12 @@ export interface MmudRoom {
     Type: RoomType;
     Light: number;
     Exits: PartialRecord<Direction, ExitData>;
+}
+
+
+export interface MmudTextblockRaw {
+    number: string;
+    part: string;
+    linkTo: string;
+    data: string;
 }

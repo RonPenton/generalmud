@@ -95,7 +95,7 @@ export class World {
         console.log(`Saved ${vals.size} records in ${end - start}ms`);
     }
 
-    public getActivePlayers(): Iterable<PlayerActor> { return this.players.values(); }
+    public getActivePlayers(): Iterable<PlayerActor> { return this.activePlayers.values(); }
     public getPlayer(name: string) { return this.players.get(getCanonicalName(name)); }
     //public getCommands(): Iterable<Command> { return this.commands }
 

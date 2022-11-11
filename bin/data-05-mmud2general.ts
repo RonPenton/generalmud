@@ -1,62 +1,24 @@
+// This file converts the raw MMUD data into GeneralMUD format. 
+
 import fs from 'fs';
-import { PartialRecord } from 'tsc-utils';
 import { hashText } from '../src/server/utils/hashText';
 import {
     Description,
-    Direction,
     DirectionNames,
     DirectionNos,
-    ExitData,
-    ExitType,
     ExitTypes,
     getMMudRoomExit,
     MmudRoom,
     MmudRoomRaw,
-    MonsterTypes,
     RoomTypes
 } from './mmud-room';
 import { readLines } from './readline';
-
-
-async function convertProperties(input: string, output: string) {
-    const out = fs.createWriteStream(output, { encoding: 'utf-8' });
-
-    const writeLine = async (line: string) => {
-        return new Promise(resolve => {
-            out.write(line + '\n', resolve);
-        });
-    }
-
-    await readLines(input, async line => {
-
-        const obj = JSON.parse(line);
-        let newObj: any = {};
-        for (const key of Object.keys(obj)) {
-            const newKey = key.replace(/\s/g, '');
-            const val = obj[key];
-            const test = (+val);
-            if (isNaN(test) || val == '') {
-                newObj[newKey] = obj[key];
-            }
-            else {
-                newObj[newKey] = parseInt(val);
-            }
-        }
-        await writeLine(JSON.stringify(newObj));
-        return Promise.resolve();
-    });
-
-    out.close();
-}
+import { getRoomId } from './utils';
 
 function joinLines(...lines: string[]) {
     return lines.map(x => x.trim()).join(' ').trim();
 }
 
-function getRoomId(mapNumber: number, roomNumber: number) {
-    const str = `${mapNumber}${roomNumber.toString().padStart(4, '0')}`;
-    return parseInt(str);
-}
 
 async function convertRooms(input: string, output: string, descriptionOutput: string) {
     const out = fs.createWriteStream(output, { encoding: 'utf-8' });
@@ -151,65 +113,4 @@ async function convertRooms(input: string, output: string, descriptionOutput: st
     out.close();
 }
 
-async function sortRooms(input: string, output: string) {
-    const out = fs.createWriteStream(output, { encoding: 'utf-8' });
-
-    const writeLine = async (line: string) => {
-        return new Promise(resolve => {
-            out.write(line + '\n', resolve);
-        });
-    }
-
-    const sorted: Array<Array<any>> = [];
-
-
-    await readLines(input, async line => {
-
-        const obj: any = JSON.parse(line);
-
-        const {
-            MapNumber,
-            RoomNumber,
-        } = obj;
-
-        let row = sorted[MapNumber];
-        if (!row) {
-            row = [];
-            sorted[MapNumber] = row;
-        }
-        row[RoomNumber] = obj;
-
-    });
-
-    console.log('Sorting...');
-
-    sorted.sort((a, b) => a.find(x => x !== undefined).MapNumber - b.find(x => x !== undefined).MapNumber);
-    for (const row of sorted) {
-        if (!row)
-            continue;
-        row.sort((a, b) => a.RoomNumber - b.RoomNumber);
-    }
-
-    console.log('Writing...');
-
-    for (const row of sorted) {
-        if (!row)
-            continue;
-        for (const room of row) {
-            if (!room)
-                continue;
-            await writeLine(JSON.stringify(room))
-        }
-    }
-
-    out.close();
-}
-
-
-//void convertProperties('./data/3-jsonraw/Rooms.json', './data/4-json/Rooms.json');
-//void convertProperties('./data/3-jsonraw/Rooms.json', './data/4-json/Rooms.json'); 
-
 void convertRooms('./data/4-json/Rooms.json', './data/5-json-mod/Rooms.json', './data/5-json-mod/Descriptions.json');
-
-
-//void sortRooms('./data/4-json/Rooms.json', './data/4-json/Rooms-sorted.json')

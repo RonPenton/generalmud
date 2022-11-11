@@ -1,4 +1,4 @@
-import { getPlayerReference } from "models/actor";
+import { getPlayerReference } from "../models/actor";
 import { installCommand } from "./base";
 
 installCommand({

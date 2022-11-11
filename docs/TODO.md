@@ -3,9 +3,9 @@
 - [x] nested commands
 - [x] script infrastructure
 - [x] reload scripts command
+- [x] who command
 
 - [ ] Better type checking on script reloading
-- [ ] who command
 - [ ] Scriptable commands for rooms
 - [ ] Scriptable commands for actors
 - [ ] Scriptable commands for items ?

@@ -1,4 +1,5 @@
 import { keysOf } from 'tsc-utils';
+import { isTable } from '../db/generic';
 import { Directions, getShortDirection } from '../models/direction';
 import { loadScript } from '../scripts/loadScript';
 import { split } from '../utils/parse';
@@ -27,13 +28,13 @@ installCommand({
             executeText: ({ parameters, player, world }) => {
                 const place = parameters.toLowerCase().trim();
 
-                if(!place) {
+                if (!place) {
                     world.sendToPlayer(player, 'system', { text: `Valid locations are: ${keysOf(teleports).map(x => x.toUpperCase()).join(', ')}.` });
                     return truePromise;
                 }
 
                 const key = keysOf(teleports).find(x => x.startsWith(place));
-                if(key) {
+                if (key) {
                     world.teleport(player, teleports[key]);
                     return truePromise;
                 }
@@ -50,8 +51,18 @@ installCommand({
             executeText: async ({ parameters, player, world }) => {
                 const { head: type, tail: script } = split(parameters);
 
-                await loadScript(type as any, script, true);
-                world.sendToPlayer(player, 'system', { text: `Script ${type}::${script} has been reloaded.`});
+                if (!isTable(type)) {
+                    world.sendToPlayer(player, 'error', { text: `Type ${type} is not a valid table type.` });
+                    return true;
+                }
+
+                const result = await loadScript(type, script, true);
+                if (result) {
+                    world.sendToPlayer(player, 'system', { text: `Script ${type}::${script} has been reloaded.` });
+                }
+                else {
+                    world.sendToPlayer()
+                }
                 return true;
             }
         }

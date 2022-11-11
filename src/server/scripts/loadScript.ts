@@ -4,10 +4,10 @@ import { EventsType, Table } from "../db/generic";
 import { EventDefinition } from "./base";
 import * as Throttle from 'promise-parallel-throttle';
 
-export async function loadScript<T extends Table>(type: T, name: string, reload = false) {
+export async function loadScript<T extends Table>(type: T, name: string, reload = false): Promise<boolean> {
 
     if (!reload && _scriptLibrary[type].has(name)) {
-        return;
+        return true;
     }
 
     const location = `./${type}/${name}.ts`;
@@ -20,16 +20,17 @@ export async function loadScript<T extends Table>(type: T, name: string, reload 
     const module = await import(location);
     if (!module) {
         console.log(`Script not found: ${type}::${name}`);
-        return;
+        return false;
     }
 
     const script = module.script as EventsType<T>;
     if (!script) {
         console.log(`Script malformed: ${type}::${name}`);
-        return;
+        return false;
     }
 
     _scriptLibrary[type].set(name, script);
+    return true;
 }
 
 type HasEvents = {

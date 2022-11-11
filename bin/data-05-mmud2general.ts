@@ -19,6 +19,15 @@ function joinLines(...lines: string[]) {
     return lines.map(x => x.trim()).join(' ').trim();
 }
 
+async function readHSE(file: string) {
+    const vals: string[] = [];
+    const array = await readLines(`./data/x-HSE/${file}`, async line => {
+        vals.push(line);
+    });
+
+    const [name, ...desc] = vals;
+    return { name, descCombined: desc.map(x => x.trim()).join(' ') };
+}
 
 async function convertRooms(input: string, output: string, descriptionOutput: string) {
     const out = fs.createWriteStream(output, { encoding: 'utf-8' });
@@ -37,11 +46,19 @@ async function convertRooms(input: string, output: string, descriptionOutput: st
         });
     }
 
+    const donotadd = new Set<number>();
+    await readLines('./diagnostics/should-delete.json', async line => {
+        const obj: { map: number, room: number } = JSON.parse(line);
+        const { map, room } = obj;
+        const id = getRoomId(map, room);
+        donotadd.add(id);
+    })
+
     await readLines(input, async line => {
 
         const obj: MmudRoomRaw = JSON.parse(line);
 
-        const {
+        let {
             MapNumber,
             RoomNumber,
             Name,
@@ -87,7 +104,25 @@ async function convertRooms(input: string, output: string, descriptionOutput: st
             return acc;
         }, accumulator);
 
-        const desc = joinLines(Desc0, Desc1, Desc2, Desc3, Desc4, Desc5, Desc6);
+        let desc = joinLines(Desc0, Desc1, Desc2, Desc3, Desc4, Desc5, Desc6);
+        const id = getRoomId(MapNumber, RoomNumber);
+
+        if (desc.trim().length == 0 || Name.trim().length == 0 || donotadd.has(id)) {
+            if (!desc.includes('.HSE')) {
+                return;
+            } else {
+                const reg = /(WCC\d+.HSE)/i;
+                const val = reg.exec(desc);
+                if (!val) {
+                    return;
+                }
+                console.log(`READ HSE: ${val[1]}`);
+                const { name, descCombined } = await readHSE(val[1]);
+                Name = name;
+                desc = descCombined;
+            }
+        }
+
         const descHash = hashText(desc);
         if (!descriptions.has(descHash)) {
             descriptions.set(descHash, desc);
@@ -99,7 +134,7 @@ async function convertRooms(input: string, output: string, descriptionOutput: st
         }
 
         let newRoom: MmudRoom = {
-            id: getRoomId(MapNumber, RoomNumber),
+            id,
             Name,
             Type: RoomTypes[Type].startsWith('UNSUPPORTED') ? 'normal' : RoomTypes[Type],
             Desc: descHash,

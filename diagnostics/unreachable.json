@@ -1,42 +1,3 @@
-{"map":1,"room":320,"name":"Solace Street"}
-{"map":1,"room":323,"name":"Solace Street"}
-{"map":1,"room":329,"name":"Darkwood Forest"}
-{"map":1,"room":330,"name":"Darkwood Forest"}
-{"map":1,"room":331,"name":"Darkwood Forest"}
-{"map":1,"room":336,"name":"Storage Room"}
-{"map":1,"room":374,"name":"Jail Entry"}
-{"map":1,"room":375,"name":"Jail Cell"}
-{"map":1,"room":380,"name":"Darkwood Forest"}
-{"map":1,"room":387,"name":"Living Room"}
-{"map":1,"room":397,"name":"Mystic Alley"}
-{"map":1,"room":404,"name":"Back Room"}
-{"map":1,"room":422,"name":"Darkwood Forest"}
-{"map":1,"room":423,"name":"Darkwood Forest"}
-{"map":1,"room":424,"name":"Darkwood Forest"}
-{"map":1,"room":465,"name":"Halls of Training, Outfitters"}
-{"map":1,"room":503,"name":"Adventurer's Guild, Halls of Training"}
-{"map":1,"room":504,"name":"Druid's Training Room"}
-{"map":1,"room":505,"name":"Ranger's Training Room"}
-{"map":1,"room":515,"name":"Secret Room"}
-{"map":1,"room":517,"name":"Secret Storeroom"}
-{"map":1,"room":518,"name":"Small House"}
-{"map":1,"room":519,"name":"Park Plaza"}
-{"map":1,"room":524,"name":"Temple Chapel"}
-{"map":1,"room":528,"name":"Temple Hall"}
-{"map":1,"room":533,"name":"Priest's Quarters"}
-{"map":1,"room":534,"name":"Priest's Quarters"}
-{"map":1,"room":535,"name":"Priest's Quarters"}
-{"map":1,"room":592,"name":"Sewer Tunnel"}
-{"map":1,"room":821,"name":"Caretaker's Shack"}
-{"map":1,"room":825,"name":"Graveyard, North-East Corner"}
-{"map":1,"room":841,"name":"Graveyard"}
-{"map":1,"room":1016,"name":"Guard Street"}
-{"map":1,"room":1017,"name":"Guard Tower"}
-{"map":1,"room":1018,"name":"Park"}
-{"map":1,"room":1019,"name":"Park Plaza"}
-{"map":1,"room":1020,"name":"Park"}
-{"map":1,"room":1021,"name":"Bridge Street"}
-{"map":1,"room":1022,"name":"Street"}
 {"map":1,"room":1023,"name":"Temple Hall"}
 {"map":1,"room":1024,"name":"Kitchen"}
 {"map":1,"room":1025,"name":"Sewer Tunnel"}
@@ -231,7 +192,6 @@
 {"map":1,"room":2674,"name":"Silvermere Residence"}
 {"map":1,"room":2675,"name":"Silvermere Residence"}
 {"map":1,"room":2679,"name":"Main Road, Silvermere Gates"}
-{"map":1,"room":2685,"name":"Dark Cave"}
 {"map":1,"room":2686,"name":"Town Gates"}
 {"map":1,"room":2687,"name":"Estwall Street"}
 {"map":1,"room":2688,"name":"Estwall Street"}
@@ -3230,76 +3190,6 @@
 {"map":16,"room":567,"name":"Treetops"}
 {"map":16,"room":568,"name":"Treetops"}
 {"map":16,"room":569,"name":"Treetops"}
-{"map":16,"room":570,"name":"Lagoon, Reef"}
-{"map":16,"room":571,"name":"Lagoon, Reef"}
-{"map":16,"room":572,"name":"Lagoon, Reef"}
-{"map":16,"room":573,"name":"Lagoon, Reef"}
-{"map":16,"room":574,"name":"Lagoon, Reef"}
-{"map":16,"room":575,"name":"Lagoon, Reef"}
-{"map":16,"room":576,"name":"Lagoon, Reef"}
-{"map":16,"room":577,"name":"Lagoon, Reef"}
-{"map":16,"room":578,"name":"Lagoon, Reef"}
-{"map":16,"room":579,"name":"Lagoon, Reef"}
-{"map":16,"room":580,"name":"Lagoon, Reef"}
-{"map":16,"room":581,"name":"Lagoon, Reef"}
-{"map":16,"room":582,"name":"Lagoon, Reef"}
-{"map":16,"room":583,"name":"Lagoon, Reef"}
-{"map":16,"room":584,"name":"Lagoon, Reef"}
-{"map":16,"room":585,"name":"Lagoon, Reef"}
-{"map":16,"room":586,"name":"Lagoon, Reef"}
-{"map":16,"room":587,"name":"Lagoon, Reef"}
-{"map":16,"room":588,"name":"Lagoon, Reef"}
-{"map":16,"room":589,"name":"Lagoon, Reef"}
-{"map":16,"room":590,"name":"Lagoon, Reef"}
-{"map":16,"room":591,"name":"Lagoon, Reef"}
-{"map":16,"room":592,"name":"Lagoon, Reef"}
-{"map":16,"room":593,"name":"Lagoon, Reef"}
-{"map":16,"room":594,"name":"Lagoon, Reef"}
-{"map":16,"room":595,"name":"Lagoon, Reef"}
-{"map":16,"room":596,"name":"Lagoon, Reef"}
-{"map":16,"room":597,"name":"Lagoon, Reef"}
-{"map":16,"room":598,"name":"Lagoon, Reef"}
-{"map":16,"room":599,"name":"Lagoon, Reef"}
-{"map":16,"room":600,"name":"Lagoon, Reef"}
-{"map":16,"room":601,"name":"Lagoon, Reef"}
-{"map":16,"room":602,"name":"Lagoon, Reef"}
-{"map":16,"room":603,"name":"Lagoon, Reef"}
-{"map":16,"room":604,"name":"Lagoon, Reef"}
-{"map":16,"room":605,"name":"Lagoon, Reef"}
-{"map":16,"room":606,"name":"Lagoon, Reef"}
-{"map":16,"room":607,"name":"Lagoon, Reef"}
-{"map":16,"room":608,"name":"Lagoon, Reef"}
-{"map":16,"room":609,"name":"Lagoon, Reef"}
-{"map":16,"room":610,"name":"Lagoon, Reef"}
-{"map":16,"room":611,"name":"Lagoon, Reef"}
-{"map":16,"room":612,"name":"Lagoon, Reef"}
-{"map":16,"room":613,"name":"Lagoon, Reef"}
-{"map":16,"room":614,"name":"Lagoon, Reef"}
-{"map":16,"room":615,"name":"Lagoon, Reef"}
-{"map":16,"room":616,"name":"Lagoon, Reef"}
-{"map":16,"room":617,"name":"Lagoon, Reef"}
-{"map":16,"room":618,"name":"Lagoon, Reef"}
-{"map":16,"room":619,"name":"Lagoon, Reef"}
-{"map":16,"room":620,"name":"Lagoon, Reef"}
-{"map":16,"room":621,"name":"Lagoon, Reef"}
-{"map":16,"room":622,"name":"Lagoon, Reef"}
-{"map":16,"room":623,"name":"Lagoon, Reef"}
-{"map":16,"room":624,"name":"Lagoon, Reef"}
-{"map":16,"room":625,"name":"Lagoon, Reef"}
-{"map":16,"room":626,"name":"Lagoon, Reef"}
-{"map":16,"room":627,"name":"Lagoon, Reef"}
-{"map":16,"room":628,"name":"Lagoon, Reef"}
-{"map":16,"room":629,"name":"Lagoon, Reef"}
-{"map":16,"room":630,"name":"Lagoon, Reef"}
-{"map":16,"room":631,"name":"Small Isle, Cavern Entrance"}
-{"map":16,"room":632,"name":"Damp Cavern"}
-{"map":16,"room":633,"name":"Damp Cavern"}
-{"map":16,"room":634,"name":"Damp Cavern"}
-{"map":16,"room":635,"name":"Damp Cavern"}
-{"map":16,"room":636,"name":"Damp Cavern"}
-{"map":16,"room":637,"name":"Damp Cavern, Wellspring"}
-{"map":16,"room":638,"name":"Damp Cavern"}
-{"map":16,"room":639,"name":"Damp Cavern"}
 {"map":16,"room":640,"name":"Narrow Ledge"}
 {"map":16,"room":641,"name":"Rocky Overlook"}
 {"map":16,"room":642,"name":"Rocky Overlook"}
@@ -3326,9 +3216,6 @@
 {"map":16,"room":664,"name":"Giant Fortress, Animal Pen"}
 {"map":16,"room":665,"name":"Giant Fortress, Animal Pen"}
 {"map":16,"room":666,"name":"Giant Fortress, Animal Pen"}
-{"map":16,"room":667,"name":"Lagoon, Reef"}
-{"map":16,"room":668,"name":"Lagoon, Reef"}
-{"map":16,"room":669,"name":"Lagoon, Reef"}
 {"map":16,"room":670,"name":"Barren Hills, Valley Wall"}
 {"map":16,"room":671,"name":"Barren Hills, Valley Wall"}
 {"map":16,"room":672,"name":"Barren Hills, Valley Wall"}
@@ -3492,8 +3379,6 @@
 {"map":16,"room":830,"name":"Barren Hills"}
 {"map":16,"room":831,"name":"Barren Hills"}
 {"map":16,"room":832,"name":"Dark Cave"}
-{"map":16,"room":833,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":834,"name":"Shallow Jungle, Trail"}
 {"map":16,"room":835,"name":"Barren Hills, Rocky Path"}
 {"map":16,"room":836,"name":"Barren Hills, Rock Quarry"}
 {"map":16,"room":837,"name":"Dark Cave"}
@@ -3543,12 +3428,6 @@
 {"map":16,"room":881,"name":"Storm Mountain, Rocky Path"}
 {"map":16,"room":882,"name":"Storm Mountain, Rocky Path"}
 {"map":16,"room":883,"name":"Storm Fortress, Guard Post"}
-{"map":16,"room":884,"name":"Lagoon, Reef"}
-{"map":16,"room":885,"name":"Lagoon, Reef"}
-{"map":16,"room":886,"name":"Lagoon, Reef"}
-{"map":16,"room":887,"name":"Lagoon, Reef"}
-{"map":16,"room":888,"name":"Lagoon, Reef"}
-{"map":16,"room":889,"name":"Lagoon, Reef"}
 {"map":16,"room":890,"name":"Storm Mountain, Rocky Path"}
 {"map":16,"room":891,"name":"Storm Mountain, Rocky Path"}
 {"map":16,"room":892,"name":"Storm Mountain, Rocky Path"}
@@ -3859,212 +3738,6 @@
 {"map":16,"room":1197,"name":"Storm Fortress, Barracks"}
 {"map":16,"room":1198,"name":"Storm Fortress, Barracks"}
 {"map":16,"room":1199,"name":"Storm Fortress, Guard Post"}
-{"map":16,"room":1200,"name":"Massive Wooden Gateway"}
-{"map":16,"room":1201,"name":"Vine Bridge, Wooden Gateway"}
-{"map":16,"room":1202,"name":"Vine Bridge, Mists"}
-{"map":16,"room":1203,"name":"Vine Bridge, Mists"}
-{"map":16,"room":1204,"name":"Vine Bridge, Marble Archway"}
-{"map":16,"room":1205,"name":"Vine Bridge, Mists"}
-{"map":16,"room":1206,"name":"Vine Bridge, Mists"}
-{"map":16,"room":1207,"name":"Vine Bridge, Mists"}
-{"map":16,"room":1208,"name":"Vine Bridge, Mists"}
-{"map":16,"room":1209,"name":"Vine Bridge, Life Tree"}
-{"map":16,"room":1210,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1211,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1212,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1213,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1214,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1215,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1216,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1217,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1218,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1219,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1220,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1221,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1222,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1223,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1224,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1225,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1226,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1227,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1228,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1229,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1230,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1231,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1232,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1233,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1234,"name":"Life Tree, Limb Stairs"}
-{"map":16,"room":1235,"name":"Life Tree, Stair End"}
-{"map":16,"room":1236,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1237,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1238,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1239,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1240,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1241,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1242,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1243,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1244,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1245,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1246,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1247,"name":"Shallow Jungle, Mud Pit"}
-{"map":16,"room":1248,"name":"Shallow Jungle, Mud Pit"}
-{"map":16,"room":1249,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1250,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1251,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1252,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1253,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1254,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1255,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1256,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1257,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1258,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1259,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1260,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1261,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1262,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1263,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1264,"name":"Shallow Jungle, Mud Pit"}
-{"map":16,"room":1265,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1266,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1267,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1268,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1269,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1270,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1271,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1272,"name":"Shallow Jungle, Mud Pit"}
-{"map":16,"room":1273,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1274,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1275,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1276,"name":"Shallow Jungle, Mud Pit"}
-{"map":16,"room":1277,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1278,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1279,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1280,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1281,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1282,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1283,"name":"Shallow Jungle, Mud Pit"}
-{"map":16,"room":1284,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1285,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1286,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1287,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1288,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1289,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1290,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1291,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1292,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1293,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1294,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1295,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1296,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1297,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1298,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1299,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1300,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1301,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1302,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1303,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1304,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1305,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1306,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1307,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1308,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1309,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1310,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1311,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1312,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1313,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1314,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1315,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1316,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1317,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1318,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1319,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1320,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1321,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1322,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1323,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1324,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1325,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1326,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1327,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1328,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1329,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1330,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1331,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1332,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1333,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1334,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1335,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1336,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1337,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1338,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1339,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1340,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1341,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1342,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1343,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1344,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1345,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1346,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1347,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1348,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1349,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1350,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1351,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1352,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1353,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1354,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1355,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1356,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1357,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1358,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1359,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1360,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1361,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1362,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1363,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1364,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1365,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1366,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1367,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1368,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1369,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1370,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1371,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1372,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1373,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1374,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1375,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1376,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1377,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1378,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1379,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1380,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1381,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1382,"name":"Shallow Jungle, Small Hut"}
-{"map":16,"room":1383,"name":"Small Hut"}
-{"map":16,"room":1384,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1385,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1386,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1387,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1388,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1389,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1390,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1391,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1392,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1393,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1394,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1395,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1396,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1397,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1398,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1399,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1400,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1401,"name":"Shallow Jungle, Trail"}
-{"map":16,"room":1402,"name":"Shallow Jungle, Large Mound"}
-{"map":16,"room":1403,"name":"Shallow Jungle, Large Mound"}
-{"map":16,"room":1404,"name":"Shallow Jungle, Large Mound"}
-{"map":16,"room":1405,"name":"Shallow Jungle, Large Mound"}
 {"map":16,"room":1406,"name":"Abandoned Temple, Hallway"}
 {"map":16,"room":1407,"name":"Abandoned Temple, Hallway"}
 {"map":16,"room":1408,"name":"Abandoned Temple, Hallway"}
@@ -4172,11 +3845,6 @@
 {"map":16,"room":1510,"name":"Jungle Cave"}
 {"map":16,"room":1511,"name":"Jungle Cave"}
 {"map":16,"room":1512,"name":"Jungle Cave"}
-{"map":16,"room":1513,"name":"Ship, Forward Hold"}
-{"map":16,"room":1514,"name":"Ship, Bow"}
-{"map":16,"room":1515,"name":"Ship, Masts"}
-{"map":16,"room":1516,"name":"Ship, Aft"}
-{"map":16,"room":1517,"name":"Ship Captains Quarters"}
 {"map":16,"room":1518,"name":"Earthen Catacombs, Spiral Staircase"}
 {"map":16,"room":1519,"name":"Earthen Catacombs, Spiral Staircase"}
 {"map":16,"room":1520,"name":"Earthen Catacombs, Spiral Staircase"}
@@ -4538,27 +4206,8 @@
 {"map":16,"room":1876,"name":"Ancient Lava Tube"}
 {"map":16,"room":1877,"name":"Ancient Lava Tube"}
 {"map":16,"room":1878,"name":"Ancient Lava Tube"}
-{"map":16,"room":1879,"name":"Lagoon, Reef"}
-{"map":16,"room":1880,"name":"Lagoon, Reef"}
-{"map":16,"room":1881,"name":"Lagoon, Reef"}
 {"map":16,"room":1882,"name":"Blanks"}
-{"map":16,"room":1883,"name":"Lagoon, Reef"}
-{"map":16,"room":1884,"name":"Lagoon, Reef"}
-{"map":16,"room":1885,"name":"Lagoon, Reef"}
-{"map":16,"room":1886,"name":"Lagoon, Reef"}
-{"map":16,"room":1887,"name":"Lagoon, Reef"}
-{"map":16,"room":1888,"name":"Lagoon, Reef"}
-{"map":16,"room":1889,"name":"Lagoon, Reef"}
 {"map":16,"room":1890,"name":"Blanks"}
-{"map":16,"room":1891,"name":"Lagoon, Reef"}
-{"map":16,"room":1892,"name":"Lagoon, Reef"}
-{"map":16,"room":1893,"name":"Lagoon, Reef"}
-{"map":16,"room":1894,"name":"Lagoon, Reef"}
-{"map":16,"room":1895,"name":"Lagoon, Reef"}
-{"map":16,"room":1896,"name":"Lagoon, Reef"}
-{"map":16,"room":1897,"name":"Lagoon, Reef"}
-{"map":16,"room":1898,"name":"Lagoon, Reef"}
-{"map":16,"room":1899,"name":"Lagoon, Reef"}
 {"map":16,"room":1900,"name":"Volcano, Chiseled Tunnels"}
 {"map":16,"room":1901,"name":"Volcano, Chiseled Tunnels"}
 {"map":16,"room":1902,"name":"Volcano, Chiseled Tunnels"}
@@ -4797,7 +4446,6 @@
 {"map":16,"room":2135,"name":"Blanks"}
 {"map":16,"room":2136,"name":"Blanks"}
 {"map":16,"room":2137,"name":"Blanks"}
-{"map":16,"room":2138,"name":"Lagoon, Large Pool"}
 {"map":16,"room":2139,"name":"Blanks"}
 {"map":16,"room":2140,"name":"Blanks"}
 {"map":16,"room":2142,"name":"Webbed Tree Hollow"}
@@ -5143,205 +4791,11 @@
 {"map":16,"room":2486,"name":"Earthen Catacombs"}
 {"map":16,"room":2487,"name":"Earthen Catacombs"}
 {"map":16,"room":2488,"name":"Earthen Catacombs"}
-{"map":16,"room":2489,"name":"Sandy Beach"}
-{"map":16,"room":2490,"name":"Sandy Beach"}
-{"map":16,"room":2491,"name":"Sandy Beach"}
-{"map":16,"room":2492,"name":"Sandy Beach"}
-{"map":16,"room":2493,"name":"Sandy Beach"}
-{"map":16,"room":2494,"name":"Sandy Beach"}
-{"map":16,"room":2495,"name":"Sandy Beach"}
-{"map":16,"room":2496,"name":"Sandy Beach"}
-{"map":16,"room":2497,"name":"Sandy Beach"}
-{"map":16,"room":2498,"name":"Sandy Beach"}
-{"map":16,"room":2499,"name":"Sandy Beach"}
-{"map":16,"room":2500,"name":"Sandy Beach"}
-{"map":16,"room":2501,"name":"Sandy Beach"}
-{"map":16,"room":2502,"name":"Sandy Beach"}
-{"map":16,"room":2503,"name":"Sandy Beach"}
-{"map":16,"room":2504,"name":"Sandy Beach"}
-{"map":16,"room":2505,"name":"Sandy Beach"}
-{"map":16,"room":2506,"name":"Sandy Beach"}
-{"map":16,"room":2507,"name":"Sandy Beach"}
-{"map":16,"room":2508,"name":"Sandy Beach"}
-{"map":16,"room":2509,"name":"Sandy Beach"}
-{"map":16,"room":2510,"name":"Sandy Beach"}
-{"map":16,"room":2511,"name":"Sandy Beach"}
-{"map":16,"room":2512,"name":"Sandy Beach"}
-{"map":16,"room":2513,"name":"Sandy Beach"}
-{"map":16,"room":2514,"name":"Sandy Beach"}
-{"map":16,"room":2515,"name":"Sandy Beach"}
-{"map":16,"room":2516,"name":"Sandy Beach"}
-{"map":16,"room":2517,"name":"Sandy Beach"}
-{"map":16,"room":2518,"name":"Sandy Beach"}
-{"map":16,"room":2519,"name":"Sandy Beach"}
-{"map":16,"room":2520,"name":"Sandy Beach"}
-{"map":16,"room":2521,"name":"Sandy Beach"}
-{"map":16,"room":2522,"name":"Sandy Beach"}
-{"map":16,"room":2523,"name":"Sandy Beach"}
-{"map":16,"room":2524,"name":"Sandy Beach"}
-{"map":16,"room":2525,"name":"Sandy Beach"}
-{"map":16,"room":2526,"name":"Sandy Beach"}
-{"map":16,"room":2527,"name":"Sandy Beach"}
-{"map":16,"room":2528,"name":"Sandy Beach"}
-{"map":16,"room":2529,"name":"Sandy Beach"}
-{"map":16,"room":2530,"name":"Sandy Beach"}
-{"map":16,"room":2531,"name":"Sandy Beach"}
-{"map":16,"room":2532,"name":"Rocky Cliffs"}
-{"map":16,"room":2533,"name":"Rocky Cliffs"}
-{"map":16,"room":2534,"name":"Rocky Cliffs"}
-{"map":16,"room":2535,"name":"Rocky Cliffs"}
-{"map":16,"room":2536,"name":"Rocky Cliffs"}
-{"map":16,"room":2537,"name":"Rocky Cliffs"}
-{"map":16,"room":2538,"name":"Rocky Cliffs"}
-{"map":16,"room":2539,"name":"Rocky Cliffs"}
-{"map":16,"room":2540,"name":"Rocky Cliffs"}
-{"map":16,"room":2541,"name":"Rocky Cliffs"}
-{"map":16,"room":2542,"name":"Rocky Cliffs"}
-{"map":16,"room":2543,"name":"Rocky Cliffs"}
-{"map":16,"room":2544,"name":"Rocky Cliffs"}
-{"map":16,"room":2545,"name":"Rocky Cliffs"}
-{"map":16,"room":2546,"name":"Rocky Cliffs"}
-{"map":16,"room":2547,"name":"Rocky Cliffs"}
-{"map":16,"room":2548,"name":"Rocky Cliffs"}
-{"map":16,"room":2549,"name":"Rocky Cliffs"}
-{"map":16,"room":2550,"name":"Lagoon, Open Water"}
-{"map":16,"room":2551,"name":"Lagoon, Reef"}
-{"map":16,"room":2552,"name":"Lagoon, Reef"}
-{"map":16,"room":2553,"name":"Lagoon, Reef"}
-{"map":16,"room":2554,"name":"Lagoon, Reef"}
-{"map":16,"room":2555,"name":"Lagoon, Reef"}
-{"map":16,"room":2556,"name":"Lagoon, Reef"}
-{"map":16,"room":2557,"name":"Lagoon, Reef"}
-{"map":16,"room":2558,"name":"Lagoon, Reef"}
-{"map":16,"room":2559,"name":"Lagoon, Reef"}
-{"map":16,"room":2560,"name":"Lagoon, Reef"}
-{"map":16,"room":2561,"name":"Lagoon, Reef"}
-{"map":16,"room":2562,"name":"Lagoon, Reef"}
-{"map":16,"room":2563,"name":"Lagoon, Reef"}
-{"map":16,"room":2564,"name":"Lagoon, Reef"}
-{"map":16,"room":2565,"name":"Lagoon, Reef"}
-{"map":16,"room":2566,"name":"Lagoon, Reef"}
-{"map":16,"room":2567,"name":"Lagoon, Reef"}
-{"map":16,"room":2568,"name":"Lagoon, Reef"}
-{"map":16,"room":2569,"name":"Lagoon, Reef"}
-{"map":16,"room":2570,"name":"Lagoon, Reef"}
-{"map":16,"room":2571,"name":"Lagoon, Reef"}
-{"map":16,"room":2572,"name":"Lagoon, Reef"}
-{"map":16,"room":2573,"name":"Lagoon, Reef"}
-{"map":16,"room":2574,"name":"Lagoon, Reef"}
-{"map":16,"room":2575,"name":"Lagoon, Reef"}
-{"map":16,"room":2576,"name":"Lagoon, Reef"}
-{"map":16,"room":2577,"name":"Lagoon, Reef"}
-{"map":16,"room":2578,"name":"Lagoon, Reef"}
-{"map":16,"room":2579,"name":"Lagoon, Reef"}
-{"map":16,"room":2580,"name":"Lagoon, Reef"}
-{"map":16,"room":2581,"name":"Lagoon, Reef"}
-{"map":16,"room":2582,"name":"Lagoon, Reef"}
-{"map":16,"room":2583,"name":"Lagoon, Reef"}
-{"map":16,"room":2584,"name":"Lagoon, Reef"}
-{"map":16,"room":2586,"name":"Lagoon, Reef"}
-{"map":16,"room":2587,"name":"Lagoon, Reef"}
-{"map":16,"room":2588,"name":"Lagoon, Reef"}
-{"map":16,"room":2589,"name":"Lagoon, Reef"}
-{"map":16,"room":2590,"name":"Lagoon, Reef"}
-{"map":16,"room":2591,"name":"Lagoon, Reef"}
-{"map":16,"room":2592,"name":"Lagoon, Reef"}
-{"map":16,"room":2593,"name":"Lagoon, Reef"}
-{"map":16,"room":2594,"name":"Lagoon, Reef"}
-{"map":16,"room":2595,"name":"Lagoon, Reef"}
-{"map":16,"room":2596,"name":"Lagoon, Reef"}
-{"map":16,"room":2597,"name":"Lagoon, Reef"}
-{"map":16,"room":2598,"name":"Lagoon, Reef"}
-{"map":16,"room":2599,"name":"Lagoon, Reef"}
-{"map":16,"room":2600,"name":"Lagoon, Reef"}
-{"map":16,"room":2601,"name":"Lagoon, Reef"}
-{"map":16,"room":2602,"name":"Lagoon, Reef"}
-{"map":16,"room":2603,"name":"Lagoon, Reef"}
-{"map":16,"room":2604,"name":"Lagoon, Reef"}
-{"map":16,"room":2605,"name":"Lagoon, Reef"}
-{"map":16,"room":2606,"name":"Lagoon, Reef"}
-{"map":16,"room":2607,"name":"Lagoon, Reef"}
-{"map":16,"room":2608,"name":"Lagoon, Reef"}
-{"map":16,"room":2609,"name":"Lagoon, Reef"}
-{"map":16,"room":2610,"name":"Lagoon, Open Water"}
-{"map":16,"room":2611,"name":"Lagoon, Reef"}
-{"map":16,"room":2612,"name":"Lagoon, Reef"}
-{"map":16,"room":2613,"name":"Lagoon, Reef"}
-{"map":16,"room":2614,"name":"Lagoon, Reef"}
-{"map":16,"room":2615,"name":"Lagoon, Reef"}
-{"map":16,"room":2616,"name":"Lagoon, Reef"}
-{"map":16,"room":2617,"name":"Lagoon, Reef"}
-{"map":16,"room":2618,"name":"Lagoon, Reef"}
-{"map":16,"room":2619,"name":"Lagoon, Reef"}
-{"map":16,"room":2620,"name":"Lagoon, Reef"}
-{"map":16,"room":2621,"name":"Lagoon, Reef"}
-{"map":16,"room":2622,"name":"Lagoon, Reef"}
-{"map":16,"room":2623,"name":"Lagoon, Reef"}
-{"map":16,"room":2624,"name":"Lagoon, Reef"}
-{"map":16,"room":2625,"name":"Lagoon, Reef"}
-{"map":16,"room":2626,"name":"Lagoon, Reef"}
-{"map":16,"room":2627,"name":"Lagoon, Reef"}
-{"map":16,"room":2628,"name":"Lagoon, Reef"}
-{"map":16,"room":2629,"name":"Lagoon, Reef"}
-{"map":16,"room":2630,"name":"Lagoon, Reef"}
-{"map":16,"room":2631,"name":"Lagoon, Reef"}
-{"map":16,"room":2632,"name":"Lagoon, Reef"}
-{"map":16,"room":2633,"name":"Lagoon, Reef"}
-{"map":16,"room":2634,"name":"Lagoon, Reef"}
-{"map":16,"room":2635,"name":"Lagoon, Reef"}
-{"map":16,"room":2636,"name":"Lagoon, Reef"}
-{"map":16,"room":2637,"name":"Lagoon, Reef"}
-{"map":16,"room":2638,"name":"Lagoon, Reef"}
-{"map":16,"room":2639,"name":"Lagoon, Reef"}
-{"map":16,"room":2640,"name":"Lagoon, Reef"}
-{"map":16,"room":2641,"name":"Lagoon, Reef"}
-{"map":16,"room":2642,"name":"Lagoon, Reef"}
-{"map":16,"room":2643,"name":"Lagoon, Reef"}
-{"map":16,"room":2644,"name":"Lagoon, Reef"}
-{"map":16,"room":2645,"name":"Lagoon, Reef"}
-{"map":16,"room":2646,"name":"Lagoon, Reef"}
-{"map":16,"room":2647,"name":"Lagoon, Reef"}
-{"map":16,"room":2648,"name":"Lagoon, Reef"}
-{"map":16,"room":2649,"name":"Lagoon, Reef"}
-{"map":16,"room":2650,"name":"Lagoon, Reef"}
-{"map":16,"room":2651,"name":"Lagoon, Reef"}
-{"map":16,"room":2652,"name":"Lagoon, Reef"}
-{"map":16,"room":2653,"name":"Lagoon, Reef"}
-{"map":16,"room":2654,"name":"Lagoon, Reef"}
-{"map":16,"room":2655,"name":"Lagoon, Reef"}
-{"map":16,"room":2656,"name":"Lagoon, Reef"}
-{"map":16,"room":2657,"name":"Lagoon, Reef"}
-{"map":16,"room":2658,"name":"Lagoon, Reef"}
-{"map":16,"room":2659,"name":"Floating Platform, Dock"}
-{"map":16,"room":2660,"name":"Floating Platform, Dock"}
-{"map":16,"room":2661,"name":"Floating Platform, Dock"}
-{"map":16,"room":2662,"name":"Floating Platform, Dock"}
-{"map":16,"room":2663,"name":"Floating Platform, Hut"}
-{"map":16,"room":2664,"name":"Hut, Viewing Chamber"}
 {"map":16,"room":2667,"name":"Earthen Catacombs, Meditation Chamber"}
 {"map":16,"room":2668,"name":"Blanks"}
-{"map":16,"room":2669,"name":"Dark Cave"}
 {"map":16,"room":2670,"name":"Dark Cave"}
 {"map":16,"room":2671,"name":"Dark Cave"}
 {"map":16,"room":2672,"name":"Dark Cave"}
-{"map":16,"room":2674,"name":"Lagoon, Reef"}
-{"map":16,"room":2675,"name":"Lagoon, Reef"}
-{"map":16,"room":2676,"name":"Lagoon, Reef"}
-{"map":16,"room":2677,"name":"Lagoon, Reef"}
-{"map":16,"room":2678,"name":"Lagoon, Reef"}
-{"map":16,"room":2679,"name":"Lagoon, Reef"}
-{"map":16,"room":2680,"name":"Lagoon, Reef"}
-{"map":16,"room":2681,"name":"Lagoon, Reef"}
-{"map":16,"room":2682,"name":"Lagoon, Reef"}
-{"map":16,"room":2683,"name":"Lagoon, Reef"}
-{"map":16,"room":2684,"name":"Lagoon, Reef"}
-{"map":16,"room":2685,"name":"Lagoon, Reef"}
-{"map":16,"room":2686,"name":"Lagoon, Reef"}
-{"map":16,"room":2687,"name":"Lagoon, Reef"}
-{"map":16,"room":2688,"name":"Lagoon, Reef"}
-{"map":16,"room":2689,"name":"Lagoon, Reef"}
-{"map":16,"room":2690,"name":"Lagoon, Reef"}
-{"map":16,"room":2691,"name":"Lagoon, Reef"}
 {"map":16,"room":2692,"name":"Volcano, Cramped Tunnels"}
 {"map":16,"room":2693,"name":"Volcano, Cramped Tunnels"}
 {"map":16,"room":2694,"name":"Volcano, Cramped Tunnels"}

@@ -1,0 +1,28 @@
+Base Game - Map 1
+Module 1 - Map 2
+Module 2 - Map 3
+Module 3 - Map 8
+Module 4 - Map 6
+Module 5 - Map 9
+Module 6 - Map 12
+Module 7 - Map 16
+Module 8 - Map 15
+Module 9 - Map 17
+
+Map 1 - Base
+Map 2 - Mod 1
+Map 3 - Mod 2
+Map 4 - 3 rooms, property office, guild outfitter?
+Map 5 - Abandoned Tournament Area
+Map 6 - Mod 4
+Map 7 - Base Game? Black Fortress, Cracked Plains, Lava Fields
+Map 8 - Mod 3
+Map 9 - Mod 5
+Map 10 - ?
+Map 11 - ?
+Map 12 - Mod 6
+Map 13 - ?
+Map 14 - ?
+Map 15 - Mod 8
+Map 16 - Mod 7
+Map 17 - Mod 9

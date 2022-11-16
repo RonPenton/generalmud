@@ -12,6 +12,9 @@ export async function findUnreachableRooms(world: World) {
         30214, // broken willow
         70142,  // stone altar
         71530,  // dhelvanen
+        80721,  // slum rooftops 
+        80724,
+        
     ];
 
     const unreached = new Set(world.proxyMap.rooms.keys());

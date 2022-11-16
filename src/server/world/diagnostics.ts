@@ -26,7 +26,7 @@ export async function findUnreachableRooms(world: World) {
         80802,
         81115,  // negative power planes
         91009,  // mossy cave waterfall/catacombs
-
+        91424,  // ancient darkwood tree
     ];
 
     const unreached = new Set(world.proxyMap.rooms.keys());

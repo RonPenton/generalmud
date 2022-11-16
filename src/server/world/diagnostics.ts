@@ -14,7 +14,19 @@ export async function findUnreachableRooms(world: World) {
         71530,  // dhelvanen
         80721,  // slum rooftops 
         80724,
-        
+        80731,
+        80739,
+        80744,
+        80784,
+        80785,
+        80758,
+        80761,
+        80767,
+        80799,
+        80802,
+        81115,  // negative power planes
+        91009,  // mossy cave waterfall/catacombs
+
     ];
 
     const unreached = new Set(world.proxyMap.rooms.keys());

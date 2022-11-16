@@ -8,7 +8,10 @@ export async function findUnreachableRooms(world: World) {
     const startPoints = [10001, 10164, 12189, 12150, 22519, 61249, 
         10155, 
         160637, 
-        30740 // vortex from darkwood to negative power plane
+        30740, // vortex from darkwood to negative power plane
+        30214, // broken willow
+        70142,  // stone altar
+        71530,  // dhelvanen
     ];
 
     const unreached = new Set(world.proxyMap.rooms.keys());

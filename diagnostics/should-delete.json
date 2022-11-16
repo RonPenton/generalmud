@@ -321,3 +321,273 @@
 {"map":1,"room":2412,"name":"Silvery Pool"}
 {"map":1,"room":2780,"name":"Module Test Room"}
 {"map":1,"room":2782,"name":"Module Test Room"}
+{"map":5,"room":1,"name":"Tournament Arena"}
+{"map":5,"room":2,"name":"Tournament Arena"}
+{"map":5,"room":3,"name":"Tournament Arena"}
+{"map":5,"room":4,"name":"Tournament Arena"}
+{"map":5,"room":5,"name":"Tournament Arena"}
+{"map":5,"room":6,"name":"Tournament Arena"}
+{"map":5,"room":7,"name":"Tournament Arena"}
+{"map":5,"room":8,"name":"Tournament Arena"}
+{"map":5,"room":9,"name":"Tournament Arena"}
+{"map":5,"room":10,"name":"Tournament Arena"}
+{"map":5,"room":11,"name":"Tournament Arena"}
+{"map":5,"room":12,"name":"Tournament Arena"}
+{"map":5,"room":13,"name":"Tournament Arena"}
+{"map":5,"room":14,"name":"Tournament Arena"}
+{"map":5,"room":15,"name":"Tournament Arena"}
+{"map":5,"room":16,"name":"Tournament Arena"}
+{"map":5,"room":17,"name":"Tournament Arena"}
+{"map":5,"room":18,"name":"Tournament Arena"}
+{"map":5,"room":19,"name":"Tournament Arena"}
+{"map":5,"room":20,"name":"Tournament Arena"}
+{"map":5,"room":21,"name":"Tournament Arena"}
+{"map":5,"room":22,"name":"Tournament Arena"}
+{"map":5,"room":23,"name":"Tournament Arena"}
+{"map":5,"room":24,"name":"Tournament Arena"}
+{"map":5,"room":25,"name":"Tournament Arena"}
+{"map":1,"room":2416,"name":"Black Cave, Entrance"}
+{"map":1,"room":2441,"name":"Sewer Tunnel"}
+{"map":1,"room":2442,"name":"Dungeon Corridor"}
+{"map":1,"room":2443,"name":"Rohne House"}
+{"map":1,"room":2444,"name":"Inn Second Floor, Stairwell"}
+{"map":1,"room":2452,"name":"Cleared Fields, Silvermere Wall"}
+{"map":1,"room":2453,"name":"Cleared Fields, Silvermere Wall"}
+{"map":1,"room":2464,"name":"Cleared Fields"}
+{"map":1,"room":2465,"name":"Cleared Fields"}
+{"map":1,"room":2476,"name":"Cleared Fields"}
+{"map":1,"room":2477,"name":"Cleared Fields"}
+{"map":1,"room":2488,"name":"Cleared Fields"}
+{"map":1,"room":2489,"name":"Cleared Fields"}
+{"map":1,"room":2500,"name":"Cleared Fields"}
+{"map":1,"room":2501,"name":"Cleared Fields"}
+{"map":1,"room":2602,"name":"The Silver River, Rapids"}
+{"map":1,"room":2604,"name":"Huge Cave, Tunnel"}
+{"map":1,"room":2621,"name":"Graveyard, Western Edge"}
+{"map":1,"room":2623,"name":"Graveyard, Western Edge"}
+{"map":1,"room":2635,"name":"Graveyard, Northern Edge"}
+{"map":1,"room":2656,"name":"Silvermere Residence"}
+{"map":1,"room":2657,"name":"Silvermere Residence"}
+{"map":1,"room":2672,"name":"Silvermere Residence"}
+{"map":1,"room":2673,"name":"Silvermere Residence"}
+{"map":1,"room":2674,"name":"Silvermere Residence"}
+{"map":1,"room":2675,"name":"Silvermere Residence"}
+{"map":1,"room":2679,"name":"Main Road, Silvermere Gates"}
+{"map":1,"room":2686,"name":"Town Gates"}
+{"map":1,"room":2687,"name":"Estwall Street"}
+{"map":1,"room":2688,"name":"Estwall Street"}
+{"map":1,"room":2689,"name":"Estwall Street"}
+{"map":1,"room":2691,"name":"Estwall Street"}
+{"map":1,"room":2692,"name":"Estwall Street"}
+{"map":1,"room":2694,"name":"Dark Cave"}
+{"map":1,"room":2697,"name":"Blank Room"}
+{"map":1,"room":2700,"name":"Darkwood Forest"}
+{"map":1,"room":2701,"name":"Grassy Clearing"}
+{"map":1,"room":2717,"name":"Darkwood Forest"}
+{"map":1,"room":2718,"name":"Darkwood Forest"}
+{"map":1,"room":2722,"name":"Darkwood Forest"}
+{"map":1,"room":2723,"name":"Darkwood Forest"}
+{"map":1,"room":2724,"name":"Darkwood Forest"}
+{"map":1,"room":2731,"name":"Darkwood Forest"}
+{"map":1,"room":2732,"name":"Darkwood Forest"}
+{"map":1,"room":2733,"name":"Darkwood Forest"}
+{"map":1,"room":2734,"name":"Darkwood Forest"}
+{"map":1,"room":2735,"name":"Darkwood Forest"}
+{"map":1,"room":2736,"name":"Darkwood Forest"}
+{"map":1,"room":2739,"name":"Darkwood Forest"}
+{"map":1,"room":2740,"name":"Darkwood Forest"}
+{"map":1,"room":2741,"name":"Darkwood Forest"}
+{"map":1,"room":2742,"name":"Darkwood Forest"}
+{"map":1,"room":2743,"name":"Darkwood Forest"}
+{"map":1,"room":2744,"name":"Darkwood Forest"}
+{"map":1,"room":2745,"name":"Darkwood Forest"}
+{"map":1,"room":2746,"name":"Darkwood Forest"}
+{"map":1,"room":2747,"name":"Darkwood Forest"}
+{"map":1,"room":2748,"name":"Darkwood Forest"}
+{"map":1,"room":2749,"name":"Darkwood Forest"}
+{"map":1,"room":2750,"name":"Darkwood Forest"}
+{"map":1,"room":2751,"name":"Darkwood Forest"}
+{"map":1,"room":2752,"name":"Darkwood Forest"}
+{"map":1,"room":2753,"name":"Darkwood Forest"}
+{"map":1,"room":2754,"name":"Darkwood Forest"}
+{"map":1,"room":2755,"name":"Darkwood Forest"}
+{"map":1,"room":2756,"name":"Darkwood Forest"}
+{"map":1,"room":2757,"name":"Darkwood Forest"}
+{"map":1,"room":2758,"name":"Darkwood Forest"}
+{"map":1,"room":2759,"name":"Darkwood Forest"}
+{"map":1,"room":2760,"name":"Darkwood Forest"}
+{"map":1,"room":2761,"name":"Darkwood Forest"}
+{"map":1,"room":2762,"name":"Darkwood Forest"}
+{"map":1,"room":2763,"name":"Darkwood Forest"}
+{"map":1,"room":2764,"name":"Darkwood Forest"}
+{"map":1,"room":2765,"name":"Darkwood Forest"}
+{"map":1,"room":2766,"name":"Darkwood Forest"}
+{"map":1,"room":2767,"name":"Darkwood Forest"}
+{"map":1,"room":2768,"name":"Darkwood Forest"}
+{"map":1,"room":2769,"name":"Darkwood Forest"}
+{"map":1,"room":2770,"name":"Darkwood Forest"}
+{"map":1,"room":2771,"name":"Darkwood Forest"}
+{"map":1,"room":2772,"name":"Darkwood Forest"}
+{"map":1,"room":2773,"name":"Darkwood Forest"}
+{"map":1,"room":2774,"name":"Darkwood Forest"}
+{"map":1,"room":2775,"name":"Darkwood Forest"}
+{"map":1,"room":2776,"name":"Darkwood Forest"}
+{"map":1,"room":2777,"name":"Darkwood Forest"}
+{"map":1,"room":3334,"name":"Darkwood Forest, Lair"}
+{"map":2,"room":10,"name":"Top of Mountain Stair"}
+{"map":2,"room":260,"name":"Dragon's Teeth Hills"}
+{"map":2,"room":807,"name":"Dragon's Teeth Hills"}
+{"map":2,"room":1549,"name":"Stone Tunnel, Dead End"}
+{"map":2,"room":1809,"name":"Walkway"}
+{"map":2,"room":2367,"name":"Spherical Breeding Chamber"}
+{"map":2,"room":2446,"name":"Black Mountains, Dead End"}
+{"map":2,"room":2565,"name":"Abandoned House"}
+{"map":2,"room":2659,"name":"Dragon's Teeth Hills"}
+{"map":2,"room":2961,"name":"Fungus Tunnel"}
+{"map":2,"room":2962,"name":"Stone Tunnel, Dead End"}
+{"map":3,"room":283,"name":"Bronzewood Forest"}
+{"map":3,"room":781,"name":"Black Wasteland"}
+{"map":4,"room":1,"name":"Silvermere Property Office"}
+{"map":4,"room":2,"name":"Guild Outfitters"}
+{"map":4,"room":3,"name":"Furniture Store"}
+{"map":5,"room":1,"name":"Tournament Arena"}
+{"map":5,"room":2,"name":"Tournament Arena"}
+{"map":5,"room":3,"name":"Tournament Arena"}
+{"map":5,"room":4,"name":"Tournament Arena"}
+{"map":5,"room":5,"name":"Tournament Arena"}
+{"map":5,"room":6,"name":"Tournament Arena"}
+{"map":5,"room":7,"name":"Tournament Arena"}
+{"map":5,"room":8,"name":"Tournament Arena"}
+{"map":5,"room":9,"name":"Tournament Arena"}
+{"map":5,"room":10,"name":"Tournament Arena"}
+{"map":5,"room":11,"name":"Tournament Arena"}
+{"map":5,"room":12,"name":"Tournament Arena"}
+{"map":5,"room":13,"name":"Tournament Arena"}
+{"map":5,"room":14,"name":"Tournament Arena"}
+{"map":5,"room":15,"name":"Tournament Arena"}
+{"map":5,"room":16,"name":"Tournament Arena"}
+{"map":5,"room":17,"name":"Tournament Arena"}
+{"map":5,"room":18,"name":"Tournament Arena"}
+{"map":5,"room":19,"name":"Tournament Arena"}
+{"map":5,"room":20,"name":"Tournament Arena"}
+{"map":5,"room":21,"name":"Tournament Arena"}
+{"map":5,"room":22,"name":"Tournament Arena"}
+{"map":5,"room":23,"name":"Tournament Arena"}
+{"map":5,"room":24,"name":"Tournament Arena"}
+{"map":5,"room":25,"name":"Tournament Arena"}
+{"map":6,"room":1338,"name":"-----------------"}
+{"map":6,"room":1354,"name":"Fiery Pit"}
+{"map":6,"room":3110,"name":"Khazarad, Craft Street"}
+{"map":6,"room":3170,"name":"Mine Cart Ramp"}
+{"map":6,"room":3171,"name":"Mine Cart Ramp"}
+{"map":6,"room":3172,"name":"Mine Cart Ramp"}
+{"map":6,"room":3173,"name":"Mine Cart Ramp"}
+{"map":6,"room":3174,"name":"Mountain Trail"}
+{"map":6,"room":3175,"name":"Mountain Trail"}
+{"map":6,"room":3176,"name":"Mountain Trail"}
+{"map":6,"room":3177,"name":"Mountain Trail"}
+{"map":6,"room":3178,"name":"Mountain Trail"}
+{"map":6,"room":3179,"name":"Mountain Trail"}
+{"map":6,"room":3180,"name":"Mountain Trail"}
+{"map":6,"room":3181,"name":"Mountain Trail"}
+{"map":6,"room":3182,"name":"Mountain Trail"}
+{"map":6,"room":3183,"name":"Mountain Trail"}
+{"map":6,"room":3184,"name":"Mountain Trail"}
+{"map":6,"room":3185,"name":"Mountain Trail"}
+{"map":6,"room":3186,"name":"Mountain Trail"}
+{"map":6,"room":3187,"name":"Mountain Trail"}
+{"map":6,"room":3188,"name":"Mountain Trail"}
+{"map":6,"room":3189,"name":"Mountain Trail"}
+{"map":6,"room":3190,"name":"Mountain Trail"}
+{"map":6,"room":3191,"name":"Mountain Trail"}
+{"map":6,"room":3192,"name":"Mountain Trail"}
+{"map":6,"room":3193,"name":"Mountain Trail"}
+{"map":6,"room":3194,"name":"Mountain Trail"}
+{"map":6,"room":3195,"name":"Mountain Trail"}
+{"map":6,"room":3196,"name":"Mountain Trail"}
+{"map":6,"room":3197,"name":"Mountain Trail"}
+{"map":6,"room":3198,"name":"Mountain Trail"}
+{"map":6,"room":3199,"name":"Mountain Trail"}
+{"map":6,"room":3200,"name":"Mountain Trail"}
+{"map":6,"room":3201,"name":"Mountain Trail"}
+{"map":6,"room":3202,"name":"Mountain Trail"}
+{"map":6,"room":3203,"name":"Mountain Trail"}
+{"map":6,"room":3204,"name":"Mountain Trail"}
+{"map":6,"room":3205,"name":"Mountain Trail"}
+{"map":6,"room":3206,"name":"Mountain Trail"}
+{"map":6,"room":3207,"name":"Mountain Trail"}
+{"map":6,"room":3208,"name":"Mountain Trail"}
+{"map":6,"room":3209,"name":"Mountain Trail"}
+{"map":6,"room":3210,"name":"Mountain Trail"}
+{"map":6,"room":3211,"name":"Mountain Trail"}
+{"map":6,"room":3212,"name":"Mountain Trail"}
+{"map":6,"room":3213,"name":"Mountain Trail"}
+{"map":6,"room":3214,"name":"Mountain Trail"}
+{"map":6,"room":3215,"name":"Mountain Trail"}
+{"map":6,"room":3216,"name":"Mountain Trail"}
+{"map":6,"room":3217,"name":"Mountain Trail"}
+{"map":6,"room":3218,"name":"Mountain Trail"}
+{"map":6,"room":3219,"name":"Mountain Trail"}
+{"map":6,"room":3220,"name":"Mountain Trail"}
+{"map":6,"room":3221,"name":"Mountain Trail"}
+{"map":6,"room":3222,"name":"Mountain Trail"}
+{"map":6,"room":3223,"name":"Mountain Trail"}
+{"map":6,"room":3224,"name":"Mountain Trail"}
+{"map":6,"room":3225,"name":"Mountain Trail"}
+{"map":6,"room":3226,"name":"Mountain Trail"}
+{"map":6,"room":3227,"name":"Mountain Trail"}
+{"map":6,"room":3228,"name":"Mountain Trail"}
+{"map":6,"room":3229,"name":"Mountain Trail"}
+{"map":6,"room":3230,"name":"Mountain Trail"}
+{"map":6,"room":3231,"name":"Mountain Trail"}
+{"map":6,"room":3232,"name":"Mountain Trail"}
+{"map":6,"room":3233,"name":"Mountain Trail"}
+{"map":6,"room":3234,"name":"Mountain Trail"}
+{"map":6,"room":3235,"name":"Mountain Trail"}
+{"map":6,"room":3236,"name":"Mountain Trail"}
+{"map":6,"room":3237,"name":"Mountain Trail"}
+{"map":6,"room":3238,"name":"Mountain Trail"}
+{"map":6,"room":3239,"name":"Mountain Trail"}
+{"map":6,"room":3240,"name":"Mountain Trail"}
+{"map":6,"room":3241,"name":"Mountain Trail"}
+{"map":6,"room":3242,"name":"Mountain Trail"}
+{"map":6,"room":3243,"name":"Mountain Trail"}
+{"map":6,"room":3244,"name":"Mountain Trail"}
+{"map":6,"room":3245,"name":"Mountain Trail"}
+{"map":6,"room":3246,"name":"Mountain Trail"}
+{"map":6,"room":3247,"name":"Mountain Trail"}
+{"map":6,"room":3248,"name":"Mountain Trail"}
+{"map":6,"room":3249,"name":"Mountain Trail"}
+{"map":6,"room":3250,"name":"Mountain Trail"}
+{"map":6,"room":3251,"name":"Mountain Trail"}
+{"map":6,"room":3252,"name":"Mountain Trail"}
+{"map":6,"room":3253,"name":"Mountain Trail"}
+{"map":6,"room":3254,"name":"Mountain Trail"}
+{"map":6,"room":3255,"name":"Mountain Trail"}
+{"map":6,"room":3256,"name":"Mountain Trail"}
+{"map":6,"room":3257,"name":"Mountain Trail"}
+{"map":6,"room":3258,"name":"Mountain Trail"}
+{"map":6,"room":3259,"name":"Mountain Trail"}
+{"map":6,"room":3260,"name":"Mountain Trail"}
+{"map":6,"room":3261,"name":"Mountain Trail"}
+{"map":6,"room":3262,"name":"Mountain Trail"}
+{"map":6,"room":3263,"name":"Mountain Trail"}
+{"map":6,"room":3264,"name":"Mountain Trail"}
+{"map":6,"room":3265,"name":"Mountain Trail"}
+{"map":6,"room":3266,"name":"Mountain Trail"}
+{"map":6,"room":3267,"name":"Mountain Trail"}
+{"map":6,"room":3268,"name":"Mountain Trail"}
+{"map":6,"room":3269,"name":"Mountain Trail"}
+{"map":6,"room":3270,"name":"Mountain Trail"}
+{"map":6,"room":3271,"name":"Mountain Trail"}
+{"map":6,"room":3272,"name":"Mountain Trail"}
+{"map":6,"room":3273,"name":"Mountain Trail"}
+{"map":6,"room":3274,"name":"Mountain Trail"}
+{"map":6,"room":3289,"name":"Silver Mine Tunnel, Dead End"}
+{"map":7,"room":106,"name":"Elder Darkwood Grove, Dead End"}
+{"map":7,"room":153,"name":"Guard Room"}
+{"map":7,"room":342,"name":"Fungus Forest"}
+{"map":7,"room":1286,"name":"Small Dark Chamber"}
+{"map":7,"room":1359,"name":"Obsidian Passage"}
+{"map":7,"room":1381,"name":"Fungus Forest"}
+{"map":7,"room":1531,"name":"Fungus Forest"}

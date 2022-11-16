@@ -15,7 +15,7 @@ const teleports = {
 
 installCommand({
     type: 'generic',
-    keywords: ["sys"],
+    keywords: ["sys", "sysop"],
     helptext: "Invokes Sysop commands.",
     executeText: ({ player, world }) => {
         world.sendToPlayer(player, 'system', { text: 'Invalid Sysop Command!' });
@@ -61,7 +61,7 @@ installCommand({
                     world.sendToPlayer(player, 'system', { text: `Script ${type}::${script} has been reloaded.` });
                 }
                 else {
-                    world.sendToPlayer()
+                    world.sendToPlayer(player, 'error', { text: `Script ${type}::${script} could not be loaded.` });
                 }
                 return true;
             }

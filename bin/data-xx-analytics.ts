@@ -13,7 +13,7 @@ import {
     RoomTypes,
 } from './mmud-room';
 import { readLines } from './readline';
-import { getRoomId } from './utils';
+import { getMapRoom, getRoomId } from './utils';
 
 const map = new Map<number, MmudRoom>();
 
@@ -104,7 +104,7 @@ async function analyzeTextblocks(input: string) {
 
     const arr = Array.from(set.values());
     arr.sort((a, b) => a - b);
-    console.log(arr.join(', '));
+    console.log(arr.map(getMapRoom).map(x => JSON.stringify(x)).join('\n'));
 }
 
 

@@ -43,20 +43,17 @@ export function getProxyObject<T extends Table>(type: T, world: World, obj: Memo
         },
         get(target, key, receiver) {
 
-            if(key == UnderlyingMemory) {
+            if (key == UnderlyingMemory) {
                 return obj;
             }
-            if(key == 'events') {
+            if (key == 'events') {
                 return eventsProxy;
             }
 
-            const val = Reflect.get(target, key, receiver);
+            const val: any = Reflect.get(target, key, receiver);
 
             const lastPath = this.path[this.path.length - 1];
-            if (val instanceof Decimal) {
-                return val;
-            }
-            else if (target instanceof Set && isTable(lastPath)) {
+            if (target instanceof Set && isTable(lastPath)) {
                 if (key == 'values') {
                     return function (...args: any[]): IterableIterator<any> {
                         const internalIterator: IterableIterator<number> = val.apply(target, args);
@@ -81,24 +78,29 @@ export function getProxyObject<T extends Table>(type: T, world: World, obj: Memo
                         return val.apply(target, [object.id]);
                     }
                 }
-                else if(key == 'add') {
+                else if (key == 'add') {
                     return function (object: { id: number }) {
                         world.setDirty(type, obj.id);
                         return val.apply(target, [object.id]);
                     }
                 }
-                else if(key == 'delete') {
+                else if (key == 'delete') {
                     return function (object: { id: number }): IterableIterator<any> {
                         world.setDirty(type, obj.id);
                         return val.apply(target, [object.id]);
                     }
                 }
             }
+            else if (val instanceof Decimal) {
+                return val;
+            }
+            else if (target instanceof Set && isTable(lastPath)) {
+            }
             else if (typeof val === 'object' && val !== null) {
                 return this.nest(val)
-            } else {
-                return val
             }
+
+            return val
         }
     }) as ProxyObject<T>;
 }

@@ -12,6 +12,7 @@ import { ItemEvents } from "../scripts/item";
 export type NoEvents = {};
 
 export const Tables = ['worlds', 'rooms', 'actors', 'items', 'roomDescriptions'] as const;
+export const TableLinks = ['room', 'actor', 'roomDescription'];
 export type TableMap = {
     'worlds': {
         storage: WorldStorage,

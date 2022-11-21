@@ -5,7 +5,7 @@ export async function time<T>(func: TimedFunction<T>, after: TimeReporter): Prom
     const start = Date.now();
     const val = func();
     let ret: T;
-    if ('then' in val) {
+    if (typeof val === 'object' && val != null && 'then' in val) {
         ret = await val.then();
     }
     else {

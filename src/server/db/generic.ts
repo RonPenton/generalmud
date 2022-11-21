@@ -8,11 +8,13 @@ import { WorldStorage } from "../models/world";
 import { RoomEvents } from "../scripts/room";
 import { ActorEvents } from "../scripts/actor";
 import { ItemEvents } from "../scripts/item";
+import { keysOf } from "tsc-utils";
+import { typeArrayValidator } from "../utils/typeArrayValidator";
 
 export type NoEvents = {};
 
 export const Tables = ['worlds', 'rooms', 'actors', 'items', 'roomDescriptions'] as const;
-export const TableLinks = ['room', 'actor', 'roomDescription'];
+
 export type TableMap = {
     'worlds': {
         storage: WorldStorage,
@@ -37,15 +39,26 @@ export type TableMap = {
 }
 export type Table = typeof Tables[number];
 export type TableType<T extends Table> = TableMap[T]['storage'];
-
 export type EventsType<T extends Table> = TableMap[T]['events'];
 
-export function isTable(name: any): name is Table {
-    return Tables.includes(name);
-}
+export const TableLinkMap = {
+    'room': 'rooms',
+    'actor': 'actors',
+    'roomDescription': 'roomDescriptions'
+} satisfies Record<string, Table>;
+export type TableLink = keyof typeof TableLinkMap;
+export type LinkedType<T extends TableLink> = (typeof TableLinkMap)[T];
+export const TableLinks = keysOf(TableLinkMap);
+
+export const isTable = typeArrayValidator(Tables);
+export const isTableLink = typeArrayValidator(TableLinks);
 
 export type HasTableArrays = {
     [K in Table]?: number[];
+}
+
+export type HasLinks = {
+    [K in TableLink]?: number;
 }
 
 export type HasId = { id: number; }

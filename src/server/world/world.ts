@@ -4,7 +4,8 @@ import { MessageName, MessagePacket, MessageTypes } from "../messages";
 import { isAfter } from 'date-fns';
 import { executeCommand } from "../commands/base";
 import { Room } from "../models/room";
-import { dbCreateObject, MemoryObject, ProxyObject, Table, Tables, UnderlyingMemory } from "../db/generic";
+import { dbCreateObject } from "../db/generic";
+import { MemoryObject, ProxyObject, Table, Tables, UnderlyingMemory } from '../db/types';
 import { Actor, ActorStorage, findActorMatch, getActorReference, getCanonicalName, getPlayerReference, isPlayer, PlayerActor, PlayerData } from "../models/actor";
 import { SansId } from "../models/sansId";
 import { getEnv } from "../environment";
@@ -103,7 +104,7 @@ export class World {
 
         const { actor, direction, from } = command;
 
-        if (actor.room != from.id) {
+        if (actor.room.id != from.id) {
             // user is somehow in a different room than the one in which the 
             // command was initially issued. 
             if (isPlayer(actor)) {
@@ -154,7 +155,7 @@ export class World {
 
         this.sendToAll('connected', { player: getPlayerReference(player) });
         this.sendToPlayer(socket, 'system', { text: 'Welcome to GeneralMUD.' });
-        this.enteredRoom(player, this.getRoom(player.room));
+        this.enteredRoom(player, player.room);
 
         socket.on('message', (message: MessagePacket<any>) => this.handleMessage(player, message));
     }
@@ -188,7 +189,7 @@ export class World {
     }
 
     public sendToRoom<T extends MessageName>(target: Room | Actor, type: T, message: MessageTypes[T]): void {
-        const room = 'room' in target ? this.getRoom(target.room) : target;
+        const room = 'room' in target ? target.room : target;
         const players = filterIterable(room.actors.values(), isPlayer);
         for (const player of players) {
             this.sendToPlayer(player, type, message);
@@ -226,7 +227,7 @@ export class World {
     }
 
     public move(actor: Actor, direction: Direction, type: 'now' | 'queue') {
-        const oldRoom = this.getRoom(actor.room);
+        const oldRoom = actor.room;
         const exit = oldRoom.exits[direction];
         if (!exit) {
             if (isPlayer(actor)) {
@@ -237,9 +238,9 @@ export class World {
 
         if (type == 'now') {
             const newRoom = this.getRoom(exit.exitRoom);
-            const oldRoom = this.getRoom(actor.room);
+            const oldRoom = actor.room;
             this.leftRoom(actor, newRoom, direction);
-            actor.room = newRoom.id;
+            actor.room = newRoom;
             this.enteredRoom(actor, oldRoom, direction);
         }
         else {
@@ -259,35 +260,35 @@ export class World {
 
     public teleport(actor: Actor, roomId: number) {
         const newRoom = this.getRoom(roomId);
-        const oldRoom = this.getRoom(actor.room);
+        const oldRoom = actor.room;
         this.leftRoom(actor, newRoom);
-        actor.room = newRoom.id;
+        actor.room = newRoom;
         this.enteredRoom(actor, oldRoom);
     }
 
     private sendRoomDescription(player: PlayerActor, brief?: boolean, room?: Room) {
-        const r = room ?? this.getRoom(player.room);
+        const r = room ?? player.room;
 
         this.sendToPlayer(player, 'room-description',
             {
                 id: r.id,
                 name: r.name,
-                description: brief ? undefined : this.get('roomDescriptions', r.description).text,
+                description: brief ? undefined : r.roomDescription.text,
                 exits: r.exits,
                 actors: Array.from(mapIterable(r.actors.values(), getActorReference)),
-                inRoom: r.id == player.room
+                inRoom: r.id == player.room.id
             });
     }
 
     private leftRoom(actor: Actor, other: Room, direction?: Direction) {
-        const room = this.getRoom(actor.room);
+        const room = actor.room;
         this.sendToRoom(room, 'actor-moved', { from: getActorReference(actor), entered: false, direction: direction });
         room.actors.delete(actor);
         room.events.hasLeft({ world: this, actor, room, other });
     }
 
     private enteredRoom(actor: Actor, other: Room, direction?: Direction) {
-        const room = this.getRoom(actor.room);
+        const room = actor.room;
 
         this.sendToRoom(room, 'actor-moved', { from: getActorReference(actor), entered: true, direction });
         room.actors.add(actor);
@@ -303,7 +304,6 @@ export class World {
         const storage: SansId<ActorStorage> = {
             name,
             playerData,
-            items: [],
             wallet: {},
             room: env.STARTING_ROOM
         };

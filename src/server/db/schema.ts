@@ -1,5 +1,6 @@
 import { Db } from ".";
-import { dbCreateObjectTable, Tables } from "./generic";
+import { dbCreateObjectTable } from "./generic";
+import { Tables } from "./types";
 
 export async function createSchema(db: Db) {
     for (const table of Tables) {

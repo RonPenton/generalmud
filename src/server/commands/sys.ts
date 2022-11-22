@@ -1,5 +1,5 @@
 import { keysOf } from 'tsc-utils';
-import { isTable } from '../db/generic';
+import { isTable } from '../db/types';
 import { Directions, getShortDirection } from '../models/direction';
 import { loadScript } from '../scripts/loadScript';
 import { split } from '../utils/parse';

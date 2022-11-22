@@ -1,50 +1,88 @@
 import DeepProxy from 'proxy-deep';
 import Decimal from 'decimal.js';
-import { isTable, MemoryObject, ProxyObject, Table, Tables, UnderlyingMemory } from '../db/generic';
+import { AnyTableLinkingTo, isTable, isTableLink, MemoryObject, ProxyObject, SetupLinkSets, Table, TableLinkKeys, TableLinkMap, Tables, TableSymbolMap, UnderlyingMemory } from '../db/types';
 import { World } from '../world/world';
 import { makeScriptProxy } from '../scripts/makeScriptProxy';
+import { keysOf } from 'tsc-utils';
 
 
 export function getProxyObject<T extends Table>(type: T, world: World, obj: MemoryObject<T>): ProxyObject<T> {
 
     const eventsProxy = makeScriptProxy(type, obj);
 
-    return new DeepProxy(obj, {
+    return new DeepProxy<ProxyObject<T>>(obj as any, {
         set(target, key, value, receiver) {
 
-            const lastPath = this.path[this.path.length - 1];
-            if (
-                Array.isArray(target) &&
-                Tables.find(x => x == lastPath) &&
-                (
-                    (typeof key === 'string' && !isNaN(parseInt(key)))
-                    || typeof key === 'number'
-                )
-            ) {
-                Reflect.set(target, key, value.id, receiver);
-                return value;
+            if (key === UnderlyingMemory || key == SetupLinkSets) {
+                throw new Error('You cannot set this value.');
             }
 
-            Reflect.set(target, key, value, receiver);
+
+            // Not necessary?
+            // const lastPath = this.path[this.path.length - 1];
+            // if (
+            //     Array.isArray(target) &&
+            //     Tables.find(x => x == lastPath) &&
+            //     (
+            //         (typeof key === 'string' && !isNaN(parseInt(key)))
+            //         || typeof key === 'number'
+            //     )
+            // ) {
+            //     Reflect.set(target, key, value.id, receiver);
+            //     return value;
+            // }
+
             if (value instanceof Decimal) {
+                Reflect.set(target, key, value, receiver);
                 world.setDirty(type, obj.id);
                 return value;
             }
+            else if (isTableLink(key) && key in target) {
+                if (value === null) {
+                    Reflect.set(target, key, null, receiver);
+                    return value;
+                }
+                else if ('id' in value && typeof value.id === 'number') {
+                    Reflect.set(target, key, value.id, receiver);
+                    return value;
+                }
+
+                throw new Error('Invalid set attempt');
+            }
             else if (Array.isArray(target) && key == 'length') {
+                Reflect.set(target, key, value, receiver);
                 return value;
             }
             else if (typeof value === 'object' && value !== null) {
+                Reflect.set(target, key, value, receiver);
                 world.setDirty(type, obj.id);
                 return this.nest({})
             } else {
+                Reflect.set(target, key, value, receiver);
                 world.setDirty(type, obj.id);
                 return true;
             }
         },
+
         get(target, key, receiver) {
 
             if (key == UnderlyingMemory) {
                 return obj;
+            }
+            if (key == SetupLinkSets) {
+                return () => {
+                    const o: any = obj;
+                    const links = Object.keys(o).filter(isTableLink);
+                    for (const link of links) {
+                        const otherTable: any = TableLinkMap[link];
+                        const id: number | null = o[link];
+                        if (id !== null) {
+                            const other = world.get(otherTable, id);
+                            const set = getSet(type, otherTable, other[UnderlyingMemory]);
+
+                        }
+                    }
+                }
             }
             if (key == 'events') {
                 return eventsProxy;
@@ -102,5 +140,17 @@ export function getProxyObject<T extends Table>(type: T, world: World, obj: Memo
 
             return val
         }
-    }) as ProxyObject<T>;
+    });
+}
+
+function getSet<T extends Table>(_type: T, key: AnyTableLinkingTo<T>, obj: MemoryObject<T>): Set<number> {
+    const symbol = TableSymbolMap[key];
+    const o: any = obj;
+    let set: Set<number> | undefined = o[symbol];
+    if (!set) {
+        set = new Set<number>();
+        o[symbol] = set;
+    }
+
+    return set;
 }

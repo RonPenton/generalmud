@@ -1,5 +1,5 @@
 import { keyMap } from 'tsc-utils';
-import { EventsType, Table, Tables } from '../db/generic';
+import { EventsType, Table, Tables } from '../db/types';
 
 export const _scriptLibrary = keyMap<Table, {
     [K in Table]: Map<string, EventsType<K>>

@@ -1,4 +1,4 @@
-import { EventsType, Table } from "../db/generic";
+import { Table, EventsType } from "../db/types";
 import { World } from "../world/world"
 
 export type BaseEvent = {

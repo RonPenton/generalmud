@@ -1,6 +1,6 @@
 import { notEmpty } from "tsc-utils";
 import { _scriptLibrary } from ".";
-import { EventsType, Table } from "../db/generic";
+import { EventsType, Table } from "../db/types";
 import { EventDefinition } from "./base";
 import * as Throttle from 'promise-parallel-throttle';
 

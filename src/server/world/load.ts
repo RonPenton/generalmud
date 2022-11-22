@@ -1,5 +1,6 @@
 import { Db } from "../db";
-import { dbCreateObject, Tables } from "../db/generic";
+import { dbCreateObject } from "../db/generic";
+import { Tables } from '../db/types';
 import { pagedLoad } from "../db/load";
 import { WorldStorage } from "../models/world";
 import { loadScripts } from "../scripts/loadScript";

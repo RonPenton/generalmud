@@ -1,4 +1,4 @@
-import { ProxyObject } from "../db/generic";
+import { ProxyObject } from "../db/types";
 
 export function startTimer(world: ProxyObject<'worlds'>) {
 

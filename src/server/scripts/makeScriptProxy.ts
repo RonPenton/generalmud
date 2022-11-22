@@ -1,5 +1,5 @@
 import { getScript } from ".";
-import { EventsType, MemoryObject, Table } from "../db/generic";
+import { EventsType, MemoryObject, Table } from "../db/types";
 
 
 export function makeScriptProxy<T extends Table>(type: T, object: MemoryObject<T>): Required<EventsType<T>> {

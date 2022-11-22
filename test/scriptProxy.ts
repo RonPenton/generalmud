@@ -1,9 +1,9 @@
-import { makeScriptProxy } from "../src/server/scripts";
-import { RoomEvents } from "../src/server/scripts/room";
+import { MemoryObject } from "../src/server/db/types";
+import { makeScriptProxy } from "../src/server/scripts/makeScriptProxy";
 
-const script: RoomEvents = {
+const room: MemoryObject<'rooms'> = {
     
-}
+} as any;
 
 describe('test', () => {
 
@@ -13,7 +13,7 @@ describe('test', () => {
 
     test('proxy catches changes to basic properties.', () => {
 
-        const scr = makeScriptProxy(script);
+        const scr = makeScriptProxy('rooms', room);
 
         expect(scr.canEnter({} as any)).toBe(true);
         expect(scr.canLeave({} as any)).toBe(true);

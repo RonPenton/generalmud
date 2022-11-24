@@ -1,8 +1,8 @@
 import { getScript } from ".";
-import { EventsType, MemoryObject, Table } from "../db/types";
+import { EventsType, Table, TableType } from "../db/types";
 
 
-export function makeScriptProxy<T extends Table>(type: T, object: MemoryObject<T>): Required<EventsType<T>> {
+export function makeScriptProxy<T extends Table>(type: T, object: TableType<T>): Required<EventsType<T>> {
     return new Proxy({}, {
         get(_target, key, _receiver) {
 

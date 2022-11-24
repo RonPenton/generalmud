@@ -1,7 +1,7 @@
-import { MemoryObject } from "../src/server/db/types";
+import { TableType } from "../src/server/db/types";
 import { makeScriptProxy } from "../src/server/scripts/makeScriptProxy";
 
-const room: MemoryObject<'rooms'> = {
+const room: TableType<'rooms'> = {
     
 } as any;
 

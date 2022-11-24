@@ -20,7 +20,7 @@ import { createSchema } from './db/schema';
 import './commands';
 import { PlayerActor } from './models/actor';
 import { join } from 'path';
-import { findUnreachableRooms } from './world/diagnostics';
+//import { findUnreachableRooms } from './world/diagnostics';
 import { loadWorld } from './world/load';
 
 const env = getEnv();
@@ -39,7 +39,7 @@ async function setupExpress(port: string | number) {
     await createSchema(db);
     const world = await loadWorld(db);
 
-    await findUnreachableRooms(world);
+    //await findUnreachableRooms(world);
 
     const app = express();
     auth.init(world);

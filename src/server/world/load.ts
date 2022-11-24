@@ -5,10 +5,10 @@ import { pagedLoad } from "../db/load";
 import { WorldStorage } from "../models/world";
 import { loadScripts } from "../scripts/loadScript";
 import { time } from "../utils/timeFunction";
-import { MemoryArrays, World } from "./world";
+import { TableArrays, World } from "./world";
 
 export async function loadWorld(db: Db): Promise<World> {
-    const arrays: MemoryArrays = {} as any;
+    const arrays: TableArrays = {} as any;
 
     await time(async () => {
         console.log(`Starting data load...`);

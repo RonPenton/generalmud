@@ -5,21 +5,21 @@ import { isAfter } from 'date-fns';
 import { executeCommand } from "../commands/base";
 import { Room } from "../models/room";
 import { dbCreateObject } from "../db/generic";
-import { MemoryObject, ProxyObject, Table, Tables, UnderlyingMemory } from '../db/types';
+import { ProxyObject, SetupLinkSets, Table, Tables, TableType, UnderlyingObject } from '../db/types';
 import { Actor, ActorStorage, findActorMatch, getActorReference, getCanonicalName, getPlayerReference, isPlayer, PlayerActor, PlayerData } from "../models/actor";
 import { SansId } from "../models/sansId";
 import { getEnv } from "../environment";
 import { filterIterable, mapIterable } from "tsc-utils";
 import { Direction } from "../models/direction";
-import { replaceTableArraysWithSets, saveDbObject } from "../db/load";
+import { saveDbObject } from "../db/load";
 import { MovementCommand, MovementManager, movementManager } from "./movement";
 import { getProxyObject } from "../utils/tableProxy";
 import { startTimer, Time } from "./time";
 
 const env = getEnv();
 
-export type MemoryArrays = {
-    [K in Table]: MemoryObject<K>[];
+export type TableArrays = {
+    [K in Table]: TableType<K>[];
 }
 
 export type ProxyMap = {
@@ -30,13 +30,18 @@ export class World {
 
     constructor(
         private readonly db: Db,
-        memoryArrays: MemoryArrays
+        tableArrays: TableArrays
     ) {
 
+        // create proxies for every object. 
         this.proxyMap = Tables.reduce<ProxyMap>((acc, t) => {
-            acc[t] = new Map(memoryArrays[t].map(x => [x.id, getProxyObject(t, this, x)])) as any;
+            acc[t] = new Map(tableArrays[t].map(x => [x.id, getProxyObject(t, this, x)])) as any;
             return acc;
         }, {} as ProxyMap);
+
+        // now that all objects are loaded we can stitch everything together in memory. 
+        Tables.flatMap(x => this.proxyMap[x]).flatMap(x => [...x.values()]).forEach(x => x[SetupLinkSets]());
+
 
         const players = filterIterable(this.proxyMap.actors.values(), isPlayer);
         this.players = new Map(mapIterable(players, x => [x.playerData.uniqueName, x]));
@@ -82,7 +87,7 @@ export class World {
 
         // update the world time and save it.
         this.worldStorage.time = this.timer.getTime();
-        await saveDbObject(this.db, 'worlds', this.worldStorage[UnderlyingMemory]);
+        await saveDbObject(this.db, 'worlds', this.worldStorage[UnderlyingObject]);
 
         const vals = this.dirtyRecords;
         this.dirtyRecords = new Map();
@@ -90,7 +95,7 @@ export class World {
         const start = Date.now();
         for (const val of vals.values()) {
             const obj = this.get(val.table, val.id);
-            await saveDbObject(this.db, val.table, obj[UnderlyingMemory]);
+            await saveDbObject(this.db, val.table, obj[UnderlyingObject]);
         }
         const end = Date.now();
         console.log(`Saved ${vals.size} records in ${end - start}ms`);
@@ -275,7 +280,7 @@ export class World {
                 name: r.name,
                 description: brief ? undefined : r.roomDescription.text,
                 exits: r.exits,
-                actors: Array.from(mapIterable(r.actors.values(), getActorReference)),
+                actors: [...r.actors.map(getActorReference)],
                 inRoom: r.id == player.room.id
             });
     }
@@ -283,7 +288,7 @@ export class World {
     private leftRoom(actor: Actor, other: Room, direction?: Direction) {
         const room = actor.room;
         this.sendToRoom(room, 'actor-moved', { from: getActorReference(actor), entered: false, direction: direction });
-        room.actors.delete(actor);
+        //room.actors.delete(actor);
         room.events.hasLeft({ world: this, actor, room, other });
     }
 
@@ -291,7 +296,7 @@ export class World {
         const room = actor.room;
 
         this.sendToRoom(room, 'actor-moved', { from: getActorReference(actor), entered: true, direction });
-        room.actors.add(actor);
+        actor.room = room;
 
         if (isPlayer(actor)) {
             this.sendRoomDescription(actor);
@@ -318,14 +323,14 @@ export class World {
     async createActor(actor: SansId<ActorStorage>, online = true): Promise<Actor> {
 
         const storage = await dbCreateObject(this.db, 'actors', actor);
-        const memory = replaceTableArraysWithSets('actors', storage);
-        const proxy = getProxyObject('actors', this, memory);
+        const proxy = getProxyObject('actors', this, storage);
 
         this.proxyMap.actors.set(proxy.id, proxy);
 
         if (online) {
             const room = this.getRoom(actor.room);
-            room.actors.add(proxy);
+            proxy.room = room;
+            //room.actors.add(proxy);
             //TODO: Message about actor entering room here.
         }
 

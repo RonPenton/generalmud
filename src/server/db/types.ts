@@ -8,6 +8,7 @@ import { ActorEvents } from "../scripts/actor";
 import { ItemEvents } from "../scripts/item";
 import { RoomEvents } from "../scripts/room";
 import { typeArrayValidator } from "../utils/typeArrayValidator";
+import { DbSet } from "./dbset";
 
 /**
  * An object that defines no events.
@@ -60,31 +61,6 @@ export const TableLinkMap = {
     'world': 'worlds',
     'item': 'items'
 } satisfies Record<string, Table>;
-
-/**
- * Not sure if there is a better way to do this. Doesn't seem to be. 
- */
-const RoomsSymbol: unique symbol = Symbol();
-const ActorsSymbol: unique symbol = Symbol();
-const RoomDescriptionsSymbol: unique symbol = Symbol();
-const WorldsSymbol: unique symbol = Symbol();
-const ItemsSymbol: unique symbol = Symbol();
-
-/**
- * Symbols for table linksets. Using symbols so the sets don't get serialized to the db.
- */
-export const TableSymbolMap = {
-    'rooms': RoomsSymbol,
-    'actors': ActorsSymbol,
-    'roomDescriptions': RoomDescriptionsSymbol,
-    'worlds': WorldsSymbol,
-    'items': ItemsSymbol
-} as const satisfies Record<Table, symbol>;
-
-/**
- * Retrieves the symbol representing the requested table set symbol.
- */
-export type SetSymbol<T extends Table> = typeof TableSymbolMap[T];
 
 /**
  * A type describing the names of every table.
@@ -162,14 +138,14 @@ export type AnyTableLinkingTo<T extends Table> = Extract<keyof {
  * specified table.
  * ie
  *      ProxyLinkSets<'rooms'> = {
- *          items: Set<ProxyType<'items'>>,
- *          actors: Set<ProxyType<'actors'>>
+ *          items: DbSet<'items'>,
+ *          actors: DbSet<'actors'>
  *      }
  * 
  * This allows the game to be able to manage all items in a room using Set operations, for example.
  */
 export type ProxyLinkSets<T extends Table> = {
-    [K in AnyTableLinkingTo<T>]: Set<ProxyObject<K>>
+    [K in AnyTableLinkingTo<T>]: DbSet<K>
 };
 
 /**
@@ -210,20 +186,6 @@ export type ProxyLinks<T extends Table> = {
 }
 
 /**
- * Calculates a partial type containing LinkSets to ID's for any table that links to the
- * specified table.
- * ie
- *      ProxyLinkSets<'rooms'> = {
- *          [Symbol('items')]: Set<ProxyType<'items'>>,
- *          [Symbol('actors')]: Set<ProxyType<'actors'>>
- *      }
- * 
-  */
-export type IdLinkSets<T extends Table> = {
-    [K in AnyTableLinkingTo<T> as SetSymbol<K>]: Set<number> | undefined
-};
-
-/**
  * A valdiator that validates whether a string is a table reference. 
  * ie
  *      isTable('rooms') // true
@@ -240,11 +202,6 @@ export const isTable = typeArrayValidator(Tables);
 export const isTableLink = typeArrayValidator(TableLinks);
 
 /**
- * The in-memory representation of an object with added Set's for linked object tracking.
- */
-export type MemoryObject<T extends Table> = TableType<T> & IdLinkSets<T>;
-
-/**
  * The proxified-version of the events type for the given table. 
  * All fields are marked as required because the proxy will automatically fill
  * in the actions with default functions if they are undefined. This allows
@@ -258,12 +215,12 @@ export type ProxyEvents<T extends Table> = {
  * A symbol allowing the underlying memory object to be accessed from a table proxy object.
  * Mostly used for the database functions. Avoid using this if you can. 
  */
-export const UnderlyingMemory = Symbol();
+export const UnderlyingObject = Symbol();
 export const SetupLinkSets = Symbol();
 
 /**
  * Represents a database item proxy. The actual db representation of the objects
- * do not contain sets of linked items, rather the Set<>'s are generated at load time
+ * do not contain sets of linked items, rather the DbSet<>'s are generated at load time
  * and maintained by game logic. These allow us to operate on an object using a virual
  * proxy interface that allows us to say, for example, player.room.roomDescription, 
  * even though the underlying 'player.room' in memory is just a `number`. 
@@ -274,7 +231,7 @@ export type ProxyObject<T extends Table> =
     & ProxyLinks<T>                                 // add in links, ie actor.room
     & ProxyEvents<T>                                // add in proxified events
     & { 
-        [UnderlyingMemory]: MemoryObject<T>,        // add in the underlying object. 
+        [UnderlyingObject]: TableType<T>,           // add in the underlying object. 
         [SetupLinkSets]: () => void                 // a function used to setup any object that this object points to.
     };      
 

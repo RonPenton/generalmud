@@ -19,11 +19,9 @@ async function loadRooms(db: Db, input: string) {
         const room: RoomStorage = {
             id,
             name: Name,
-            description: Desc,
+            roomDescription: Desc,
             exits: Exits,
             light: Light,
-            actors: [],
-            items: [],
             money: {},
             hiddenMoney: {}
         };

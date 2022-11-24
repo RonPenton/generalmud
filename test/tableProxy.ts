@@ -1,10 +1,10 @@
 import Decimal from "decimal.js";
 import { findIterable } from "tsc-utils";
-import { MemoryObject, ProxyObject, Table, Tables, TableSymbolMap, TableType, UnderlyingMemory } from "../src/server/db/types";
-import { replaceTableArraysWithSets } from "../src/server/db/load";
+import { ProxyObject, SetupLinkSets, Table, Tables, TableType, UnderlyingObject } from "../src/server/db/types";
 import { ActorStorage } from "../src/server/models/actor";
 import { ItemStorage } from "../src/server/models/item";
 import { RoomStorage } from "../src/server/models/room";
+import { RoomDescription } from "../src/server/models/roomDescription";
 import { getProxyObject } from "../src/server/utils/tableProxy";
 import { ProxyMap, World } from "../src/server/world/world";
 
@@ -23,7 +23,7 @@ const getSword = (): ItemStorage => ({
     name: "Sword!",
     desc: "This is a swoooooooord!",
     cost: new Decimal(100),
-    actor: 1,
+    actor: 32,
     room: null,
     properties: { myProperty: 20 }
 });
@@ -33,7 +33,7 @@ const getShield = (): ItemStorage => ({
     name: "Shield",
     desc: "Protects 'n stuff.",
     cost: new Decimal(50),
-    actor: 1,
+    actor: 23,
     room: null,
     properties: {}
 });
@@ -43,6 +43,28 @@ const getHero = (): ActorStorage => ({
     name: "Hero",
     room: 45,
     wallet: {}
+});
+
+const getVillain = (): ActorStorage => ({
+    id: 23,
+    name: "Villain",
+    room: 45,
+    wallet: {}
+});
+
+const room = (): RoomStorage => ({
+    id: 45,
+    name: 'Storage Room',
+    exits: {},
+    light: 100,
+    money: {},
+    hiddenMoney: {},
+    roomDescription: 1
+});
+
+const roomDescription = (): RoomDescription => ({
+    id: 1,
+    text: "This is a storage room."
 });
 
 
@@ -65,9 +87,8 @@ describe('test', () => {
             }
         };
 
-
         const objects = Tables.reduce<ProxyMap>((acc, type) => {
-            acc[type] = new Map(storage[type].map(x => [x.id, getProxyObject(type, world, replaceTableArraysWithSets(type, x))])) as any;
+            acc[type] = new Map(storage[type].map(x => [x.id, getProxyObject(type, world, x)])) as any;
             return acc;
         }, {} as ProxyMap);
 
@@ -81,6 +102,9 @@ describe('test', () => {
 
         world.get = get;
 
+        // now that all objects are loaded we can stitch everything together in memory. 
+        Tables.flatMap(x => objects[x]).flatMap(x => [...x.values()]).forEach(x => x[SetupLinkSets]());
+
         return world as World;
     }
 
@@ -90,9 +114,9 @@ describe('test', () => {
 
         const world = getWorld({
             'items': [sword],
-            'actors': [],
-            'rooms': [],
-            'roomDescriptions': [],
+            'actors': [getHero()],
+            'rooms': [room()],
+            'roomDescriptions': [roomDescription()],
             'worlds': []
         });
 
@@ -112,9 +136,9 @@ describe('test', () => {
 
         const world = getWorld({
             'items': [sword],
-            'actors': [],
-            'rooms': [],
-            'roomDescriptions': [],
+            'actors': [getHero()],
+            'rooms': [room()],
+            'roomDescriptions': [roomDescription()],
             'worlds': []
         });
 
@@ -136,12 +160,14 @@ describe('test', () => {
         const world = getWorld({
             'items': [sword],
             'actors': [hero],
-            'rooms': [],
-            'roomDescriptions': [],
+            'rooms': [room()],
+            'roomDescriptions': [roomDescription()],
             'worlds': []
         });
 
         const actor = world.get('actors', hero.id);
+
+        actor.items
 
         const items = Array.from(actor.items.values());
 
@@ -158,8 +184,8 @@ describe('test', () => {
         const world = getWorld({
             'items': [swordStorage],
             'actors': [heroStorage],
-            'rooms': [],
-            'roomDescriptions': [],
+            'rooms': [room()],
+            'roomDescriptions': [roomDescription()],
             'worlds': []
         });
 
@@ -175,108 +201,114 @@ describe('test', () => {
     test('proxy sets mapped child types', () => {
 
         const swordStorage = getSword();
-        const shield = getShield();
+        const shieldStorage = getShield();
         const heroStorage = getHero();
 
         const world = getWorld({
-            'items': [swordStorage, shield],
-            'actors': [heroStorage],
-            'rooms': [],
-            'roomDescriptions': [],
+            'items': [swordStorage, shieldStorage],
+            'actors': [heroStorage, getVillain()],
+            'rooms': [room()],
+            'roomDescriptions': [roomDescription()],
+            'worlds': []
+        });
+
+        const hero = world.get('actors', heroStorage.id);
+        const shield = world.get('items', shieldStorage.id);
+
+        let hasShield = hero.items.has(shield);
+        expect(hasShield).toBe(false);
+        expect(changes.length).toBe(0);
+
+        shield.actor = hero;
+        
+        hasShield = hero.items.has(shield);
+        expect(hasShield).toBe(true);
+        expect(changes.length).toBe(1);
+        expect(changes[0]).toStrictEqual({ table: 'items', id: shield.id });
+
+        // const heroMemory: TableType<'actors'> = hero[UnderlyingMemory];
+        // expect(heroMemory[TableSymbolMap.items]?.size).toBe(2);
+        // expect(heroMemory[TableSymbolMap.items]?.has(shield.id)).toBe(true);
+    });
+
+    test('proxy sets mapped child types and monitors changes', () => {
+
+        const swordStorage = getSword();
+        const shieldStorage = getShield();
+        const heroStorage = getHero();
+
+        const world = getWorld({
+            'items': [swordStorage, shieldStorage],
+            'actors': [heroStorage, getVillain()],
+            'rooms': [room()],
+            'roomDescriptions': [roomDescription()],
             'worlds': []
         });
 
         const hero = world.get('actors', heroStorage.id);
 
-        let hasShield = hero.items.has(world.get('items', shield.id));
+        let hasShield = hero.items.has(world.get('items', shieldStorage.id));
         expect(hasShield).toBe(false);
         expect(changes.length).toBe(0);
 
-        hero.items.add(world.get('items', shield.id));
-        hasShield = hero.items.has(world.get('items', shield.id));
+        const shield = world.get('items', shieldStorage.id);
+        shield.actor = hero;
+
+        hasShield = hero.items.has(world.get('items', shieldStorage.id));
         expect(hasShield).toBe(true);
         expect(changes.length).toBe(1);
-        expect(changes[0]).toStrictEqual({ table: 'actors', id: hero.id });
+        expect(changes[0]).toStrictEqual({ table: 'items', id: shieldStorage.id });
 
-        const heroMemory: MemoryObject<'actors'> = hero[UnderlyingMemory];
-        expect(heroMemory[TableSymbolMap.items]?.size).toBe(2);
-        expect(heroMemory[TableSymbolMap.items]?.has(shield.id)).toBe(true);
-    });
-
-    test('proxy sets mapped child types and monitors changes', () => {
-
-        const sword = getSword();
-        const shield = getShield();
-        const hero = getHero();
-
-        const world = getWorld({
-            'items': [sword, shield],
-            'actors': [hero],
-            'rooms': [],
-            'roomDescriptions': [],
-            'worlds': []
-        });
-
-        const actor = world.get('actors', hero.id);
-
-        let hasShield = actor.items.has(world.get('items', shield.id));
-        expect(hasShield).toBe(false);
-        expect(changes.length).toBe(0);
-
-        actor.items.add(world.get('items', shield.id));
-        hasShield = actor.items.has(world.get('items', shield.id));
-        expect(hasShield).toBe(true);
-        expect(changes.length).toBe(1);
-        expect(changes[0]).toStrictEqual({ table: 'actors', id: hero.id });
-
-        const item = findIterable(actor.items.values(), x => x.name == shield.name);
+        const item = findIterable(hero.items.values(), x => x.name == shieldStorage.name);
         expect(item).not.toBeUndefined();
 
         item!.cost = new Decimal(30);
         expect(changes.length).toBe(2);
-        expect(changes[1]).toStrictEqual({ table: 'items', id: shield.id });
-        expect(shield.cost.eq(30)).toBe(true);
+        expect(changes[1]).toStrictEqual({ table: 'items', id: shieldStorage.id });
+        expect(shieldStorage.cost.eq(30)).toBe(true);
     });
 
     test('proxy deletes mapped child types', () => {
 
-        const sword = getSword();
-        const shield = getShield();
-        const hero = getHero();
+        const swordStorage = getSword();
+        const shieldStorage = getShield();
+        const heroStorage = getHero();
 
         const world = getWorld({
-            'items': [sword, shield],
-            'actors': [hero],
-            'rooms': [],
-            'roomDescriptions': [],
+            'items': [swordStorage, shieldStorage],
+            'actors': [heroStorage, getVillain()],
+            'rooms': [room()],
+            'roomDescriptions': [roomDescription()],
             'worlds': []
         });
 
-        const actor = world.get('actors', hero.id);
+        const hero = world.get('actors', heroStorage.id);
+        const sword = world.get('items', swordStorage.id);
+        const shield = world.get('items', shieldStorage.id);
 
-        actor.items.add(world.get('items', shield.id));
-        var hasShield = actor.items.has(world.get('items', shield.id));
+        shield.actor = hero;
+        var hasShield = hero.items.has(shield);
         expect(hasShield).toBe(true);
         expect(changes.length).toBe(1);
-        expect(changes[0]).toStrictEqual({ table: 'actors', id: hero.id });
+        expect(changes[0]).toStrictEqual({ table: 'items', id: shield.id });
 
-        actor.items.delete(world.get('items', shield.id));
-        hasShield = actor.items.has(world.get('items', shield.id));
+        shield.actor = null;
+        hasShield = hero.items.has(shield);
         expect(hasShield).toBe(false);
         expect(changes.length).toBe(2);
-        expect(changes[1]).toStrictEqual({ table: 'actors', id: hero.id });
+        expect(changes[1]).toStrictEqual({ table: 'items', id: shield.id });
 
-        actor.items.delete(world.get('items', sword.id));
-        var hasSword = actor.items.has(world.get('items', shield.id));
+        sword.actor = null;
+        var hasSword = hero.items.has(sword);
         expect(hasSword).toBe(false);
         expect(changes.length).toBe(3);
-        expect(changes[2]).toStrictEqual({ table: 'actors', id: hero.id });
+        expect(changes[2]).toStrictEqual({ table: 'items', id: sword.id });
 
-        const items = Array.from(actor.items.values());
+        const items = Array.from(hero.items.values());
         expect(items.length).toBe(0);
 
-        const heroMemory = actor[UnderlyingMemory];
-        expect(heroMemory[TableSymbolMap.items]?.size).toBe(0);
+        // const heroMemory = actor[UnderlyingMemory];
+        // expect(heroMemory[TableSymbolMap.items]?.size).toBe(0);
     });
 
 });

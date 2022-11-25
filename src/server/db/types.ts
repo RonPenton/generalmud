@@ -1,11 +1,13 @@
 import { keysOf } from "tsc-utils";
 import { ActorStorage } from "../models/actor";
 import { ItemStorage } from "../models/item";
+import { PortalStorage } from "../models/portal";
 import { RoomStorage } from "../models/room";
 import { RoomDescription } from "../models/roomDescription";
 import { WorldStorage } from "../models/world";
 import { ActorEvents } from "../scripts/actor";
 import { ItemEvents } from "../scripts/item";
+import { PortalEvents } from "../scripts/portal";
 import { RoomEvents } from "../scripts/room";
 import { typeArrayValidator } from "../utils/typeArrayValidator";
 import { DbSet } from "./dbset";
@@ -18,7 +20,7 @@ export type NoEvents = {};
 /**
  * A list of all table names defined in the system.
  */
-export const Tables = ['worlds', 'rooms', 'actors', 'items', 'roomDescriptions'] as const;
+export const Tables = ['worlds', 'rooms', 'actors', 'items', 'roomDescriptions', 'portals'] as const;
 
 /**
  * A mapping of table names to the storage type and the event type for each.
@@ -43,8 +45,12 @@ export type TableMap = {
     'roomDescriptions': {
         storage: RoomDescription,
         events: NoEvents
+    },
+    'portals': {
+        storage: PortalStorage,
+        events: PortalEvents
     }
-}
+};
 
 /**
  * A mapping of singular table names to their plural canonical name.
@@ -59,7 +65,8 @@ export const TableLinkMap = {
     'actor': 'actors',
     'roomDescription': 'roomDescriptions',
     'world': 'worlds',
-    'item': 'items'
+    'item': 'items',
+    'portals': 'portals'
 } satisfies Record<string, Table>;
 
 /**

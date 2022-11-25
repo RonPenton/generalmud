@@ -18,12 +18,13 @@ export type ExecuteMessageParameters<T extends MessageName> = {
 
 export type ExecuteTextFunction = (params: ExecuteTextParameters) => (Promise<boolean> | void);
 export type ExecuteMessageFunction<T extends MessageName> = (params: ExecuteMessageParameters<T>) => (Promise<boolean> | void);
+export type ExecuteTextWith<T> = (params: ExecuteTextParameters & T) => (Promise<boolean> | void);
+
 
 export interface CommandReference {
     keywords: string[];
     helptext: string;
 }
-
 
 export interface Command<T extends MessageName> extends CommandReference {
     type: T;

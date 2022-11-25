@@ -1,4 +1,5 @@
 import { keysOf } from 'tsc-utils';
+import { typeArrayValidator } from '../utils/typeArrayValidator';
 
 export const DirectionDefinitions = {
     "north": { short: "n" },
@@ -20,6 +21,9 @@ export type DirectionShort = typeof dd[Direction]['short'];
 
 export const Directions = keysOf(dd);
 export const DirectionsShort = keysOf(dd).map(x => dd[x].short);
+
+export const isDirection = typeArrayValidator(Directions);
+export const isShortDirection = typeArrayValidator(DirectionsShort);
 
 const DirectionOpposites = new Map<Direction, Direction>(Directions.map((x, i) => {
     if (i % 2 == 0) {
@@ -52,4 +56,8 @@ export const getEnteringPhrase = (direction: Direction) => {
 
 export const getDirectionOpposite = (direction: Direction) => {
     return DirectionOpposites.get(direction)!;
+}
+
+export const directionReferences = (direction: Direction): string[] => {
+    return [direction, getShortDirection(direction)];
 }

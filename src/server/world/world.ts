@@ -15,6 +15,7 @@ import { saveDbObject } from "../db/load";
 import { MovementCommand, MovementManager, movementManager } from "./movement";
 import { getProxyObject } from "../utils/tableProxy";
 import { startTimer, Time } from "./time";
+import { canEnterExit, listExits } from "./exits";
 
 const env = getEnv();
 
@@ -128,7 +129,7 @@ export class World {
         if (active) {
             this.activePlayers.delete(player.playerData.uniqueName);
             this.playerSockets.delete(player.playerData.uniqueName);
-            //this.leaveRoom(Player);
+            this.leftRoom(player, player.room);
             this.sendToAll('disconnected', { player: getPlayerReference(player) });
         }
     }
@@ -252,6 +253,11 @@ export class World {
             return;
         }
 
+        if(!canEnterExit({ world: this, actor, direction, exit })) {
+            // we're going to assume that the 
+            return;
+        }
+
         if (type == 'now') {
             const newRoom = this.getRoom(exit.exitRoom);
             const oldRoom = actor.room;
@@ -290,7 +296,7 @@ export class World {
                 id: r.id,
                 name: r.name,
                 description: brief ? undefined : r.roomDescription.text,
-                exits: r.exits,
+                exits: listExits(this, r, player),
                 actors: [...r.actors.map(getActorReference)],
                 inRoom: r.id == player.room.id
             });
@@ -299,7 +305,6 @@ export class World {
     private leftRoom(actor: Actor, other: Room, direction?: Direction) {
         const room = actor.room;
         this.sendToRoom(room, 'actor-moved', { from: getActorReference(actor), entered: false, direction: direction });
-        //room.actors.delete(actor);
         room.events.hasLeft({ world: this, actor, room, other });
     }
 

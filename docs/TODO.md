@@ -4,9 +4,14 @@
 - [x] script infrastructure
 - [x] reload scripts command
 - [x] who command
+- [ ] Portals
+- [x] doors
+- [ ] look <direction> command
+- [ ] "bb-ish" code
+- [ ] timer events
 
 - [ ] Better type checking on script reloading
-- [ ] Scriptable commands for rooms
+- [x] Scriptable commands for rooms
 - [ ] Scriptable commands for actors
 - [ ] Scriptable commands for items ?
 - [ ] actor events
@@ -15,8 +20,6 @@
 - [ ] roles (sysop/mudop/builder)
 - [ ] limiting commands by role
 
-- [ ] look <direction> command
-- [ ] doors
 - [ ] gates
 - [ ] locks
 

@@ -1,3 +1,4 @@
+import { ExitSummary } from "models/exit";
 import { ActorReference, PlayerReference } from "../models/actor";
 import { Direction } from "../models/direction";
 import { RoomExits } from "../models/room";
@@ -16,9 +17,10 @@ export interface MessageTypes {
     'talk-room': { from: ActorReference, message: string },
     'talk-private': { from: ActorReference, message: string }
     'actor-moved': { from: ActorReference, entered: boolean, direction?: Direction },
-    'room-description': { id: number, name: string, description?: string, exits: RoomExits, actors: ActorReference[], inRoom: boolean }
+    'room-description': { id: number, name: string, description?: string, exits: ExitSummary[], actors: ActorReference[], inRoom: boolean }
     'error': { text: string },
     'system': { text: string },
+    'text': { text: string },
     'connected': HasPlayer,
     'disconnected': HasPlayer,
     'active-players': { list: PlayerReference[] }

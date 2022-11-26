@@ -195,9 +195,20 @@ export class World {
 
     public sendToRoom<T extends MessageName>(target: Room | Actor, type: T, message: MessageTypes[T]): void {
         const room = 'room' in target ? target.room : target;
-        const players = filterIterable(room.actors.values(), isPlayer);
+        const players = room.actors.filter(isPlayer);
         for (const player of players) {
             this.sendToPlayer(player, type, message);
+        }
+    }
+
+    public sendTextToActorsRoom(actor: Actor, message: { secondPerson: string, thirdPerson: string }) {
+        const room = actor.room;
+        const players = Array.from(room.actors.filter(isPlayer)).filter(x => x.id != actor.id);
+        for (const player of players) {
+            this.sendToPlayer(player, 'text', { text: message.thirdPerson });
+        }
+        if (isPlayer(actor)) {
+            this.sendToPlayer(actor, 'text', { text: message.secondPerson });
         }
     }
 

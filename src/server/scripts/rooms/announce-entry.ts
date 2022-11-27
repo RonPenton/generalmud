@@ -1,8 +1,11 @@
-import { makeScript } from '../base';
+import { RoomEvents } from "../room";
 
-export const script = makeScript<'rooms', { uppercase: boolean }>(
-    {
-        hasEntered: ({ world, actor, parameters: { uppercase } }) => {
+export default class AnnounceEntry extends RoomEvents {
+    constructor(private args: { uppercase: boolean }) {
+
+    }
+
+        hasEntered: ({ world, actor, parameters }) => {
             if (uppercase) {
                 world.sendToRoom(actor, 'system', { text: `An announcer shouts "${actor.name.toUpperCase()} HAS ENTERED THE TOWN SQUARE".` });
             }

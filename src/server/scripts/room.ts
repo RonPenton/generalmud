@@ -14,13 +14,26 @@ export type TwoRoomEvent = BaseRoomEvent & {
     teleported?: boolean;
 }
 
-export type RoomEvents = {
-    canEnter?: (args: TwoRoomEvent) => boolean;
-    hasEntered?: (args: TwoRoomEvent) => void;
+export abstract class RoomEvents {
+    canEnter(_args: TwoRoomEvent): boolean { return true; }
+    hasEntered(_args: TwoRoomEvent): void { }
 
-    canLeave?: (args: TwoRoomEvent) => boolean;
-    hasLeft?: (args: TwoRoomEvent) => void;
+    canLeave(_args: TwoRoomEvent): boolean { return true; }
+    hasLeft(_args: TwoRoomEvent): void { }
 
-    canLook?: (args: TwoRoomEvent) => boolean;
-    hasLooked?: (args: TwoRoomEvent) => void;
+    canLook(_args: TwoRoomEvent): boolean { return true; }
+    hasLooked(_args: TwoRoomEvent): void { }
+}
+
+export class RoomEventsAggregate implements RoomEvents {
+    constructor(private events: RoomEvents[]) { }
+
+    canEnter(args: TwoRoomEvent) { return this.events.reduce((acc, e) => e.canEnter(args) && acc, true); }
+    hasEntered(args: TwoRoomEvent) { this.events.forEach(e => e.hasEntered(args)) }
+
+    canLeave(args: TwoRoomEvent) { return this.events.reduce((acc, e) => e.canLeave(args) && acc, true); }
+    hasLeft(args: TwoRoomEvent) { this.events.forEach(e => e.hasLeft(args)) }
+
+    canLook(args: TwoRoomEvent) { return this.events.reduce((acc, e) => e.canLook(args) && acc, true); }
+    hasLooked(args: TwoRoomEvent) { this.events.forEach(e => e.hasLooked(args)) }
 }

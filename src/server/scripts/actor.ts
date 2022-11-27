@@ -5,4 +5,4 @@ export type BaseActorEvent = BaseEvent & {
     actor: Actor;
 }
 
-export type ActorEvents = Partial<{}>;
+// export type ActorEvents = Partial<{}>;

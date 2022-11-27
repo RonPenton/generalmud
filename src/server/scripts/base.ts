@@ -10,16 +10,16 @@ export type EventDefinition = {
     parameters?: Record<string, any>
 }
 
-export function makeScript<
-    T extends Table,
-    P extends Record<string, any> = {}
->(script: WrapWithParameters<EventsType<T>, P>): EventsType<T> {
-    return script;
-}
+// export function makeScript<
+//     T extends Table,
+//     P extends Record<string, any> = {}
+// >(script: WrapWithParameters<EventsType<T>, P>): EventsType<T> {
+//     return script;
+// }
 
-export type EventFunc = (...args: any) => any;
-export type EventsObject = Record<string, EventFunc>;
-export type AddParameter<T extends EventFunc, P extends Record<string, any>> = (args: Parameters<T>[0] & { parameters: P }) => ReturnType<T>;
-export type WrapWithParameters<T extends EventsObject, P extends Record<string, any>> = {
-    [K in keyof T]: AddParameter<T[K], P>;
-}
+// export type EventFunc = (...args: any) => any;
+// export type EventsObject = Record<string, EventFunc>;
+// export type AddParameter<T extends EventFunc, P extends Record<string, any>> = (args: Parameters<T>[0] & { parameters: P }) => ReturnType<T>;
+// export type WrapWithParameters<T extends EventsObject, P extends Record<string, any>> = {
+//     [K in keyof T]: AddParameter<T[K], P>;
+// }

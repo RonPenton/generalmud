@@ -1,1 +1,1 @@
-export type WorldEvents = Partial<{}>
+// export type WorldEvents = Partial<{}>

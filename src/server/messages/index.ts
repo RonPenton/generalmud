@@ -1,7 +1,6 @@
-import { ExitSummary } from "models/exit";
+import { ExitSummary } from "../models/exit";
 import { ActorReference, PlayerReference } from "../models/actor";
 import { Direction } from "../models/direction";
-import { RoomExits } from "../models/room";
 import { HasPlayer } from "./common";
 
 export interface MessageTypes {

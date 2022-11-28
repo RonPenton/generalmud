@@ -1,6 +1,21 @@
 import { getScript } from ".";
 import { EventsType, Table, TableType } from "../db/types";
+import { EventsAggregateConstructor } from "./base";
+import { constructPortalEventsAggregate } from "./portal";
+import { constructRoomEventsAggregate } from "./room";
 
+type EventsBases = {
+    [K in Table]: EventsAggregateConstructor<K>;
+}
+
+const eventBases: EventsBases = {
+    'rooms': constructRoomEventsAggregate,
+    'portals': constructPortalEventsAggregate,
+    'items': () => ({}),
+    'actors': () => ({}),
+    'roomDescriptions': () => ({}),
+    'worlds': () => ({}),
+}
 
 export function makeScriptProxy<T extends Table>(type: T, object: TableType<T>): Required<EventsType<T>> {
     return new Proxy({}, {

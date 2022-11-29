@@ -3,6 +3,21 @@ import { _scriptLibrary } from ".";
 import { EventsType, Table } from "../db/types";
 import { EventDefinition } from "./base";
 import * as Throttle from 'promise-parallel-throttle';
+import { RoomEventsBase } from "./room";
+import { PortalEventsBase } from "./portal";
+
+type EventsBases = {
+    [K in Table]: Required<EventsType<K>>;
+}
+
+const eventBases: EventsBases = {
+    'rooms': RoomEventsBase,
+    'portals': PortalEventsBase,
+    'items': () => ({}),
+    'actors': () => ({}),
+    'roomDescriptions': () => ({}),
+    'worlds': () => ({}),
+}
 
 export async function loadScript<T extends Table>(type: T, name: string, reload = false): Promise<boolean> {
 
@@ -29,7 +44,9 @@ export async function loadScript<T extends Table>(type: T, name: string, reload 
         return false;
     }
 
-    _scriptLibrary[type].set(name, script);
+    const filled = { ...eventBases[type], ...script };
+
+    _scriptLibrary[type].set(name, filled);
     return true;
 }
 

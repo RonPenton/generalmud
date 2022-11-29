@@ -24,9 +24,11 @@ export type WrapWithParameters<T extends EventsObject, P extends Record<string, 
     [K in keyof T]: AddParameter<T[K], P>;
 }
 
-export type EventsAggregate<T extends Table> = Required<EventsType<T>>;
-
-export type EventsAggregateConstructor<T extends Table> = (events: Required<EventsType<T>>[]) => EventsAggregate<T>;
+export type EventPair<E> = { event: E, parameters: Record<string, any> };
+export type AddEvents<T extends EventFunc, E> = (events: EventPair<E>[], args: Parameters<T>[0]) => ReturnType<T>;
+export type EventsAggregate<T extends EventsObject> = {
+    [K in keyof T]-?: AddEvents<T[K], T>
+}
 
 export type FunctionKeysExtending<T, E> = keyof {
     [K in keyof T as E extends T[K] ? K : never]: T[K];
@@ -34,36 +36,50 @@ export type FunctionKeysExtending<T, E> = keyof {
 
 export type CanFunction = (args: any) => boolean;
 export function canAggregate<T, K extends FunctionKeysExtending<T, CanFunction>>(
-    events: T[], key: K
+    key: K
 ) {
-    return (args: any) => events.reduce((acc, e: any) => e[key](args) && acc, true);
+    return (events: EventPair<T>[], args: any) => events.reduce(
+        (acc, { event, parameters }) => (event as any)[key]({ ...args, parameters }) && acc,
+        true
+    );
 }
 
 export type HasFunction = (args: any) => void;
 export function hasAggregate<T, K extends FunctionKeysExtending<T, HasFunction>>(
-    events: T[], key: K
+    key: K
 ) {
-    return (args: any) => events.forEach((e: any) => e[key](args));
+    return (events: EventPair<T>[], args: any) => events.forEach(
+        ({ event, parameters }) => (event as any)[key]({ ...args, parameters })
+    );
 }
 
 export type PreFunction = <T>(args: T) => T;
 export function preAggregate<T, K extends FunctionKeysExtending<T, PreFunction>>(
-    events: T[], key: K
+    key: K
 ) {
-    return (args: any) => events.reduce((acc, e: any) => e[key](acc), args);
+    return (events: EventPair<T>[], args: any) => events.reduce(
+        (acc, { event, parameters }) => (event as any)[key]({ ...args, ...acc, parameters }),
+        args
+    );
 }
 
 export type HasDescription = { description: string; }
 export type DescribeFunction = (args: HasDescription) => string;
 export function describeAggregate<T, K extends FunctionKeysExtending<T, DescribeFunction>>(
-    events: T[], key: K
+    key: K
 ) {
-    return (args: any) => events.reduce((description, e: any) => e[key]({ ...args, description }), args.desription);
+    return (events: EventPair<T>[], args: any) => events.reduce(
+        (description, { event, parameters }) => (event as any)[key]({ ...args, description, parameters }),
+        args.desription
+    );
 }
 
 export type CommandFunction = (args: any) => boolean;
 export function commandAggregate<T, K extends FunctionKeysExtending<T, CommandFunction>>(
-    events: T[], key: K
+    key: K
 ) {
-    return (args: any) => events.reduce((acc, e: any) => acc || e[key](args), false);
+    return (events: EventPair<T>[], args: any) => events.reduce(
+        (acc, { event, parameters }) => acc || (event as any)[key]({ ...args, parameters }),
+        false
+    );
 }

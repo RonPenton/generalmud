@@ -21,22 +21,7 @@ export function canSeeExit({
     if (exit.portal) {
         const portal = world.get('portals', exit.portal);
         const destinationRoom = world.get('rooms', exit.exitRoom);
-        return portal.events.canSee({ world, actor, direction, portal, startingRoom: actor.room, destinationRoom });
-    }
-
-    return true;
-}
-
-export function canEnterExit({
-    world,
-    actor,
-    direction,
-    exit
-}: ExitProperties) {
-    if (exit.portal) {
-        const portal = world.get('portals', exit.portal);
-        const destinationRoom = world.get('rooms', exit.exitRoom);
-        return portal.events.canEnter({ world, actor, direction, portal, startingRoom: actor.room, destinationRoom });
+        return portal.events.canSee({ world, actor, direction, exit, portal, startingRoom: actor.room, destinationRoom });
     }
 
     return true;
@@ -51,7 +36,7 @@ export function describeExit({
     if (exit.portal) {
         const portal = world.get('portals', exit.portal);
         const destinationRoom = world.get('rooms', exit.exitRoom);
-        return portal.events.describe({ world, actor, direction, portal, startingRoom: actor.room, destinationRoom, description: direction });
+        return portal.events.describe({ world, actor, direction, portal, startingRoom: actor.room, destinationRoom, exit, description: direction });
     }
 
     return direction;

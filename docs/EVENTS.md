@@ -27,7 +27,32 @@ For example, a "hasEntered" event for a room can set off an elaborate trap with 
 - canLook
 - hasLooked 
 
-## Exits
+## Portals
 
-- canEnter
-- hasEntered
+- canEnter - asks whether an actor can enter a portal. Idempotent method, should not change anything. Can be used by pathfinding algorithms.
+- tryEnter - asks whether an actor can enter a portal, with the assumption that the actor is actually attempting to do so. This method should take actions related to the attempt and return a boolean indicating whether it's allowed or not. 
+- preEnter - informs the script that the event is going to happen, it has passed all checks. This allows the event to prepare for the actor to enter, and also alter the input parameters. For example, you can change the destination room in this script. The movement engine will use the new destination from that point on. 
+- hasEntered - tells the portal that the user has entered the portal. This is not cancelable, it has happened and you cannot undo it. 
+- canSee - determines if the user can see this portal
+- canSeeThrough - determines if the user can see *through* this portal.
+- command - attempts to parse the users input command to see if the portal recognizes the command. Return true to indicate that the command was accepted.
+- describe - determines the value to show the user when they are shown this portal; a default value is supplied (the direction long-name)
+
+## Movement Actions
+
+When an actor attempts to move from one room to another, the following events are executed in order:
+
+1. Starting Room - tryLeave
+2. Portal - tryEnter
+3. Destination Room - tryEnter
+4. Starting Room - preLeave*
+5. Portal - preEnter*
+6. Destination Room - preEnter
+7. <actor room is reassigned here>
+8. Starting Room - hasLeft$
+9. Portal - hasEntered$
+10. Destination Room - hasEntered$
+
+* - Since the preLeave/preEnter checks allow scripts to reassign a Destination Room or Portal, we could check the tryEnter scripts for the new destination. However, that would increase the complexity of the system and potentially allow an infinite loop to be formed with bad scripts. Because of this, we have decided that we will not re-check the tryEnter scripts for new portals/destination rooms, and it is up to the designer to design a system where a script will only ever re-route a person to a room that it already knows the user should be able to enter. 
+
+$ - Similarly, while a hasLeft/hasEntered script may find some way to forcibly re-assign the user to a new room other than the Destination Room, this is considered bad practice. The Destination Room hasEntered event will still be called even if the user has been teleported to a different room during hasEntered. Use the preLeave/Enter events to "teleport" actors to a different location instead. 

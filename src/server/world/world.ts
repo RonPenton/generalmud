@@ -15,7 +15,8 @@ import { saveDbObject } from "../db/load";
 import { MovementCommand, MovementManager, movementManager } from "./movement";
 import { getProxyObject } from "../utils/tableProxy";
 import { startTimer, Time } from "./time";
-import { canEnterExit, listExits } from "./exits";
+import { listExits } from "./exits";
+import { ActorMovementEvent } from "../scripts/room";
 
 const env = getEnv();
 
@@ -129,7 +130,7 @@ export class World {
         if (active) {
             this.activePlayers.delete(player.playerData.uniqueName);
             this.playerSockets.delete(player.playerData.uniqueName);
-            this.leftRoom(player, player.room);
+            //this.leftRoom(player, player.room);
             this.sendToAll('disconnected', { player: getPlayerReference(player) });
         }
     }
@@ -161,7 +162,7 @@ export class World {
 
         this.sendToAll('connected', { player: getPlayerReference(player) });
         this.sendToPlayer(socket, 'system', { text: 'Welcome to GeneralMUD.' });
-        this.enteredRoom(player, player.room);
+        //this.enteredRoom(player, player.room);
 
         socket.on('message', (message: MessagePacket<any>) => this.handleMessage(player, message));
     }
@@ -243,27 +244,96 @@ export class World {
         this.sendRoomDescription(player, message.brief);
     }
 
-    public move(actor: Actor, direction: Direction, type: 'now' | 'queue') {
-        const oldRoom = actor.room;
-        const exit = oldRoom.exits[direction];
+
+    private getMoveParams(actor: Actor, direction: Direction): ActorMovementEvent | null {
+        const startingRoom = actor.room;
+
+        const exit = startingRoom.exits[direction];
         if (!exit) {
+            return null;
+        }
+
+        const destinationRoom = this.getRoom(exit.exitRoom);
+        const portal = exit.portal ? this.get('portals', exit.portal) : undefined;
+
+        return { world: this, actor, startingRoom, destinationRoom, direction, exit, portal }
+    }
+
+    private tryMove(actor: Actor, direction: Direction) {
+        const params = this.getMoveParams(actor, direction);
+        if (!params) {
             if (isPlayer(actor)) {
                 this.sendToPlayer(actor, 'error', { text: "There is no exit in that direction!" });
             }
-            return;
+            return false;
         }
 
-        if(!canEnterExit({ world: this, actor, direction, exit })) {
-            // we're going to assume that the 
-            return;
+        const { startingRoom, portal, destinationRoom } = params;
+
+        if (!startingRoom.events.tryLeave(params)) {
+            return false;
+        }
+        if (portal && portal.events.tryEnter({ ...params, portal })) {
+            return false;
+        }
+        if (!destinationRoom.events.tryEnter(params)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private preMove(actor: Actor, direction: Direction) {
+        const params = this.getMoveParams(actor, direction);
+        if (!params) {
+            console.log(`preMove error, exit doesn't exist. Room: ${actor.room.id}, direction: ${direction}`);
+            return null;
+        }
+
+        const { startingRoom, portal, exit } = params;
+
+        let p = startingRoom.events.preLeave(params);
+        if (portal)
+            p = portal.events.preEnter({ ...params, ...p, portal });
+        p = params.destinationRoom.events.preEnter({ ...params, ...p });
+
+        return { exit, portal, startingRoom, ...p };
+    }
+
+    public move(actor: Actor, direction: Direction, type: 'now' | 'queue') {
+
+        if (!this.tryMove(actor, direction)) {
+            return false;
         }
 
         if (type == 'now') {
-            const newRoom = this.getRoom(exit.exitRoom);
-            const oldRoom = actor.room;
-            this.leftRoom(actor, newRoom, direction);
-            actor.room = newRoom;
-            this.enteredRoom(actor, oldRoom, direction);
+
+            const data = this.preMove(actor, direction);
+            if(!data) {
+                return false;
+            }
+
+            const { startingRoom, destinationRoom, portal } = data;
+            const world: World = this;
+            const params = { ...data, actor, world, direction };
+
+            actor.room = destinationRoom;
+
+            this.sendToRoom(startingRoom, 'actor-moved', { from: getActorReference(actor), entered: false, direction });
+            startingRoom.events.hasLeft(params);
+
+            if (portal) {
+                portal.events.hasEntered({ ...params, portal });
+            }
+
+            this.sendToRoom(destinationRoom, 'actor-moved', { from: getActorReference(actor), entered: true, direction });
+            destinationRoom.events.hasEntered(params);
+
+            if (isPlayer(actor)) {
+                this.sendRoomDescription(actor);
+            }
+
+            return true;
         }
         else {
             const moveTime = 100;
@@ -271,21 +341,36 @@ export class World {
                 actor,
                 direction,
                 due: this.timer.getTime() + moveTime,
-                from: oldRoom
+                from: actor.room
             });
 
             if (!result && isPlayer(actor)) {
                 this.sendToPlayer(actor, 'error', { text: 'Hold on there pardner, you\'re already trying to move.' });
             }
+
+            return true;
         }
     }
 
     public teleport(actor: Actor, roomId: number) {
-        const newRoom = this.getRoom(roomId);
-        const oldRoom = actor.room;
-        this.leftRoom(actor, newRoom);
-        actor.room = newRoom;
-        this.enteredRoom(actor, oldRoom);
+        const destinationRoom = this.getRoom(roomId);
+        const startingRoom = actor.room;
+
+        actor.room = destinationRoom;
+
+        this.sendToRoom(startingRoom, 'actor-moved', { from: getActorReference(actor), entered: false });
+
+        // TODO: trigger hasLeft
+        //startingRoom.events.hasLeft({ world: this, startingRoom, destinationRoom, actor, });
+
+        this.sendToRoom(destinationRoom, 'actor-moved', { from: getActorReference(actor), entered: true });
+
+        // TODO: trigger hasEntered
+        //destinationRoom.events.hasEntered(params);
+
+        if (isPlayer(actor)) {
+            this.sendRoomDescription(actor);
+        }
     }
 
     private sendRoomDescription(player: PlayerActor, brief?: boolean, room?: Room) {
@@ -302,24 +387,24 @@ export class World {
             });
     }
 
-    private leftRoom(actor: Actor, other: Room, direction?: Direction) {
-        const room = actor.room;
-        this.sendToRoom(room, 'actor-moved', { from: getActorReference(actor), entered: false, direction: direction });
-        room.events.hasLeft({ world: this, actor, room, other });
-    }
+    // private leftRoom(actor: Actor, other: Room, direction?: Direction) {
+    //     const room = actor.room;
+    //     this.sendToRoom(room, 'actor-moved', { from: getActorReference(actor), entered: false, direction: direction });
+    //     room.events.hasLeft({ world: this, actor, room, other });
+    // }
 
-    private enteredRoom(actor: Actor, other: Room, direction?: Direction) {
-        const room = actor.room;
+    // private enteredRoom(actor: Actor, other: Room, direction?: Direction) {
+    //     const room = actor.room;
 
-        this.sendToRoom(room, 'actor-moved', { from: getActorReference(actor), entered: true, direction });
-        actor.room = room;
+    //     this.sendToRoom(room, 'actor-moved', { from: getActorReference(actor), entered: true, direction });
+    //     actor.room = room;
 
-        if (isPlayer(actor)) {
-            this.sendRoomDescription(actor);
-        }
+    //     if (isPlayer(actor)) {
+    //         this.sendRoomDescription(actor);
+    //     }
 
-        room.events.hasEntered({ world: this, actor, room, other });
-    }
+    //     room.events.hasEntered({ world: this, actor, room, other });
+    // }
 
     async createPlayer(playerData: PlayerData, name: string): Promise<PlayerActor> {
         const storage: SansId<ActorStorage> = {

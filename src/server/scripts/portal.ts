@@ -1,19 +1,10 @@
 import { ExecuteTextParameters } from "../commands/base";
-import { Actor } from "../models/actor";
 import { Direction } from "../models/direction";
 import { Portal } from "../models/portal";
-import { Room } from "../models/room";
-import { World } from "../world/world";
-import { canAggregate, commandAggregate, describeAggregate, EventsAggregateConstructor, hasAggregate, preAggregate } from "./base";
+import { canAggregate, commandAggregate, describeAggregate, EventsAggregate, hasAggregate, preAggregate } from "./base";
+import { ActorMovementEvent } from "./room";
 
-export type PortalEvent = {
-    world: World;
-    portal: Portal;
-    actor: Actor;
-    startingRoom: Room;
-    destinationRoom: Room;
-    direction: Direction;
-}
+export type PortalEvent = Required<ActorMovementEvent>;
 
 export type DescribePortalEvent = PortalEvent & {
     description: string;
@@ -27,7 +18,8 @@ export const PortalEventsBase = {
     canSeeThrough: (_args: PortalEvent) => true,
 
     canEnter: (_args: PortalEvent) => true,
-    preEnter: (args: PortalEvent) => args,
+    tryEnter: (_args: PortalEvent) => true,
+    preEnter: (args: PortalEvent) => ({ destinationRoom: args.destinationRoom }),
     hasEntered: (_args: PortalEvent) => { },
 
     describe: (args: DescribePortalEvent) => args.description
@@ -35,15 +27,14 @@ export const PortalEventsBase = {
 
 export type PortalEvents = Partial<typeof PortalEventsBase>;
 
-export const constructPortalEventsAggregate: EventsAggregateConstructor<'portals'> = (events) => {
+export const portalEventsAggregate: EventsAggregate<typeof PortalEventsBase> = {
+    canEnter: canAggregate('canEnter'),
+    tryEnter: canAggregate('tryEnter'),
+    hasEntered: hasAggregate('hasEntered'),
 
-    return {
-        canEnter: canAggregate(events, 'canEnter'),   
-        hasEntered: hasAggregate(events, 'hasEntered'),
-        canSee: canAggregate(events, 'canSee'),
-        canSeeThrough: canAggregate(events, 'canSeeThrough'),
-        command: commandAggregate(events, 'command'),
-        describe: describeAggregate(events, 'describe'),
-        preEnter: preAggregate(events, 'preEnter')
-    }
+    canSee: canAggregate('canSee'),
+    canSeeThrough: canAggregate('canSeeThrough'),
+    command: commandAggregate('command'),
+    describe: describeAggregate('describe'),
+    preEnter: preAggregate('preEnter')
 }

@@ -4,10 +4,11 @@
 - [x] script infrastructure
 - [x] reload scripts command
 - [x] who command
-- [ ] Portals
+- [x] Portals
 - [x] doors
+- [x] "bb-ish" code
 - [ ] look <direction> command
-- [ ] "bb-ish" code
+- [ ] Implement Room Templates to separate initial data vs saved game data.
 - [ ] timer events
 
 - [ ] Better type checking on script reloading
@@ -19,6 +20,8 @@
 - [ ] Clean up loading process
 - [ ] roles (sysop/mudop/builder)
 - [ ] limiting commands by role
+- [ ] Room describe event
+- [ ] Sound/decibel system
 
 - [ ] gates
 - [ ] locks

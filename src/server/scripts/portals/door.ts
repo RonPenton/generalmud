@@ -61,7 +61,7 @@ const command: Door['command'] = ({ tokens, world, player, portal, direction }) 
             return false;
         portal.properties.doorOpen = true;
         world.sendTextToActorsRoom(player, {
-            secondPerson: `You open the door to the ${direction}.`,
+            secondPerson: `[i]You open the door to the ${direction}.`,
             thirdPerson: `${player.name} opens the door to the ${direction}.`
         });
         world.sendToRoom(otherRoom, 'text', { text: `The door to the ${opposite} opens.` });
@@ -75,7 +75,7 @@ const command: Door['command'] = ({ tokens, world, player, portal, direction }) 
             return false;
         portal.properties.doorOpen = false;
         world.sendTextToActorsRoom(player, {
-            secondPerson: `You close the door to the ${direction}.`,
+            secondPerson: `[i][sm]You close the door to the ${direction}.`,
             thirdPerson: `${player.name} closes the door to the ${direction}.`
         });
         world.sendToRoom(otherRoom, 'text', { text: `The door to the ${opposite} closes.` });
@@ -114,7 +114,7 @@ const canEnter: Door['canEnter'] = ({ portal }) => {
 const tryEnter: Door['tryEnter'] = ({ world, actor, portal, direction }) => {
     if (!portal.properties.doorOpen) {
         world.sendTextToActorsRoom(actor, {
-            secondPerson: `You bump into the closed door to the ${direction}`,
+            secondPerson: `[b][i]You bump into the closed door to the ${direction}`,
             thirdPerson: `${actor.name} bumps into the closed door to the ${direction}`
         });
         return false;

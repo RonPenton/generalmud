@@ -188,3 +188,41 @@ div.actors ul {
         color: #56E73F;
     }
 }
+
+span.rich-text {
+    .b {
+        font-weight: bold;
+    }
+
+    .nb {
+        font-weight: normal;
+    }
+
+    .i {
+        font-style: italic;
+    }
+
+    .ni {
+        font-style: normal;
+    }
+
+    .u {
+        text-decoration: underline;
+    }
+
+    .nu {
+        text-decoration: none;
+    }
+
+    .sm {
+        font-size: 12px;
+    }
+
+    .md {
+        font-size: 16px;
+    }
+
+    .lg {
+        font-size: 36px;
+    }
+}

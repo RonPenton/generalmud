@@ -273,7 +273,7 @@ export class World {
         if (!startingRoom.events.tryLeave(params)) {
             return false;
         }
-        if (portal && portal.events.tryEnter({ ...params, portal })) {
+        if (portal && !portal.events.tryEnter({ ...params, portal })) {
             return false;
         }
         if (!destinationRoom.events.tryEnter(params)) {
@@ -307,9 +307,8 @@ export class World {
         }
 
         if (type == 'now') {
-
             const data = this.preMove(actor, direction);
-            if(!data) {
+            if (!data) {
                 return false;
             }
 
@@ -336,6 +335,7 @@ export class World {
             return true;
         }
         else {
+
             const moveTime = 100;
             const result = this.movement.enqueue({
                 actor,

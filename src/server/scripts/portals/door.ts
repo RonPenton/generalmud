@@ -63,9 +63,23 @@ const canEnter: Door['canEnter'] = ({ portal }) => {
     return !!portal.properties.doorOpen;
 };
 
+const tryEnter: Door['tryEnter'] = ({ world, actor, portal, direction }) => {
+    if (!portal.properties.doorOpen) {
+        world.sendTextToActorsRoom(actor, {
+            secondPerson: `You bump into the closed door to the ${direction}`,
+            thirdPerson: `${actor.name} bumps into the closed door to the ${direction}`
+        });
+        return false;
+    }
+
+    return true;
+};
+
+
 export const script: Door = {
     describe,
     canEnter,
+    tryEnter,
     canSeeThrough,
     command
 }

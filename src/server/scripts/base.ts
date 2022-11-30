@@ -70,7 +70,7 @@ export function describeAggregate<T, K extends FunctionKeysExtending<T, Describe
 ) {
     return (events: EventPair<T>[], args: any) => events.reduce(
         (description, { event, parameters }) => (event as any)[key]({ ...args, description, parameters }),
-        args.desription
+        args.description
     );
 }
 

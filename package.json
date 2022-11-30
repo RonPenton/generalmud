@@ -17,7 +17,9 @@
         "copy-ejs": "copyfiles -u 3 ./src/client/views/**/*.ejs ./build/views",
         "copy-require": "copyfiles -u 2 ./node_modules/requirejs/require.js ./build/public",
         "test": "jest",
-        "initial-load": "ts-node -r dotenv-json2/config ./bin/data-06-loadIntoDb.ts"
+        "initial-load": "ts-node -r dotenv-json2/config ./bin/data-06-loadIntoDb.ts",
+        "patch": "ts-node -r dotenv-json2/config ./bin/data-07-patchIntoDb.ts"
+
     },
     "repository": {
         "type": "git",

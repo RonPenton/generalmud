@@ -1,6 +1,6 @@
 import { keysOf } from "tsc-utils";
 import { Actor } from "../models/actor";
-import { Direction } from "../models/direction";
+import { Direction, Directions } from "../models/direction";
 import { ExitData, ExitSummary } from "../models/exit";
 import { Room } from "../models/room";
 import { World } from "./world";
@@ -43,7 +43,9 @@ export function describeExit({
 }
 
 export function listExits(world: World, room: Room, actor: Actor): ExitSummary[] {
-    return keysOf(room.exits)
+    const directions = keysOf(room.exits);
+    return Directions
+        .filter(direction => directions.includes(direction))
         .filter(direction => canSeeExit({ world, actor, direction, exit: room.exits[direction]! }))
         .map(direction => ({
             name: describeExit({ world, actor, direction, exit: room.exits[direction]! }),

@@ -19,7 +19,7 @@ export async function dbGetObjects<T extends Table>(
     return rooms.map(x => ({ ...x.data, id: x.id }));
 }
 
-export async function upsertDbObject<T extends Table>(
+export async function dbUpsertObject<T extends Table>(
     db: Db,
     table: T,
     object: TableType<T>

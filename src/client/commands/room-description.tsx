@@ -49,7 +49,7 @@ export class Description extends OneTimeRender<MessagePacket<'room-description'>
     }
 
     exits() {
-        const directions = Object.keys(this.props.message.exits);
-        return <div className="exits"><span className="exit-text">Exits: </span>{directions.join(", ")}</div>
+        const exits = this.props.message.exits.map(x => x.name);
+        return <div className="exits"><span className="exit-text">Exits: </span>{exits.join(", ")}</div>
     }
 }

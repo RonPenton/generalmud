@@ -1,11 +1,11 @@
 import { World } from "../world/world";
 import { MessageName, MessagePacket } from "../messages";
 import { PlayerActor } from "../models/actor";
-import { split } from "../utils/parse";
+import { keysOf } from "tsc-utils";
+import { getTokens } from "../utils/parse";
 
 export type ExecuteTextParameters = {
-    command: string;
-    parameters: string;
+    tokens: string[];
     player: PlayerActor;
     world: World;
 }
@@ -60,12 +60,12 @@ function wrapCommand<T extends MessageName>(args: Command<T>): FilledCommand<T> 
         keywords,
         helptext,
         executeText: async (args) => {
-            const { command, parameters, world, player } = args;
+            const { tokens, world, player } = args;
+            const [command, ...tail] = tokens;
             if (keywords.includes(command)) {
 
-                const { head, tail } = split(parameters);
                 for (const sub of subs) {
-                    const result = await sub.executeText({ command: head, parameters: tail, world, player });
+                    const result = await sub.executeText({ tokens: tail, world, player });
                     if (result) {
                         return result;
                     }
@@ -97,10 +97,10 @@ export function installCommand<T extends MessageName = 'generic'>(args: Command<
 export async function executeCommand<T extends MessageName>(
     world: World,
     player: PlayerActor,
-    packet: MessagePacket<T>,
-    commands: Command<any>[] = RootCommands
+    packet: MessagePacket<T>
 ) {
-    for (const command of commands) {
+
+    for (const command of RootCommands) {
         if (command.executeMessage) {
             const handled = await command.executeMessage({ packet, player, world });
             if (handled)
@@ -109,10 +109,28 @@ export async function executeCommand<T extends MessageName>(
     }
 
     if (packet.type == 'text-input' && 'text' in packet.message) {
-        const { head, tail } = split(packet.message.text);
-        for (const command of commands) {
+        const tokens = getTokens(packet.message.text);
+
+        const args = { tokens, player, world };
+        const room = player.room;
+
+        // check room first. 
+        let handled = room.events.command({ ...args, room: player.room });
+        if (handled)
+            return true;
+
+        // next portals.
+        handled = keysOf(room.exits)
+            .map(direction => ({ direction, exit: room.exits[direction] }))
+            .filter(x => !!x.exit?.portal)
+            .map(({ direction, exit }) => ({ direction, portal: world.getPortal(exit!.portal!) }))
+            .reduce((acc, { direction, portal }) => acc || portal.events.command({ ...args, direction, portal }), false);
+        if (handled)
+            return true;
+
+        for (const command of RootCommands) {
             if (command.executeText) {
-                const handled = await command.executeText({ command: head, parameters: tail, player, world });
+                const handled = await command.executeText(args);
                 if (handled)
                     return true;
             }

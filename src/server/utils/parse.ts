@@ -1,4 +1,4 @@
-export const tokens = (str: string) => str.split(/\s+/gi);
+export const getTokens = (str: string) => str.split(/\s+/gi);
 
 export const split = (str: string) => {
     const match = /(\w+)\s*(.*)/gi.exec(str) || [];

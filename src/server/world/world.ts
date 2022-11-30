@@ -73,6 +73,7 @@ export class World {
     public getRoom = (id: number) => this.get('rooms', id);
     public getItem = (id: number) => this.get('items', id);
     public getActor = (id: number) => this.get('actors', id);
+    public getPortal = (id: number) => this.get('portals', id);
 
     private activePlayers = new Map<string, PlayerActor>();
     private players: Map<string, PlayerActor>;
@@ -386,25 +387,6 @@ export class World {
                 inRoom: r.id == player.room.id
             });
     }
-
-    // private leftRoom(actor: Actor, other: Room, direction?: Direction) {
-    //     const room = actor.room;
-    //     this.sendToRoom(room, 'actor-moved', { from: getActorReference(actor), entered: false, direction: direction });
-    //     room.events.hasLeft({ world: this, actor, room, other });
-    // }
-
-    // private enteredRoom(actor: Actor, other: Room, direction?: Direction) {
-    //     const room = actor.room;
-
-    //     this.sendToRoom(room, 'actor-moved', { from: getActorReference(actor), entered: true, direction });
-    //     actor.room = room;
-
-    //     if (isPlayer(actor)) {
-    //         this.sendRoomDescription(actor);
-    //     }
-
-    //     room.events.hasEntered({ world: this, actor, room, other });
-    // }
 
     async createPlayer(playerData: PlayerData, name: string): Promise<PlayerActor> {
         const storage: SansId<ActorStorage> = {

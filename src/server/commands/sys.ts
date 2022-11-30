@@ -2,7 +2,6 @@ import { keysOf } from 'tsc-utils';
 import { isTable } from '../db/types';
 import { Directions, getShortDirection } from '../models/direction';
 import { loadScript } from '../scripts/loadScript';
-import { split } from '../utils/parse';
 import { falsePromise, installCommand, truePromise } from './base';
 
 const teleports = {
@@ -25,8 +24,8 @@ installCommand({
             type: 'generic',
             keywords: ['go', 'goto'],
             helptext: 'Teleports user to an area',
-            executeText: ({ parameters, player, world }) => {
-                const place = parameters.toLowerCase().trim();
+            executeText: ({ tokens, player, world }) => {
+                const place = tokens[0].toLowerCase().trim();
 
                 if (!place) {
                     world.sendToPlayer(player, 'system', { text: `Valid locations are: ${keysOf(teleports).map(x => x.toUpperCase()).join(', ')}.` });
@@ -39,7 +38,7 @@ installCommand({
                     return truePromise;
                 }
                 else {
-                    world.sendToPlayer(player, 'error', { text: `Sorry, I do not recognize "${parameters}". Valid locations are: ${keysOf(teleports).map(x => x.toUpperCase()).join(', ')}.` });
+                    world.sendToPlayer(player, 'error', { text: `Sorry, I do not recognize "${tokens[0]}". Valid locations are: ${keysOf(teleports).map(x => x.toUpperCase()).join(', ')}.` });
                     return falsePromise;
                 }
             }
@@ -48,8 +47,8 @@ installCommand({
             type: 'generic',
             keywords: ['reload'],
             helptext: 'Reloads a script. <type> <script>',
-            executeText: async ({ parameters, player, world }) => {
-                const { head: type, tail: script } = split(parameters);
+            executeText: async ({ tokens, player, world }) => {
+                const [type, script] = tokens;
 
                 if (!isTable(type)) {
                     world.sendToPlayer(player, 'error', { text: `Type ${type} is not a valid table type.` });
